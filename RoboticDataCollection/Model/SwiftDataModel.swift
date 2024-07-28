@@ -7,51 +7,61 @@
 
 import Foundation
 import SwiftData
-//
-//@Model class RecordingHistory: Identifiable {
-//    @Attribute var id: UUID = UUID()
-//    @Attribute var date: Date
-//    @Attribute var fileURL: URL
-//    @Attribute var duration: TimeInterval
-//    @Attribute var frameDataJSON: String
-//    
-//    init(date: Date, fileURL: URL, duration: TimeInterval, frameDataArray: [ARFrameData]) {
-//        self.date = date
-//        self.fileURL = fileURL
-//        self.duration = duration
-//        self.frameDataJSON = try! JSONEncoder().encode(frameDataArray).toString()
-//    }
-//    
-//    var frameDataArray: [ARFrameData] {
-//        get {
-//            return try! JSONDecoder().decode([ARFrameData].self, from: frameDataJSON.data(using: .utf8)!)
-//        }
-//        set {
-//            frameDataJSON = try! JSONEncoder().encode(newValue).toString()
-//        }
-//    }
-//}
-//
-//extension Data {
-//    func toString() -> String {
-//        return String(data: self, encoding: .utf8)!
-//    }
-//}
-
 
 @Model
 // 代表每一次录制的这条AR data
 class ARStorgeData {
     var createTime: Date
     var timeDuration: TimeInterval
-    var data: [ARData]
+    var unsortedData: [ARData]
+    var data: [ARData] {
+        return unsortedData.sorted { $0.timestamp < $1.timestamp }
+    }
     
     
-    init(createTime: Date, timeDuration: TimeInterval, data: [ARData]) {
+    init(createTime: Date, timeDuration: TimeInterval, originalData unsortedData: [ARData]) {
         self.createTime = createTime
         self.timeDuration = timeDuration
-        self.data = data
+        self.unsortedData = unsortedData
+        
     }
 }
 
 extension ARStorgeData: Identifiable {}
+
+//@Model
+//class RpiStorgeData {
+//    var createTime: Date
+//    var timeDuration: TimeInterval
+//    var unsortedData: [ForceData]
+//    var data:
+//}
+
+//@Model 
+//class AllStorgeData {
+//    var createTime: Date
+//    var timeDuration: TimeInterval
+//    var unsortedForceData: [ForceData]
+//    var unsortedAngleData: [AngleData]
+//    var unsortedARData: [ARData]
+//    
+//    
+//    var forceData: [ForceData] {
+//        return unsortedForceData.sorted { $0.timeStamp < $1.timeStamp }
+//    }
+//    var angleData: [AngleData] {
+//        return unsortedAngleData.sorted { $0.timeStamp < $1.timeStamp }
+//    }
+//    var arData: [ARData] {
+//        return unsortedARData.sorted { $0.timestamp < $1.timestamp }
+//    }
+//    
+//    init(createTime: Date, timeDuration: TimeInterval, originForceData unsortedForceData: [ForceData], originAngleData unsortedAngleData: [AngleData], originARData unsortedARData: [ARData]) {
+//        self.createTime = createTime
+//        self.timeDuration = timeDuration
+//        self.unsortedForceData = unsortedForceData
+//        self.unsortedAngleData = unsortedAngleData
+//        self.unsortedARData = unsortedARData
+//    }
+//    
+//}

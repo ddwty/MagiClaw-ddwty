@@ -87,7 +87,11 @@ struct ControlButtonView: View {
             Button(action: {
                 guard !recordAllDataModel.recordedARData.isEmpty else { return }
                 // TODO: - 记得改一下这里的Date
-                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, data: recordAllDataModel.recordedARData)
+                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
+//                print("newARData\(newARData.data)")
+//                for data in newARData.data {
+//                    print("Ahahaha: \(data.timestamp), \(data.transform)")
+//                }
                 modelContext.insert(newARData)
                 
                 do {
@@ -112,6 +116,7 @@ struct ControlButtonView: View {
             }
         } message: {
             Text("You have succefully recorded an action😁")
+            //TODO: - 显示数据长度
         }
         
     }

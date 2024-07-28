@@ -117,11 +117,12 @@ class MotionManager: ObservableObject {
                                     acceleration: data.userAcceleration, rotationMatrix: attitude.rotationMatrix,
                                     quaternion: attitude.quaternion
                                 )
+                                self.motionDataArray.append(self.motionData)
                                 if self.motionDataArray.count > 100 {
                                     self.motionDataArray.removeFirst()
                                 }
                                 
-                                self.motionDataArray.append(self.motionData)
+                                
                             }
                 
                 // 计算相对于初始姿态的变化

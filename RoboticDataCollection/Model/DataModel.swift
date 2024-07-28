@@ -10,30 +10,27 @@ import ARKit
 import simd
 import SwiftData
 
+
 struct ForceData {
     let timeStamp: String
     let forceData:[Double]?
 }
 
-struct AngleData {
+@Model
+//TODO: - 这里的时间戳应该是Double or Date
+class AngleData {
     let timeStamp: String
     let angle: Int
+    
+    init(timeStamp: String, angle: Int) {
+        self.timeStamp = timeStamp
+        self.angle = angle
+    }
 }
 
 
-
-//struct FrameData {
-//    let timestamp: Double
-//    let cameraTransform: simd_float4x4
-//}
-
-
-//struct ARData {
-//    let timestamp: Double
-//    let transform: simd_float4x4
-//}
 @Model
-class ARData: ObservableObject {
+class ARData {
     var timestamp: Double  // 这一帧的时间戳
     var transform: [Float] // 使用数组来存储矩阵数据
     

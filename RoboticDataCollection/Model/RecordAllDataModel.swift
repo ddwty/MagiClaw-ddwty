@@ -16,7 +16,7 @@ class RecordAllDataModel: ObservableObject {
     private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
-//    private let arRecorder = ARRecorder.shared
+    //    private let arRecorder = ARRecorder.shared
     
     
     private var timer: Timer?
@@ -28,18 +28,19 @@ class RecordAllDataModel: ObservableObject {
     var recordedMotionData: [MotionData] = []
     var recordedForceData: [ForceData?] = []
     var recordedARData: [ARData] = []
-//    var recordedARTransformData: [] = []
+    var recordedAngleData: [AngleData] = []
+    //    var recordedARTransformData: [] = []
     
     func startRecordingData() {
         guard !isRecording else { return }
         
-        recordedMotionData.removeAll()
+//        recordedMotionData.removeAll()
         recordedForceData.removeAll()
         recordedARData.removeAll()
-        
+        recordedAngleData.removeAll()
         //            cameraManager.startRecording()
         
-        webSocketManager.startRecordingForceData()
+        webSocketManager.startRecordingData()
         
         arRecorder.startRecording { success in
             DispatchQueue.main.async {
@@ -64,37 +65,38 @@ class RecordAllDataModel: ObservableObject {
         webSocketManager.stopRecordingForceData()
         motionManager.stopRecording()
         arRecorder.stopRecording() { url in
-                    DispatchQueue.main.async {
-                        if let url = url {
-                            print("Video saved to: \(url.absoluteString)")
-                        } else {
-                            print("Failed to save video")
-                        }
-                    }
+            DispatchQueue.main.async {
+                if let url = url {
+                    print("Video saved to: \(url.absoluteString)")
+                } else {
+                    print("Failed to save video")
+                }
+            }
         }
         
-        recordedMotionData = motionManager.motionDataArray
+//        recordedMotionData = motionManager.motionDataArray
         recordedForceData = webSocketManager.recordedForceData
+        recordedAngleData = webSocketManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
-        print("Recorded force data length: \(recordedForceData.count), ar data length: \(recordedARData.count)")
-        print("Force data:\(recordedForceData)")
-        print("ARData: \(recordedARData)")
+        
+        print("Recorded force data length: \(recordedForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
+        //        print("Force data:\(recordedForceData)")
         
         
         self.isRecording = false
         
         stopTimer()
         
-// Create ARStorgeData
-//        let createTime = Date()
-//        let timeDuration = recordingDuration
-//        let arStorageData = ARStorgeData(createTime: createTime, timeDuration: timeDuration, data: recordedARData)
-//        
-//        // Here you can save arStorageData to your desired storage or further process it
-//        
-//        // Save to persistent storage
-//            saveARStorageData(arStorageData)
-
+        // Create ARStorgeData
+        //        let createTime = Date()
+        //        let timeDuration = recordingDuration
+        //        let arStorageData = ARStorgeData(createTime: createTime, timeDuration: timeDuration, data: recordedARData)
+        //
+        //        // Here you can save arStorageData to your desired storage or further process it
+        //
+        //        // Save to persistent storage
+        //            saveARStorageData(arStorageData)
+        
     }
 }
 
@@ -121,10 +123,10 @@ extension RecordAllDataModel {
     }
     
     
-//    private func saveARStorageData(_ arStorageData: ARStorgeData) {
-//        // Implement the logic to save arStorageData
-//        // For example, using Core Data, Realm, or writing to a file
-//    }
+    //    private func saveARStorageData(_ arStorageData: ARStorgeData) {
+    //        // Implement the logic to save arStorageData
+    //        // For example, using Core Data, Realm, or writing to a file
+    //    }
     
 }
 

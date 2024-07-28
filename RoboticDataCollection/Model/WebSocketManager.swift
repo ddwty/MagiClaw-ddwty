@@ -47,7 +47,7 @@ class WebSocketManager: ObservableObject {
    
     @Published var isConnected = false
     
-   
+   // TODO: - 通过输入框来输入hostname
     @Published var hostName: String = "raspberrypi.local"
     @Published var receivedMessage: String = ""
     
@@ -69,7 +69,7 @@ class WebSocketManager: ObservableObject {
             }
         }
     
-    // MARK: - And both left finger and angel
+    // MARK: - AND both left finger and angel connected status
     private func updateConnectionStatus() {
         self.isConnected = isLeftFingerConnected && isAngelConnected
     }
@@ -77,6 +77,7 @@ class WebSocketManager: ObservableObject {
     private init() {
 //        connectToServer()
         self.recordedForceData.reserveCapacity(10000)
+        self.recordedAngleData.reserveCapacity(100000)
         connectLeftFinger()
         connectAngel()
         
@@ -153,9 +154,9 @@ class WebSocketManager: ObservableObject {
                         
                     case .text(let string):
                         if self.isRecording {
-//                            self.handleLeftFingerMessage(string: string)
+                            self.handleAngleMessage(string: string)
                         }
-//                        print("\(string)")
+//                        print(string)
                     case .binary(let data):
                         print("Received data: \(data.count)")
                     case .ping(_):
@@ -179,10 +180,12 @@ class WebSocketManager: ObservableObject {
         
     }
     
-    func startRecordingForceData() {
+    // TODO: - 存到同一个结构体中，保持频率一致
+    func startRecordingData() {
         recordedForceData.removeAll()
+        recordedAngleData.removeAll()
+        
         isRecording = true
-        connectLeftFinger()
     }
     
     func stopRecordingForceData() {
@@ -197,6 +200,7 @@ extension WebSocketManager {
                     let forceData = ForceData(
                         timeStamp: "\(fingerForce.time_stamp.secs).\(fingerForce.time_stamp.nanos)",
                         forceData: fingerForce.force?.value)
+                    //TODO: - 检查是否需要async
                     DispatchQueue.main.async {
                         if self.isRecording {
                             self.recordedForceData.append(forceData)
@@ -207,18 +211,18 @@ extension WebSocketManager {
         
     }
     
-    func handleAngleMessage(string: String) {
-        if let data = string.data(using: .utf8) {
-            if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
-                let angleData = AngleData(
-                    timeStamp: "\(fingerAngle.time_stamp.secs).\(fingerAngle.time_stamp.nanos)", angle: fingerAngle.data)
-                DispatchQueue.main.async {
-                    if self.isRecording {
-                        self.recordedAngleData.append(angleData)
-                    }
+func handleAngleMessage(string: String) {
+    if let data = string.data(using: .utf8) {
+        if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
+            let angleData = AngleData(
+                timeStamp: "\(fingerAngle.time_stamp.secs).\(fingerAngle.time_stamp.nanos)", angle: fingerAngle.data)
+            DispatchQueue.main.async {
+                if self.isRecording {
+                    self.recordedAngleData.append(angleData)
                 }
             }
         }
     }
+}
     
 }

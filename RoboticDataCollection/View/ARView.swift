@@ -87,7 +87,7 @@ extension ARView {
     func setupARView() {
         let config = ARWorldTrackingConfiguration()
 //        config.frameSemantics = .sceneDepth
-        config.isAutoFocusEnabled = false
+        config.isAutoFocusEnabled = true
         session.run(config)
 //        debugOptions = [.showWorldOrigin]
 //        debugOptions = []

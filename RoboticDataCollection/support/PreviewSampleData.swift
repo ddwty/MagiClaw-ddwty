@@ -31,12 +31,12 @@ struct SampleDeck {
         ARStorgeData(
             createTime: Date(),
             timeDuration: 1.2,
-            data: [ARData(timestamp: 20, transform: simd_float4x4(1))]
+            originalData: [ARData(timestamp: 20, transform: simd_float4x4(1))]
         ),
         ARStorgeData(
             createTime: Date().addingTimeInterval(-3600),
             timeDuration: 3.3,
-            data: [ARData(timestamp: 30, transform: simd_float4x4(2))]
+            originalData: [ARData(timestamp: 30, transform: simd_float4x4(2))]
         )
     ]
 }
