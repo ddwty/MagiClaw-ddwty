@@ -29,39 +29,35 @@ class ARStorgeData {
 
 extension ARStorgeData: Identifiable {}
 
-//@Model
-//class RpiStorgeData {
-//    var createTime: Date
-//    var timeDuration: TimeInterval
-//    var unsortedData: [ForceData]
-//    var data:
-//}
 
-//@Model 
-//class AllStorgeData {
-//    var createTime: Date
-//    var timeDuration: TimeInterval
-//    var unsortedForceData: [ForceData]
-//    var unsortedAngleData: [AngleData]
-//    var unsortedARData: [ARData]
-//    
-//    
-//    var forceData: [ForceData] {
-//        return unsortedForceData.sorted { $0.timeStamp < $1.timeStamp }
-//    }
-//    var angleData: [AngleData] {
-//        return unsortedAngleData.sorted { $0.timeStamp < $1.timeStamp }
-//    }
-//    var arData: [ARData] {
-//        return unsortedARData.sorted { $0.timestamp < $1.timestamp }
-//    }
-//    
-//    init(createTime: Date, timeDuration: TimeInterval, originForceData unsortedForceData: [ForceData], originAngleData unsortedAngleData: [AngleData], originARData unsortedARData: [ARData]) {
-//        self.createTime = createTime
-//        self.timeDuration = timeDuration
-//        self.unsortedForceData = unsortedForceData
-//        self.unsortedAngleData = unsortedAngleData
-//        self.unsortedARData = unsortedARData
-//    }
-//    
-//}
+@Model 
+class AllStorgeData {
+    var createTime: Date
+    var timeDuration: TimeInterval
+    var notes: String
+    var unsortedForceData: [ForceData]
+    var unsortedAngleData: [AngleData]
+    var unsortedARData: [ARData]
+    
+    var forceData: [ForceData] {
+        return unsortedForceData.sorted { $0.timeStamp < $1.timeStamp }
+    }
+    var angleData: [AngleData] {
+        return unsortedAngleData.sorted { $0.timeStamp < $1.timeStamp }
+    }
+    var arData: [ARData] {
+        return unsortedARData.sorted { $0.timestamp < $1.timestamp }
+    }
+    
+    init(createTime: Date, timeDuration: TimeInterval, notes: String, forceData unsortedForceData: [ForceData], angleData unsortedAngleData: [AngleData], aRData unsortedARData: [ARData]) {
+        self.createTime = createTime
+        self.timeDuration = timeDuration
+        self.notes = notes
+        self.unsortedForceData = unsortedForceData
+        self.unsortedAngleData = unsortedAngleData
+        self.unsortedARData = unsortedARData
+    }
+    
+}
+
+extension AllStorgeData: Identifiable {}

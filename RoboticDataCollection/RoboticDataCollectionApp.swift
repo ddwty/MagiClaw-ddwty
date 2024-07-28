@@ -21,7 +21,7 @@ struct RoboticDataCollectionApp: App {
    //                .environmentObject(CameraManager.shared)
                    .environmentObject(WebSocketManager.shared)
                    .environmentObject(ARRecorder.shared)
-                   .modelContainer(for: ARStorgeData.self)
+                   .modelContainer(for: AllStorgeData.self)
                
            }
        }

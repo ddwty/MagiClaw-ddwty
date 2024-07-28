@@ -85,14 +85,13 @@ struct ControlButtonView: View {
             }
             
             Button(action: {
-                guard !recordAllDataModel.recordedARData.isEmpty else { return }
+//                guard !recordAllDataModel.recordedARData.isEmpty else { return }
                 // TODO: - 记得改一下这里的Date
-                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
-//                print("newARData\(newARData.data)")
-//                for data in newARData.data {
-//                    print("Ahahaha: \(data.timestamp), \(data.transform)")
-//                }
-                modelContext.insert(newARData)
+//                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
+//                modelContext.insert(newARData)
+                // TODO: - check if it's empty, fill the notes, correct the time duration
+                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                modelContext.insert(newAllData)
                 
                 do {
                         try modelContext.save()

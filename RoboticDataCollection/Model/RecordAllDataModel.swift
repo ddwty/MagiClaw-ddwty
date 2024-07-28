@@ -26,7 +26,7 @@ class RecordAllDataModel: ObservableObject {
     @Published var recordingDuration: TimeInterval = 0
     
     var recordedMotionData: [MotionData] = []
-    var recordedForceData: [ForceData?] = []
+    var recordedForceData: [ForceData] = []
     var recordedARData: [ARData] = []
     var recordedAngleData: [AngleData] = []
     //    var recordedARTransformData: [] = []

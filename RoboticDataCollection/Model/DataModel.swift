@@ -10,10 +10,15 @@ import ARKit
 import simd
 import SwiftData
 
-
-struct ForceData {
+@Model
+class ForceData {
     let timeStamp: String
     let forceData:[Double]?
+    
+    init(timeStamp: String, forceData: [Double]?) {
+        self.timeStamp = timeStamp
+        self.forceData = forceData
+    }
 }
 
 @Model
@@ -56,5 +61,43 @@ class ARData {
             simd_float4(array[8], array[9], array[10], array[11]),
             simd_float4(array[12], array[13], array[14], array[15])
         )
+    }
+}
+
+
+protocol CSVConvertible {
+    func csvHeader() -> String
+    func csvRow() -> String
+}
+
+extension ARData: CSVConvertible {
+    func csvHeader() -> String {
+        return "Timestamp,Transform\n"
+    }
+    
+    func csvRow() -> String {
+        let transformString = transform.map { String($0) }.joined(separator: ",")
+        return "\(timestamp),\(transformString)"
+    }
+}
+
+extension ForceData: CSVConvertible {
+    func csvHeader() -> String {
+        return "Timestamp,ForceData\n"
+    }
+    
+    func csvRow() -> String {
+        let forceDataString = forceData?.map { String($0) }.joined(separator: ",") ?? ""
+        return "\(timeStamp),\(forceDataString)"
+    }
+}
+
+extension AngleData: CSVConvertible {
+    func csvHeader() -> String {
+        return "Timestamp,Angle\n"
+    }
+    
+    func csvRow() -> String {
+        return "\(timeStamp),\(angle)"
     }
 }
