@@ -60,6 +60,7 @@ class MotionManager: ObservableObject {
     private var startTime: Date?
     private var dataCount: Int = 0
     private var initialAttitude: CMAttitude?
+    private let arrayAccessQueue = DispatchQueue(label: "motionDataArrayAccessQueue")
     
     @Published var motionData: MotionData
     @Published var motionDataArray: [MotionData] = [] // 用于可视化
@@ -109,21 +110,19 @@ class MotionManager: ObservableObject {
                             let attitude = data.attitude
                             let rotationRate = data.rotationRate
                 
-                            DispatchQueue.main.async {
-                                self.motionData = MotionData(
+                let newMotionData = MotionData(
                                     timestamp: Date(),
                                     attitude: MotionData.Attitude(pitch: attitude.pitch, yaw: attitude.yaw, roll: attitude.roll),
                                     rotationRate: MotionData.RotationRate(xRotationRate: rotationRate.x, yRotationRate: rotationRate.y, zRotationRate: rotationRate.z),
                                     acceleration: data.userAcceleration, rotationMatrix: attitude.rotationMatrix,
                                     quaternion: attitude.quaternion
                                 )
-                                self.motionDataArray.append(self.motionData)
-                                if self.motionDataArray.count > 100 {
-                                    self.motionDataArray.removeFirst()
+                                
+                                DispatchQueue.main.async {
+                                    self.motionData = newMotionData
+                                    self.appendMotionData(newMotionData)
                                 }
-                                
-                                
-                            }
+                            
                 
                 // 计算相对于初始姿态的变化
 //                let relativeAttitude = data.attitude
@@ -151,7 +150,14 @@ class MotionManager: ObservableObject {
     //    func startUpdates() {
     //        startDeviceMotionUpdates()
     //    }
-    
+private func appendMotionData(_ newMotionData: MotionData) {
+        arrayAccessQueue.sync {
+            self.motionDataArray.append(newMotionData)
+            if self.motionDataArray.count > 100 {
+                self.motionDataArray.removeFirst()
+            }
+        }
+    }
     func startRecording() {
         recordedMotionData.removeAll()
         recordedMotionData.reserveCapacity(10000)

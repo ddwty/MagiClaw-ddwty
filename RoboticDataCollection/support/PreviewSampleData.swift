@@ -13,7 +13,7 @@ import simd
 let previewContainer: ModelContainer = {
     do {
         let container = try ModelContainer(
-            for: ARStorgeData.self,
+            for: AllStorgeData.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         for data in SampleDeck.contents{
@@ -27,16 +27,9 @@ let previewContainer: ModelContainer = {
 }()
 
 struct SampleDeck {
-    static var contents: [ARStorgeData] = [
-        ARStorgeData(
-            createTime: Date(),
-            timeDuration: 1.2,
-            originalData: [ARData(timestamp: 20, transform: simd_float4x4(1))]
-        ),
-        ARStorgeData(
-            createTime: Date().addingTimeInterval(-3600),
-            timeDuration: 3.3,
-            originalData: [ARData(timestamp: 30, transform: simd_float4x4(2))]
-        )
+    static var contents: [AllStorgeData] = [
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", forceData: [], angleData: [], aRData: []),
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", forceData: [], angleData: [], aRData: []),
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", forceData: [], angleData: [], aRData: [])
     ]
 }

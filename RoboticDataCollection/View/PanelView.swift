@@ -17,31 +17,36 @@ struct PanelView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                ChartView(width: geometry.size.width, height: geometry.size.height)
-                    .padding()
+            ZStack {
+                VStack {
+                    ChartView(width: geometry.size.width, height: geometry.size.height)
+                        .padding()
                     HStack {
-                        MyARView()
-                            .cornerRadius(15)
-                        
-//                            .padding()
-                            .frame(
-                                width: showBigAr ? geometry.size.width  : geometry.size.width * 0.3,
-                                height:  showBigAr ? geometry.size.height : geometry  .size.height * 0.3
-                            )
-                            .onTapGesture {
-                                withAnimation(.easeInOut) {
-                                    self.showBigAr.toggle()
+                        VStack {
+                            MyARView()
+                                .cornerRadius(15)
+                                .frame(
+                                    width: showBigAr ? geometry.size.width  : geometry.size.width * 0.3,
+                                    height:  showBigAr ? geometry.size.height : geometry  .size.height * 0.3
+                                )
+                                .offset(y: showBigAr ? -130 : 0)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        self.showBigAr.toggle()
+                                        
+                                    }
                                 }
-                            }
-//                            .border(.green)
+                            Spacer()
+                        }
+                                                    .border(.green)
                         Spacer()
                         VStack {
                             RaspberryPiView()
                             ControlButtonView()
                                 .fixedSize()
+                            Spacer()
                         }
-                        .border(.blue)
+//                        .border(.blue)
                         Spacer()
                         Rectangle()
                             .foregroundColor(Color.clear)
@@ -52,9 +57,10 @@ struct PanelView: View {
                             )
                         
                     }
-                
+                    
+                }
+//                .border(.yellow)
             }
-            .border(.yellow)
             
         }
     }

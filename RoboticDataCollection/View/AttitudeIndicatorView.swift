@@ -66,7 +66,7 @@ struct AttitudeIndicatorView: View {
                 .padding(.horizontal)
             }
             .frame(width: width * 0.25)
-            .border(.purple)
+//            .border(.purple)
             
             
             Spacer()

@@ -21,13 +21,6 @@ struct MyARView: View {
         VStack {
             ARViewContainer(cameraTransform: $cameraTransform, recorder: recorder)
 //                .edgesIgnoringSafeArea(.all)
-                
-            
-//            Text("Camera Transform:")
-//            Text("\(cameraTransform.description)")
-//                .font(.footnote)
-//                .padding()
-//
         }
     }
 }
@@ -49,7 +42,8 @@ struct ARViewContainer: UIViewRepresentable {
         let arView = ARView(frame: .zero)
         arView.setupARView()
 //        arView.debugOptions.insert(.showStatistics)
-        arView.debugOptions.insert(.showWorldOrigin)
+//        arView.debugOptions.insert([.showWorldOrigin])
+    
         
         arView.session.delegate = context.coordinator
         
@@ -86,11 +80,12 @@ struct ARViewContainer: UIViewRepresentable {
 extension ARView {
     func setupARView() {
         let config = ARWorldTrackingConfiguration()
-//        config.frameSemantics = .sceneDepth
         config.isAutoFocusEnabled = true
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
+                   config.frameSemantics = .sceneDepth
+               }
         session.run(config)
-//        debugOptions = [.showWorldOrigin]
-//        debugOptions = []
+        debugOptions = [.showWorldOrigin]
     }
 }
 

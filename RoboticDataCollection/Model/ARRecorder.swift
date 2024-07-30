@@ -21,6 +21,7 @@ class ARRecorder: NSObject, ObservableObject {
     private var videoOutputURL: URL?
     private var timestamps: [Double] = []
     var frameDataArray: [ARData] = []
+    var arframeFrequency = 30
     
     private override init() {
         super.init()
@@ -36,15 +37,17 @@ class ARRecorder: NSObject, ObservableObject {
         if assetWriterInput.isReadyForMoreMediaData {
             let depthBuffer = frame.sceneDepth?.depthMap
             let pixelBuffer = frame.capturedImage
+            print(depthBuffer ?? "no depth data")
             
             // TODO: - 和AR帧率保持一致
-            let presentationTime = CMTime(value: frameNumber, timescale: 30)
+            let presentationTime = CMTime(value: frameNumber, timescale: CMTimeScale(arframeFrequency))
             
             if pixelBufferAdaptor.append(pixelBuffer, withPresentationTime: presentationTime) {
                 frameNumber += 1
                 
                 if let depthBuffer = depthBuffer {
                     // 处理深度信息
+//                    print("depth")
                 }
                 
                 // 添加每帧的时间戳和相机变换矩阵到数组中
@@ -77,8 +80,8 @@ class ARRecorder: NSObject, ObservableObject {
                 
                 let outputSettings: [String: Any] = [
                     AVVideoCodecKey: AVVideoCodecType.h264,
-                    AVVideoWidthKey: 1920,
-                    AVVideoHeightKey: 1080
+                    AVVideoWidthKey: 1280,
+                    AVVideoHeightKey: 720
                 ]
                 
                 self.assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: outputSettings)

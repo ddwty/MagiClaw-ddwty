@@ -13,7 +13,7 @@ struct ControlButtonView: View {
     @EnvironmentObject var webSocketManager: WebSocketManager
     @Environment(\.modelContext) private var modelContext
     //    @EnvironmentObject var arRecorder: ARRecorder
-    
+    @AppStorage("ignore websocket") private var ignorWebsocket = false
     
     
     @State var isRunningTimer = false
@@ -33,6 +33,23 @@ struct ControlButtonView: View {
                         timer.upstream.connect().cancel()
                         self.isRunningTimer = false
                         self.isWaitingtoSave = true
+                        
+                        
+                        let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                        modelContext.insert(newAllData)
+                        
+                        do {
+                                try modelContext.save()
+                                isSaved = true
+                            } catch {
+                                print("Failed to save AR data: \(error.localizedDescription)")
+                            }
+                        
+                        
+                        
+                        
+                        
+                        
                     } else {
                         recordAllDataModel.startRecordingData()
                         display = "00:00:00"
@@ -65,12 +82,14 @@ struct ControlButtonView: View {
                 //                .frame(width: 180, height: 30)
                 .frame(height: 25)
                 .padding()
-                .background(webSocketManager.isConnected ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
+                .background((ignorWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
                 .clipShape(Capsule())
                 
                 //                .shadow(color: .green, radius: 5)
             }
-            .disabled(webSocketManager.isConnected == false)
+            
+            // 当ignorewebsocket为true时，按钮就可以用
+            .disabled(!(ignorWebsocket || webSocketManager.isConnected))
             .onReceive(timer) { _ in
                 if isRunningTimer {
                     let duration = Date().timeIntervalSince(startTime)
@@ -84,26 +103,26 @@ struct ControlButtonView: View {
                 timer.upstream.connect().cancel()
             }
             
-            Button(action: {
-//                guard !recordAllDataModel.recordedARData.isEmpty else { return }
-                // TODO: - 记得改一下这里的Date
-//                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
-//                modelContext.insert(newARData)
-                // TODO: - check if it's empty, fill the notes, correct the time duration
-                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
-                modelContext.insert(newAllData)
-                
-                do {
-                        try modelContext.save()
-                        isSaved = true
-                    } catch {
-                        print("Failed to save AR data: \(error.localizedDescription)")
-                    }
-                
-                
-            }) {
-                Text("Save")
-            }
+//            Button(action: {
+////                guard !recordAllDataModel.recordedARData.isEmpty else { return }
+//                // TODO: - 记得改一下这里的Date
+////                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
+////                modelContext.insert(newARData)
+//                // TODO: - check if it's empty, fill the notes, correct the time duration
+//                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+//                modelContext.insert(newAllData)
+//                
+//                do {
+//                        try modelContext.save()
+//                        isSaved = true
+//                    } catch {
+//                        print("Failed to save AR data: \(error.localizedDescription)")
+//                    }
+//                
+//                
+//            }) {
+//                Text("Save")
+//            }
         }
         
         .alert(
