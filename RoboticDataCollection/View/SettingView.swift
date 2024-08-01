@@ -9,11 +9,13 @@ import SwiftUI
 
 struct SettingView: View {
     @AppStorage("ignore websocket") private var ignorWebsocket = false
+    @EnvironmentObject  var arRecorder: ARRecorder
     var body: some View {
         NavigationStack {
             Form {
                 Toggle(isOn: $ignorWebsocket) {
                     Label("ignore websocket", systemImage: "network.slash")
+                   
                 }
             }
             .navigationTitle("Settings")
@@ -26,5 +28,6 @@ struct SettingView: View {
 
 #Preview {
     SettingView()
+        .environmentObject(ARRecorder.shared)
 }
 

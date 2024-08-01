@@ -57,6 +57,11 @@ class WebSocketManager: ObservableObject {
     private var shouldPing: Bool = true
     var isRecording = false
     
+    private var firstTimestampOfForce = 0.0
+    private var isFirstFrameOfForce = true
+    private var firstTimestampOfAngle = 0.0
+    private var isFirstFrameOfAngle = true
+    
     
     private var isLeftFingerConnected = false {
             didSet {
@@ -186,6 +191,8 @@ class WebSocketManager: ObservableObject {
         recordedAngleData.removeAll()
         
         isRecording = true
+        self.isFirstFrameOfAngle = true
+        self.isFirstFrameOfForce = true
     }
     
     func stopRecordingForceData() {
@@ -197,8 +204,14 @@ extension WebSocketManager {
     func handleLeftFingerMessage(string: String) {
             if let data = string.data(using: .utf8) {
                 if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
+                    
+                    let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos)
+                    if isFirstFrameOfAngle {
+                        self.firstTimestampOfForce = timestamp
+                        self.isFirstFrameOfForce = false
+                    }
                     let forceData = ForceData(
-                        timeStamp: "\(fingerForce.time_stamp.secs).\(fingerForce.time_stamp.nanos)",
+                        timeStamp: timestamp - firstTimestampOfForce,
                         forceData: fingerForce.force?.value)
                     //TODO: - 检查是否需要async
                     DispatchQueue.main.async {
@@ -208,14 +221,20 @@ extension WebSocketManager {
                     }
                 }
             }
-        
     }
     
 func handleAngleMessage(string: String) {
     if let data = string.data(using: .utf8) {
         if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
+            let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos)
+            if isFirstFrameOfAngle {
+                self.firstTimestampOfAngle = timestamp
+                self.isFirstFrameOfAngle = false
+            }
+            
             let angleData = AngleData(
-                timeStamp: "\(fingerAngle.time_stamp.secs).\(fingerAngle.time_stamp.nanos)", angle: fingerAngle.data)
+                timeStamp: timestamp - firstTimestampOfAngle,
+                angle: fingerAngle.data)
             DispatchQueue.main.async {
                 if self.isRecording {
                     self.recordedAngleData.append(angleData)

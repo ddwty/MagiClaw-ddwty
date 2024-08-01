@@ -12,7 +12,7 @@ import SwiftData
 
 @Model
 class ForceData {
-    let timeStamp: String
+    let timeStamp: Double
     let forceData:[Double]?
     
     init(timeStamp: String, forceData: [Double]?) {
@@ -24,7 +24,7 @@ class ForceData {
 @Model
 //TODO: - 这里的时间戳应该是Double or Date
 class AngleData {
-    let timeStamp: String
+    let timeStamp: Double
     let angle: Int
     
     init(timeStamp: String, angle: Int) {

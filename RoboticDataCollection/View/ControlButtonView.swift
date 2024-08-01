@@ -23,9 +23,12 @@ struct ControlButtonView: View {
     @State private var startTime = Date()
     @State private var display = "00:00:00"
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+    @State private var description = ""
     
     var body: some View {
         VStack {
+            TextField("Enter description", text: $description)
+                .padding()
             Button(action: {
                 withAnimation {
                     if isRunningTimer {
@@ -35,7 +38,7 @@ struct ControlButtonView: View {
                         self.isWaitingtoSave = true
                         
                         
-                        let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                        let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
                         modelContext.insert(newAllData)
                         
                         do {
@@ -44,10 +47,6 @@ struct ControlButtonView: View {
                             } catch {
                                 print("Failed to save AR data: \(error.localizedDescription)")
                             }
-                        
-                        
-                        
-                        
                         
                         
                     } else {
@@ -92,8 +91,8 @@ struct ControlButtonView: View {
             .disabled(!(ignorWebsocket || webSocketManager.isConnected))
             .onReceive(timer) { _ in
                 if isRunningTimer {
-                    let duration = Date().timeIntervalSince(startTime)
                     let minutes = Int(duration) / 60
+                    let duration = Date().timeIntervalSince(startTime)
                     let seconds = Int(duration) % 60
                     let milliseconds = Int((duration - Double(minutes * 60 + seconds)) * 100) % 100
                     display = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)

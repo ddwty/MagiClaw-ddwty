@@ -19,12 +19,15 @@ class ARRecorder: NSObject, ObservableObject {
     private var isRecording = false
     private var frameNumber: Int64 = 0
     private var videoOutputURL: URL?
-    private var timestamps: [Double] = []
+//    private var timestamps: [Double] = []
     var frameDataArray: [ARData] = []
-    var arframeFrequency = 30
+    @Published var arframeFrequency = 30
+    private var firstTimestamp = 0.0
+    private var isFirstFrame = true
     
     private override init() {
         super.init()
+        self.frameDataArray.reserveCapacity(10000)
     }
     
 
@@ -33,7 +36,10 @@ class ARRecorder: NSObject, ObservableObject {
     func recordFrame(_ frame: ARFrame) {
         // recording之后才执行下面代码
         guard isRecording, let pixelBufferAdaptor = pixelBufferAdaptor, let assetWriterInput = assetWriterInput else { return }
-        
+        if self.isFirstFrame {
+            self.firstTimestamp = frame.timestamp
+            self.isFirstFrame = false
+        }
         if assetWriterInput.isReadyForMoreMediaData {
             let depthBuffer = frame.sceneDepth?.depthMap
             let pixelBuffer = frame.capturedImage
@@ -51,7 +57,7 @@ class ARRecorder: NSObject, ObservableObject {
                 }
                 
                 // 添加每帧的时间戳和相机变换矩阵到数组中
-                let frameData = ARData(timestamp: frame.timestamp, transform: frame.camera.transform)
+                let frameData = ARData(timestamp: frame.timestamp - firstTimestamp, transform: frame.camera.transform)
                 self.frameDataArray.append(frameData)
                 
             } else {
@@ -96,9 +102,10 @@ class ARRecorder: NSObject, ObservableObject {
                     
                     assetWriter.startWriting()
                     assetWriter.startSession(atSourceTime: .zero)
-                    self.frameDataArray.removeAll() // 清空数组以开始新的录制
+                    self.frameDataArray.removeAll(keepingCapacity: true) // 清空数组以开始新的录制
                     
                     self.isRecording = true
+                    self.isFirstFrame = true
                     self.frameNumber = 0
                     
                     DispatchQueue.main.async {
@@ -118,6 +125,7 @@ class ARRecorder: NSObject, ObservableObject {
             guard isRecording else { return }
             
             isRecording = false
+       
             assetWriterInput?.markAsFinished()
             
             assetWriter?.finishWriting { [weak self] in
