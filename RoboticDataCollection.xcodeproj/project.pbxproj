@@ -37,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* RoboticDataCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoboticDataCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* RoboticDataCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoboticDataCollectionApp.swift; sourceTree = "<group>"; };
 		609395262C55473A00E98950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				3D625B682C5F560600180FCB /* Info.plist */,
 				609395222C55473700E98950 /* RoboticDataCollectionApp.swift */,
 				6093956A2C554A7200E98950 /* Model */,
 				6093955D2C554A7200E98950 /* support */,
@@ -403,6 +405,8 @@
 				DEVELOPMENT_TEAM = 7DTG838RB6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RoboticDataCollection/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Use camera";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Collecting data";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save video";
@@ -435,6 +439,8 @@
 				DEVELOPMENT_TEAM = 7DTG838RB6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RoboticDataCollection/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Use camera";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Collecting data";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save video";

@@ -139,14 +139,6 @@ struct RecordingDetailView: View {
                             Text("Data length:")
                                 .font(.headline)
                             Spacer()
-                            //                            if isProcessingSort {
-                            //                                ProgressView()
-                            //                                    .progressViewStyle(CircularProgressViewStyle())
-                            //                            } else {
-                            //                                Text("ARData: \(sortedARData.count) | ForceData: \(sortedForceData.count) | AngleData: \(sortedAngleData.count)")
-                            //                                    .font(.body)
-                            //                                    .foregroundColor(.secondary)
-                            //                            }
                             
                             Text("ARData: \(recording.unsortedARData.count) | ForceData: \(recording.unsortedForceData.count) | AngleData: \(recording.unsortedAngleData.count)")
                                 .font(.body)
@@ -166,32 +158,13 @@ struct RecordingDetailView: View {
                     }
                     
                 }
-                
-                
-                //                Section {
-                //                    ForEach(recording.data) { data in
-                //                        Text("Timestamp: \(data.timestamp)")
-                //                    }
-                //                    .onAppear() {
-                //                        for data in recording.data {
-                //                            print("Timestamp: \(data.timestamp)") // not in order
-                //                        }
-                //                    }
-                //                }
-                //                Section {
-                //                    ForEach(recording.data) { arData in
-                //                        NavigationLink(destination: ARDataDetailView(arData: arData)) {
-                //                            VStack(alignment: .leading) {
-                //                                Text("Timestamp: \(arData.timestamp, specifier: "%.2f")")
-                //                                    .font(.body)
-                //                                Text("Transform: \(arData.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
-                //                                    .font(.caption)
-                //                                    .foregroundColor(.secondary)
-                //                            }
-                //                            .padding(.vertical, 4)
-                //                        }
-                //                    }
-                //                }
+                NavigationLink(destination: ARDataView(arData: recording.arData)) {
+                    Text("AR Data")
+                }
+                NavigationLink(destination: RpiDataView(forceData: recording.forceData, angleData: recording.angleData)) {
+                    Text("Rpi Data")
+                }
+               
                 
             }
             .navigationTitle("Recording Details")
@@ -277,12 +250,27 @@ struct ShareSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
+struct ARDataView: View {
+    let arData: [ARData]
+    
+    var body: some View {
+        List(arData) { data in
+            NavigationLink(destination: ARDataDetailView(arData: data)) {
+                VStack(alignment: .leading) {
+                    Text("Timestamp: \(data.timestamp, specifier: "%.2f")")
+                        .font(.body)
+                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.vertical, 4)
+            }
+        }
+        .navigationTitle("AR Data")
+        .navigationBarTitleDisplayMode(.inline)
+    }
 
-
-
-
-
-
+}
 
 struct ARDataDetailView: View {
     let arData: ARData
@@ -310,6 +298,91 @@ struct ARDataDetailView: View {
         }
         .padding()
         .navigationTitle("AR Data Details")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct RpiDataView: View {
+    let forceData: [ForceData]
+    let angleData: [AngleData]
+    
+    var body: some View {
+            Section(header: Text("Force Data")) {
+                List(forceData) { data in
+                    NavigationLink(destination: ForceDataDetailView(forceData: data)) {
+                        
+                    }
+                    
+                }
+//                List(forceData) { data in
+//                    NavigationLink(destination: ForceDataDetailView(forceData: data)) {
+//                        VStack(alignment: .leading) {
+//                            Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
+//                                .font(.body)
+//                            Text("Force: \(data.force)")
+//                                .font(.caption)
+//                                .foregroundColor(.secondary)
+//                        }
+//                        .padding(.vertical, 4)
+//                    }
+//                }
+            }
+            
+            Section(header: Text("Angle Data")) {
+                ForEach(angleData) { data in
+                    NavigationLink(destination: AngleDataDetailView(angleData: data)) {
+                        VStack(alignment: .leading) {
+                            Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
+                                .font(.body)
+                            Text("Angle: \(data.angle)")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+            }
+        
+        .navigationTitle("Rpi Data")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct ForceDataDetailView: View {
+    let forceData: ForceData
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Timestamp: \(forceData.timeStamp)")
+                .font(.headline)
+            
+            Text("Force: \(String(describing: forceData.forceData))")
+                .font(.headline)
+            
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Force Data Details")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+
+struct AngleDataDetailView: View {
+    let angleData: AngleData
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Timestamp: \(angleData.timeStamp)")
+                .font(.headline)
+            
+            Text("Angle: \(angleData.angle)")
+                .font(.headline)
+            
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Angle Data Details")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

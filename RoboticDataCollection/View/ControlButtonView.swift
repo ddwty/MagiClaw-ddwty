@@ -91,8 +91,8 @@ struct ControlButtonView: View {
             .disabled(!(ignorWebsocket || webSocketManager.isConnected))
             .onReceive(timer) { _ in
                 if isRunningTimer {
-                    let minutes = Int(duration) / 60
                     let duration = Date().timeIntervalSince(startTime)
+                    let minutes = Int(duration) / 60
                     let seconds = Int(duration) % 60
                     let milliseconds = Int((duration - Double(minutes * 60 + seconds)) * 100) % 100
                     display = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)

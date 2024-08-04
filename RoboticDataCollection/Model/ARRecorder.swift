@@ -4,11 +4,11 @@
 //
 //  Created by Tianyu on 7/25/24.
 //
+
 import Foundation
 import AVFoundation
 import Photos
 import ARKit
-import SwiftData
 
 class ARRecorder: NSObject, ObservableObject {
     static let shared = ARRecorder()
@@ -19,7 +19,7 @@ class ARRecorder: NSObject, ObservableObject {
     private var isRecording = false
     private var frameNumber: Int64 = 0
     private var videoOutputURL: URL?
-//    private var timestamps: [Double] = []
+    private var depthDataURL: URL?
     var frameDataArray: [ARData] = []
     @Published var arframeFrequency = 30
     private var firstTimestamp = 0.0
@@ -30,39 +30,56 @@ class ARRecorder: NSObject, ObservableObject {
         self.frameDataArray.reserveCapacity(10000)
     }
     
-
-    
-    // 每一帧都在调用
     func recordFrame(_ frame: ARFrame) {
-        // recording之后才执行下面代码
-        guard isRecording, let pixelBufferAdaptor = pixelBufferAdaptor, let assetWriterInput = assetWriterInput else { return }
+        guard isRecording, let pixelBufferAdaptor = pixelBufferAdaptor, let assetWriterInput = assetWriterInput else {
+            return
+        }
+
         if self.isFirstFrame {
             self.firstTimestamp = frame.timestamp
             self.isFirstFrame = false
         }
+
         if assetWriterInput.isReadyForMoreMediaData {
             let depthBuffer = frame.sceneDepth?.depthMap
             let pixelBuffer = frame.capturedImage
-            print(depthBuffer ?? "no depth data")
-            
-            // TODO: - 和AR帧率保持一致
+
             let presentationTime = CMTime(value: frameNumber, timescale: CMTimeScale(arframeFrequency))
-            
+
             if pixelBufferAdaptor.append(pixelBuffer, withPresentationTime: presentationTime) {
                 frameNumber += 1
-                
+
                 if let depthBuffer = depthBuffer {
-                    // 处理深度信息
-//                    print("depth")
+                    saveDepthBuffer(depthBuffer, at: frame.timestamp - firstTimestamp)
                 }
-                
-                // 添加每帧的时间戳和相机变换矩阵到数组中
+
                 let frameData = ARData(timestamp: frame.timestamp - firstTimestamp, transform: frame.camera.transform)
                 self.frameDataArray.append(frameData)
-                
             } else {
                 print("Error appending pixel buffer")
             }
+        }
+    }
+    
+    private func saveDepthBuffer(_ depthBuffer: CVPixelBuffer, at timestamp: Double) {
+        CVPixelBufferLockBaseAddress(depthBuffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(depthBuffer, .readOnly) }
+
+        let width = CVPixelBufferGetWidth(depthBuffer)
+        let height = CVPixelBufferGetHeight(depthBuffer)
+        let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer)
+
+        let buffer = UnsafeBufferPointer(start: baseAddress!.assumingMemoryBound(to: Float32.self), count: width * height)
+        let data = Data(buffer: buffer)
+        
+        let fileName = String(format: "depth_%.3f.raw", timestamp)
+        let fileURL = depthDataURL?.appendingPathComponent(fileName)
+        
+        do {
+            try data.write(to: fileURL!)
+            print("Saved depth buffer to \(fileURL!)")
+        } catch {
+            print("Error saving depth buffer: \(error)")
         }
     }
     
@@ -73,15 +90,19 @@ class ARRecorder: NSObject, ObservableObject {
             let dateString = dateFormatter.string(from: Date())
             
             let tempDirectory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            self.videoOutputURL = tempDirectory.appendingPathComponent(dateString + "hahah").appendingPathExtension("mp4")
+            self.videoOutputURL = tempDirectory.appendingPathComponent(dateString + "RGB").appendingPathExtension("mp4")
+            self.depthDataURL = tempDirectory.appendingPathComponent(dateString + "_Depth")
             
             do {
+                try FileManager.default.createDirectory(at: self.depthDataURL!, withIntermediateDirectories: true, attributes: nil)
+                
                 guard let videoOutputURL = self.videoOutputURL else {
                     DispatchQueue.main.async {
                         completion(false)
                     }
                     return
                 }
+                
                 self.assetWriter = try AVAssetWriter(outputURL: videoOutputURL, fileType: .mp4)
                 
                 let outputSettings: [String: Any] = [
@@ -102,7 +123,7 @@ class ARRecorder: NSObject, ObservableObject {
                     
                     assetWriter.startWriting()
                     assetWriter.startSession(atSourceTime: .zero)
-                    self.frameDataArray.removeAll(keepingCapacity: true) // 清空数组以开始新的录制
+                    self.frameDataArray.removeAll(keepingCapacity: true)
                     
                     self.isRecording = true
                     self.isFirstFrame = true
@@ -122,55 +143,41 @@ class ARRecorder: NSObject, ObservableObject {
     }
     
     func stopRecording(completion: @escaping (URL?) -> Void) {
-            guard isRecording else { return }
+        guard isRecording else { return }
+
+        isRecording = false
+
+        assetWriterInput?.markAsFinished()
+        assetWriter?.finishWriting { [weak self] in
+            guard let self = self else { return }
             
-            isRecording = false
-       
-            assetWriterInput?.markAsFinished()
-            
-            assetWriter?.finishWriting { [weak self] in
-                guard let self = self else { return }
-                self.saveVideoToPhotoLibrary(videoURL: self.videoOutputURL)
-                completion(self.assetWriter?.outputURL)
-                
-                // 保存记录到 SwiftData
-//                if let url = self.assetWriter?.outputURL {
-//                    let duration = self.calculateRecordingDuration()
-//                    let recordingHistory = RecordingHistory(date: Date(), fileURL: url, duration: duration, frameDataArray: self.frameDataArray)
-//                    modelContext.insert(recordingHistory)
-//                    
-//                    do {
-//                        try modelContext.save()
-//                    } catch {
-//                        print("Failed to save recording history: \(error.localizedDescription)")
-//                    }
-//                }
+            if let depthDataURL = self.depthDataURL, FileManager.default.fileExists(atPath: depthDataURL.path) {
+                self.saveFilesToDocumentDirectory(sourceURL: depthDataURL)
+            } else {
+                print("Depth data folder does not exist")
             }
-        }
-    
-    private func calculateRecordingDuration() -> TimeInterval {
-            // 计算录制的持续时间
-            return TimeInterval(frameNumber) / 30.0 // Assuming 30 FPS
-        }
-    
-    private func saveVideoToPhotoLibrary(videoURL: URL?) {
-        guard let videoURL = videoURL else { return }
-        
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { return }
-            
-            PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
-            }) { success, error in
-                if let error = error {
-                    print("Error saving video: \(error.localizedDescription)")
-                } else {
-                    print("Video saved successfully to Photo Library")
-                }
-            }
+
+            self.saveFilesToDocumentDirectory(sourceURL: self.videoOutputURL)
+            completion(self.assetWriter?.outputURL)
         }
     }
     
-    
+    private func saveFilesToDocumentDirectory(sourceURL: URL?) {
+        guard let sourceURL = sourceURL else { return }
+        
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let destinationURL = documentsDirectory.appendingPathComponent(sourceURL.lastPathComponent)
+
+        do {
+            if fileManager.fileExists(atPath: destinationURL.path) {
+                try fileManager.removeItem(at: destinationURL)
+            }
+            try fileManager.moveItem(at: sourceURL, to: destinationURL)
+            print("Saved files to \(destinationURL)")
+        } catch {
+            print("Error saving files: \(error.localizedDescription)")
+        }
+    }
 }
 

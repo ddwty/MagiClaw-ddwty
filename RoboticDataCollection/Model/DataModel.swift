@@ -15,7 +15,7 @@ class ForceData {
     let timeStamp: Double
     let forceData:[Double]?
     
-    init(timeStamp: String, forceData: [Double]?) {
+    init(timeStamp: Double, forceData: [Double]?) {
         self.timeStamp = timeStamp
         self.forceData = forceData
     }
@@ -27,7 +27,7 @@ class AngleData {
     let timeStamp: Double
     let angle: Int
     
-    init(timeStamp: String, angle: Int) {
+    init(timeStamp: Double, angle: Int) {
         self.timeStamp = timeStamp
         self.angle = angle
     }

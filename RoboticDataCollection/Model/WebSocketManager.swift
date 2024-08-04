@@ -205,8 +205,9 @@ extension WebSocketManager {
             if let data = string.data(using: .utf8) {
                 if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
                     
-                    let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos)
-                    if isFirstFrameOfAngle {
+                    let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos) * 1e-9
+                   
+                    if isFirstFrameOfForce {
                         self.firstTimestampOfForce = timestamp
                         self.isFirstFrameOfForce = false
                     }
@@ -226,7 +227,7 @@ extension WebSocketManager {
 func handleAngleMessage(string: String) {
     if let data = string.data(using: .utf8) {
         if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
-            let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos)
+            let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos) * 1e-9
             if isFirstFrameOfAngle {
                 self.firstTimestampOfAngle = timestamp
                 self.isFirstFrameOfAngle = false

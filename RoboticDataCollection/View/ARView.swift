@@ -71,6 +71,8 @@ struct ARViewContainer: UIViewRepresentable {
             DispatchQueue.main.async {
                 self.parent.cameraTransform = frame.camera.transform
 //                print("Camera transform: \(self.parent.cameraTransform.description)")
+                let intrinsics = frame.camera.intrinsics
+//                print("Camera intrinsics: \(intrinsics)")
             }
             recorder.recordFrame(frame)
         }
@@ -84,6 +86,21 @@ extension ARView {
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
                    config.frameSemantics = .sceneDepth
                }
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
+                   config.frameSemantics.insert(.smoothedSceneDepth)
+               }
+        for videoformat in ARWorldTrackingConfiguration.supportedVideoFormats {
+            if videoformat.captureDeviceType == .builtInUltraWideCamera {
+                config.videoFormat = videoformat
+                print("Using built-in ultra wide camera")
+                break
+            }
+        }
+      
+      
+
+
+
         session.run(config)
         debugOptions = [.showWorldOrigin]
     }
