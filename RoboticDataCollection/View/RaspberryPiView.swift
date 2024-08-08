@@ -17,14 +17,25 @@ struct RaspberryPiView: View {
             VStack {
                 if webSocketManager.isConnected {
                     Label("Connected", systemImage: "checkmark.circle")
-                        .font(.title)
+                        .font(.title3)
                         .foregroundColor(.green)
                         .symbolEffect(.bounce, value: webSocketManager.isConnected)
                 } else {
-                    Label("Disconnected", systemImage: "wifi.router")
-                        .foregroundColor(.red)
-                        .font(.title)
-                        .symbolEffect(.variableColor.iterative.reversing)
+                    HStack {
+                        Label("Disconnected", systemImage: "wifi.router")
+                            .foregroundColor(.red)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .symbolEffect(.variableColor.iterative.reversing)
+                        Button(action: {
+                                webSocketManager.reConnectToServer()
+                        }) {
+                            Image(systemName: "arrow.clockwise.circle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                        }
+                    }
                 }
 //                Label(webSocketManager.isConnected ? "Connected" : "Disconnected", systemImage: webSocketManager.isConnected ? "checkmark.circle" : "xmark.circle")
 //                    .font(.title)

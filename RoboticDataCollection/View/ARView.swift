@@ -89,20 +89,18 @@ extension ARView {
         if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
                    config.frameSemantics.insert(.smoothedSceneDepth)
                }
-        for videoformat in ARWorldTrackingConfiguration.supportedVideoFormats {
-            if videoformat.captureDeviceType == .builtInUltraWideCamera {
-                config.videoFormat = videoformat
-                print("Using built-in ultra wide camera")
-                break
-            }
-        }
-      
-      
-
-
-
+        
+//        // 设置视频格式
+//               if let videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats.first(where: { $0.framesPerSecond == 3 }) {
+//                   config.videoFormat = videoFormat
+//                   print("Using video format with 30 FPS")
+//               } else {
+//                   print("No video format with 30 FPS found")
+//               }
+       
         session.run(config)
-        debugOptions = [.showWorldOrigin]
+        debugOptions = [.showWorldOrigin, .showStatistics]
+     
     }
 }
 

@@ -8,6 +8,7 @@
 import Foundation
 import Starscream
 import UIKit
+import SwiftUI
 
 struct TimeStamp: Codable {
     let secs: Int
@@ -33,6 +34,9 @@ class WebSocketManager: ObservableObject {
     static let shared = WebSocketManager()
     var recordedForceData: [ForceData] = []  //用于储存
     var recordedAngleData: [AngleData] = []
+    @Published var forceDataforShow: ForceData?
+    @Published var angleDataforShow: AngleData?
+    @Published var totalForce: Double = 100
     @Published var time: TimeStamp?
     //    @Published var isConnected = false {
     //            didSet {
@@ -44,11 +48,12 @@ class WebSocketManager: ObservableObject {
     //            }
     //        }
     
-   
+    
     @Published var isConnected = false
     
-   // TODO: - 通过输入框来输入hostname
-    @Published var hostName: String = "raspberrypi.local"
+    // TODO: - 通过输入框来输入hostname
+    //    @Published var hostName: String = "raspberrypi.local"
+    @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @Published var receivedMessage: String = ""
     
     private var angelSocket: WebSocket?
@@ -58,21 +63,21 @@ class WebSocketManager: ObservableObject {
     var isRecording = false
     
     private var firstTimestampOfForce = 0.0
-    private var isFirstFrameOfForce = true
+    private var isFirstFrameOfForce = false
     private var firstTimestampOfAngle = 0.0
-    private var isFirstFrameOfAngle = true
+    private var isFirstFrameOfAngle = false
     
     
     private var isLeftFingerConnected = false {
-            didSet {
-                updateConnectionStatus()
-            }
+        didSet {
+            updateConnectionStatus()
         }
-        private var isAngelConnected = false {
-            didSet {
-                updateConnectionStatus()
-            }
+    }
+    private var isAngelConnected = false {
+        didSet {
+            updateConnectionStatus()
         }
+    }
     
     // MARK: - AND both left finger and angel connected status
     private func updateConnectionStatus() {
@@ -80,12 +85,17 @@ class WebSocketManager: ObservableObject {
     }
     
     private init() {
-//        connectToServer()
+        //        connectToServer()
         self.recordedForceData.reserveCapacity(10000)
         self.recordedAngleData.reserveCapacity(100000)
         connectLeftFinger()
         connectAngel()
         
+    }
+    
+    func reConnectToServer() {
+        connectLeftFinger()
+        connectAngel()
     }
     
     func disconnect() {
@@ -97,91 +107,91 @@ class WebSocketManager: ObservableObject {
     }
     
     func connectLeftFinger() {
-        var leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostName):8080/left_finger/force")!)
+        var leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/left_finger/force")!)
         leftFingerSocket = WebSocket(request: leftFingerRequest)
         leftFingerSocket?.connect()
         leftFingerRequest.timeoutInterval = 50
         leftFingerSocket?.onEvent = { event in
-                    switch event {
-                    case .connected(let headers):
-                        self.isLeftFingerConnected = true
-                        
-                        print("WebSocket is connected to left finger: \(headers)")
-                        print("isLeftFingerConnected: \(self.isLeftFingerConnected)")
-                        
-                    case .disconnected(let reason, let code):
-                        self.isLeftFingerConnected = false
-                        print("WebSocket disconnected: \(reason) to left finger with code: \(code)")
-                        
-                    case .text(let string):
-                        if self.isRecording {
-                            self.handleLeftFingerMessage(string: string)
-//                            print("Receive text from left finger message, is recording: \(self.isRecording)")
-                        }
-//                        print("\(string)")
-                    case .binary(let data):
-                        print("Received data: \(data.count)")
-                    case .ping(_):
-                        break
-                    case .pong(_):
-                        break
-                    case .viabilityChanged(_):
-                        break
-                    case .reconnectSuggested(_):
-                        break
-                    case .cancelled:
-                        self.isLeftFingerConnected = false
-                        print("WebSocket is cancelled")
-                    case .peerClosed:
-                        break
-                    case .error(let error):
-                        self.isLeftFingerConnected = false
-                        print("WebSocket encountered an error: \(error?.localizedDescription ?? "")")
-                    }
-                }
+            switch event {
+            case .connected(let headers):
+                self.isLeftFingerConnected = true
+                
+                print("WebSocket is connected to left finger: \(headers)")
+                print("isLeftFingerConnected: \(self.isLeftFingerConnected)")
+                
+            case .disconnected(let reason, let code):
+                self.isLeftFingerConnected = false
+                print("WebSocket disconnected: \(reason) to left finger with code: \(code)")
+                
+            case .text(let string):
+//                if self.isRecording {
+                    self.handleLeftFingerMessage(string: string)
+                    //                            print("Receive text from left finger message, is recording: \(self.isRecording)")
+//                }
+                //                        print("\(string)")
+            case .binary(let data):
+                print("Received data: \(data.count)")
+            case .ping(_):
+                break
+            case .pong(_):
+                break
+            case .viabilityChanged(_):
+                break
+            case .reconnectSuggested(_):
+                break
+            case .cancelled:
+                self.isLeftFingerConnected = false
+                print("WebSocket is cancelled")
+            case .peerClosed:
+                break
+            case .error(let error):
+                self.isLeftFingerConnected = false
+                print("WebSocket encountered an error: \(error?.localizedDescription ?? "")")
+            }
+        }
     }
     
     func connectAngel() {
-        var angelRequest = URLRequest(url: URL(string: "ws://\(self.hostName):8080/angle")!)
-       angelSocket = WebSocket(request: angelRequest)
-       angelSocket?.connect()
+        var angelRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/angle")!)
+        angelSocket = WebSocket(request: angelRequest)
+        angelSocket?.connect()
         angelRequest.timeoutInterval = 5000
         angelSocket?.onEvent = { event in
-                    switch event {
-                    case .connected(let headers):
-                        self.isAngelConnected = true
-                        print("WebSocket is connected to angel: \(headers)")
-                        print("isAngleConnected: \(self.isAngelConnected)")
-                        
-                    case .disconnected(let reason, let code):
-                        self.isAngelConnected = false
-                        print("WebSocket disconnected: \(reason) to angel with code: \(code)")
-                        
-                    case .text(let string):
-                        if self.isRecording {
-                            self.handleAngleMessage(string: string)
-                        }
-//                        print(string)
-                    case .binary(let data):
-                        print("Received data: \(data.count)")
-                    case .ping(_):
-                        break
-                    case .pong(_):
-                        break
-                    case .viabilityChanged(_):
-                        break
-                    case .reconnectSuggested(_):
-                        break
-                    case .cancelled:
-                        self.isLeftFingerConnected = false
-                        print("WebSocket is cancelled")
-                    case .peerClosed:
-                        break
-                    case .error(let error):
-                        self.isLeftFingerConnected = false
-                        print("WebSocket encountered an error: \(error?.localizedDescription ?? "")")
-                    }
-                }
+            switch event {
+            case .connected(let headers):
+                self.isAngelConnected = true
+                print("WebSocket is connected to angel: \(headers)")
+                print("isAngleConnected: \(self.isAngelConnected)")
+                
+            case .disconnected(let reason, let code):
+                self.isAngelConnected = false
+                print("WebSocket disconnected: \(reason) to angel with code: \(code)")
+                
+            case .text(let string):
+//                if self.isRecording {
+                    self.handleAngleMessage(string: string)
+//                }
+                //                        print(string)
+            case .binary(let data):
+                print("Received data: \(data.count)")
+            case .ping(_):
+                break
+            case .pong(_):
+                break
+            case .viabilityChanged(_):
+                break
+            case .reconnectSuggested(_):
+                break
+            case .cancelled:
+                self.isLeftFingerConnected = false
+                print("WebSocket is cancelled")
+            case .peerClosed:
+                break
+            case .error(let error):
+                self.isLeftFingerConnected = false
+                print("WebSocket encountered an error: \(error?.localizedDescription ?? "")")
+            }
+        }
         
     }
     
@@ -202,47 +212,65 @@ class WebSocketManager: ObservableObject {
 
 extension WebSocketManager {
     func handleLeftFingerMessage(string: String) {
-            if let data = string.data(using: .utf8) {
-                if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
-                    
-                    let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos) * 1e-9
-                   
-                    if isFirstFrameOfForce {
-                        self.firstTimestampOfForce = timestamp
-                        self.isFirstFrameOfForce = false
-                    }
-                    let forceData = ForceData(
-                        timeStamp: timestamp - firstTimestampOfForce,
-                        forceData: fingerForce.force?.value)
+        if let data = string.data(using: .utf8) {
+            if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
+                
+                let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos) * 1e-9
+                if isFirstFrameOfForce {
+                    self.firstTimestampOfForce = timestamp
+                    self.isFirstFrameOfForce = false
+                }
+                let forceData = ForceData(
+                    timeStamp: timestamp - firstTimestampOfForce,
+                    forceData: fingerForce.force?.value)
+                self.forceDataforShow = forceData
+//                print(forceDataforShow?.forceData ?? [1,2,4])
+//                print(forceDataforShow ?? "No force data")
+                let xForce = forceData.forceData?[0] ?? 0
+                let yForce = forceData.forceData?[1] ?? 0
+                let zForce = forceData.forceData?[2] ?? 0
+                self.totalForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
+                if self.isRecording {
                     //TODO: - 检查是否需要async
                     DispatchQueue.main.async {
-                        if self.isRecording {
-                            self.recordedForceData.append(forceData)
-                        }
+                        self.recordedForceData.append(forceData)
                     }
                 }
             }
+        }
     }
     
-func handleAngleMessage(string: String) {
-    if let data = string.data(using: .utf8) {
-        if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
-            let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos) * 1e-9
-            if isFirstFrameOfAngle {
-                self.firstTimestampOfAngle = timestamp
-                self.isFirstFrameOfAngle = false
-            }
-            
-            let angleData = AngleData(
-                timeStamp: timestamp - firstTimestampOfAngle,
-                angle: fingerAngle.data)
-            DispatchQueue.main.async {
+    func handleAngleMessage(string: String) {
+        if let data = string.data(using: .utf8) {
+            if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
+                let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos) * 1e-9
+                if isFirstFrameOfAngle {
+                    self.firstTimestampOfAngle = timestamp
+                    self.isFirstFrameOfAngle = false
+                }
+                let angleData = AngleData(
+                    timeStamp: timestamp - firstTimestampOfAngle,
+                    angle: fingerAngle.data)
+                self.angleDataforShow = angleData
+                
+                
                 if self.isRecording {
-                    self.recordedAngleData.append(angleData)
+                    DispatchQueue.main.async {
+                        self.recordedAngleData.append(angleData)
+                    }
                 }
             }
         }
     }
 }
-    
+
+extension WebSocketManager {
+    func generateSampleData() {
+        let sampleForces = [
+            ForceData(timeStamp: 0, forceData: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]),
+            ForceData(timeStamp: 1, forceData: [2.0, 3.0, 4.0, 5.0, 6.0, 7.0]),
+            ForceData(timeStamp: 2, forceData: [3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
+        ]
+        recordedForceData = sampleForces
+    }
 }

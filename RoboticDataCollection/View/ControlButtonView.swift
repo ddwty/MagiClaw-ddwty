@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 struct ControlButtonView: View {
     @EnvironmentObject var recordAllDataModel: RecordAllDataModel
     //    @EnvironmentObject var cameraManager: CameraManager
@@ -24,11 +25,29 @@ struct ControlButtonView: View {
     @State private var display = "00:00:00"
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @State private var description = ""
+    @State private var scenario: Scenario = .undefined
+    
+    @FocusState private var isFocused: Bool
     
     var body: some View {
-        VStack {
+        GroupBox {
+            VStack(alignment: .leading) {
+            Text("Control Panal")
+                    .font(.title3)
+                .fontWeight(.bold)
+                Divider()
+            HStack {
+                Text("Select a scenario: ")
+                Picker("Scenario", selection: $scenario) {
+                    ForEach(Scenario.allCases) { scenario in
+                        Text(scenario.rawValue.capitalized).tag(scenario)
+                    }
+                }
+            }
+            
             TextField("Enter description", text: $description)
-                .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .focused($isFocused)
             Button(action: {
                 withAnimation {
                     if isRunningTimer {
@@ -42,11 +61,11 @@ struct ControlButtonView: View {
                         modelContext.insert(newAllData)
                         
                         do {
-                                try modelContext.save()
-                                isSaved = true
-                            } catch {
-                                print("Failed to save AR data: \(error.localizedDescription)")
-                            }
+                            try modelContext.save()
+                            isSaved = true
+                        } catch {
+                            print("Failed to save AR data: \(error.localizedDescription)")
+                        }
                         
                         
                     } else {
@@ -59,6 +78,7 @@ struct ControlButtonView: View {
                     }
                 }
             }) {
+                Spacer()
                 HStack {
                     if isRunningTimer {
                         Image(systemName: "stop.circle.fill")
@@ -83,8 +103,7 @@ struct ControlButtonView: View {
                 .padding()
                 .background((ignorWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
                 .clipShape(Capsule())
-                
-                //                .shadow(color: .green, radius: 5)
+                Spacer()
             }
             
             // 当ignorewebsocket为true时，按钮就可以用
@@ -102,28 +121,28 @@ struct ControlButtonView: View {
                 timer.upstream.connect().cancel()
             }
             
-//            Button(action: {
-////                guard !recordAllDataModel.recordedARData.isEmpty else { return }
-//                // TODO: - 记得改一下这里的Date
-////                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
-////                modelContext.insert(newARData)
-//                // TODO: - check if it's empty, fill the notes, correct the time duration
-//                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
-//                modelContext.insert(newAllData)
-//                
-//                do {
-//                        try modelContext.save()
-//                        isSaved = true
-//                    } catch {
-//                        print("Failed to save AR data: \(error.localizedDescription)")
-//                    }
-//                
-//                
-//            }) {
-//                Text("Save")
-//            }
+            //            Button(action: {
+            ////                guard !recordAllDataModel.recordedARData.isEmpty else { return }
+            //                // TODO: - 记得改一下这里的Date
+            ////                let newARData = ARStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, originalData: recordAllDataModel.recordedARData)
+            ////                modelContext.insert(newARData)
+            //                // TODO: - check if it's empty, fill the notes, correct the time duration
+            //                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: "Default description", forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+            //                modelContext.insert(newAllData)
+            //
+            //                do {
+            //                        try modelContext.save()
+            //                        isSaved = true
+            //                    } catch {
+            //                        print("Failed to save AR data: \(error.localizedDescription)")
+            //                    }
+            //
+            //
+            //            }) {
+            //                Text("Save")
+            //            }
         }
-        
+    }
         .alert(
             "Recording completed.",
             isPresented: $isSaved
@@ -144,7 +163,7 @@ struct ControlButtonView: View {
 #Preview(traits: .landscapeRight) {
     ControlButtonView()
         .environmentObject(RecordAllDataModel())
-        .environmentObject(MotionManager.shared)
+//        .environmentObject(MotionManager.shared)
     //        .environmentObject(CameraManager.shared)
         .environmentObject(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)

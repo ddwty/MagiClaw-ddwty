@@ -185,7 +185,7 @@ struct RecordingDetailView: View {
         isProcessing = true
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let arCSVURL = exportToCSV(data: recording.arData, fileName: "ARData")
+            let arCSVURL = exportToCSV(data: recording.arData, fileName: "PoseData")
             let forceCSVURL = exportToCSV(data: recording.forceData, fileName: "ForceData")
             let angleCSVURL = exportToCSV(data: recording.angleData, fileName: "AngleData")
             

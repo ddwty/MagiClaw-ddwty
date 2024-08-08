@@ -117,6 +117,7 @@ class MotionManager: ObservableObject {
                                     acceleration: data.userAcceleration, rotationMatrix: attitude.rotationMatrix,
                                     quaternion: attitude.quaternion
                                 )
+                print("motion update")
                                 
                                 DispatchQueue.main.async {
                                     self.motionData = newMotionData

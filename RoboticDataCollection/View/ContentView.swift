@@ -11,6 +11,9 @@ struct ContentView: View {
     var body: some View {
         TabView {
             PanelView()
+                .onTapGesture {
+                hideKeyboard()
+            }
             .tabItem {
                 Label("Panel", systemImage: "record.circle" )
             }
@@ -22,21 +25,18 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings",systemImage: "gear")
                 }
-           
-           
-//            MyARView()
-//                .tabItem {
-//                    Label("AR",systemImage: "clock")
-//                }
+            MyARView()
+                .tabItem {
+                    Label("AR",systemImage: "arkit")
+                }
         }
     }
 }
 
-#Preview(traits: .landscapeRight) {
+#Preview() {
     ContentView()
-        .environmentObject(MotionManager.shared)
+//        .environmentObject(MotionManager.shared)
         .environmentObject(RecordAllDataModel())
-//        .environmentObject(CameraManager.shared)
         .environmentObject(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
         .modelContainer(previewContainer)
