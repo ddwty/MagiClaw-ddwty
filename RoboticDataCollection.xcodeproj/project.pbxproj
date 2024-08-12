@@ -35,7 +35,7 @@
 		6093958E2C554A7200E98950 /* RecordAllDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395672C554A7200E98950 /* RecordAllDataModel.swift */; };
 		6093958F2C554A7200E98950 /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395682C554A7200E98950 /* SwiftDataModel.swift */; };
 		609395902C554A7200E98950 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395692C554A7200E98950 /* WebSocketManager.swift */; };
-		609395932C554C2500E98950 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 609395922C554C2500E98950 /* Starscream */; };
+		60C3A7702C651774005AE3D1 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 60C3A76F2C651774005AE3D1 /* Starscream */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				609395932C554C2500E98950 /* Starscream in Frameworks */,
+				60C3A7702C651774005AE3D1 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +200,7 @@
 			);
 			name = RoboticDataCollection;
 			packageProductDependencies = (
-				609395922C554C2500E98950 /* Starscream */,
+				60C3A76F2C651774005AE3D1 /* Starscream */,
 			);
 			productName = RoboticDataCollection;
 			productReference = 6093951F2C55473700E98950 /* RoboticDataCollection.app */;
@@ -513,7 +513,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		609395922C554C2500E98950 /* Starscream */ = {
+		60C3A76F2C651774005AE3D1 /* Starscream */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 609395912C554C2500E98950 /* XCRemoteSwiftPackageReference "Starscream" */;
 			productName = Starscream;

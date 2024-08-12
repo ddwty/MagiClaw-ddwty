@@ -5,6 +5,7 @@
 //  Created by Tianyu on 7/13/24.
 //
 
+
 import SwiftUI
 
 struct ContentView: View {
@@ -24,10 +25,6 @@ struct ContentView: View {
             SettingView()
                 .tabItem {
                     Label("Settings",systemImage: "gear")
-                }
-            MyARView()
-                .tabItem {
-                    Label("AR",systemImage: "arkit")
                 }
         }
     }
