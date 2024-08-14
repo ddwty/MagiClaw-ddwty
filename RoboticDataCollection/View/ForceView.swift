@@ -98,10 +98,6 @@ struct TotalForceView: View {
             .animation(.easeInOut(duration: 0.5), value: webSocketManager.totalForce)
             //                .padding()
         }
-        
-        //        .background(Color(UIColor.systemGray6))
-        //        .cornerRadius(10)
-        //        .padding()
     }
 }
 

@@ -12,30 +12,38 @@ import SwiftData
 struct HistoryView: View {
     //    @Query private var dataRecordings: [ARStorgeData]
     @Query private var allStorgeData: [AllStorgeData]
+    @Environment(\.modelContext) private var modelContext
     //    @State private var navigationPath: [ARStorgeData] = []
     
     var body: some View {
-        NavigationStack() {
-            List(allStorgeData) { recording in
-                NavigationLink(destination: RecordingDetailView(recording: recording)) {
-                    HStack(alignment: .center, spacing: 6) {
-                        VStack(alignment: .leading) {
-                            Text("Created at: \(recording.createTime, formatter: dateFormatter)")
-//                            Spacer()
-                            Text(recording.notes)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+        NavigationStack {
+                    List {
+                        ForEach(allStorgeData) { recording in
+                            NavigationLink(destination: RecordingDetailView(recording: recording)) {
+                                HStack(alignment: .center, spacing: 6) {
+                                    VStack(alignment: .leading) {
+                                        Text("Created at: \(recording.createTime, formatter: dateFormatter)")
+                                        Text(recording.notes)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("Duration: \(recording.timeDuration, specifier: "%.2f") seconds")
+                                        .font(.body)
+                                        .foregroundStyle(.gray)
+                                }
+                            }
                         }
-                       Spacer()
-                        Text("Duration: \(recording.timeDuration, specifier: "%.2f") seconds")
-                            .font(.body)
-                            .foregroundStyle(.gray)
+                        .onDelete(perform: deleteRecordings) // Add this line
                     }
+                    .navigationTitle("History")
                 }
+    }
+    
+    private func deleteRecordings(at indexSet: IndexSet) {
+        for index in indexSet {
+            modelContext.delete(allStorgeData[index])
             }
-            .navigationTitle("History")
-            
-        }
     }
 }
 
@@ -161,8 +169,11 @@ struct RecordingDetailView: View {
                 NavigationLink(destination: ARDataView(arData: recording.arData)) {
                     Text("AR Data")
                 }
-                NavigationLink(destination: RpiDataView(forceData: recording.forceData, angleData: recording.angleData)) {
+                NavigationLink(destination: ForceDataView(forceData: recording.forceData)) {
                     Text("Rpi Data")
+                }
+                NavigationLink(destination: AngleDataView(angleData: recording.angleData)) {
+                    Text("Angle Data")
                 }
                
                 
@@ -257,11 +268,11 @@ struct ARDataView: View {
         List(arData) { data in
             NavigationLink(destination: ARDataDetailView(arData: data)) {
                 VStack(alignment: .leading) {
-                    Text("Timestamp: \(data.timestamp, specifier: "%.2f")")
+                    Text("Timestamp: \(data.timestamp, specifier: "%.3f")")
                         .font(.body)
-                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+//                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
+//                        .font(.caption)
+//                        .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 4)
             }
@@ -302,48 +313,35 @@ struct ARDataDetailView: View {
     }
 }
 
-struct RpiDataView: View {
-    let forceData: [ForceData]
+struct AngleDataView: View {
     let angleData: [AngleData]
-    
     var body: some View {
-            Section(header: Text("Force Data")) {
-                List(forceData) { data in
-                    NavigationLink(destination: ForceDataDetailView(forceData: data)) {
-                        
+        ScrollView {
+            ForEach(angleData) { data in
+                NavigationLink(destination: AngleDataDetailView(angleData: data)) {
+                    VStack(alignment: .leading) {
+                        Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
+                            .font(.body)
                     }
-                    
-                }
-//                List(forceData) { data in
-//                    NavigationLink(destination: ForceDataDetailView(forceData: data)) {
-//                        VStack(alignment: .leading) {
-//                            Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
-//                                .font(.body)
-//                            Text("Force: \(data.force)")
-//                                .font(.caption)
-//                                .foregroundColor(.secondary)
-//                        }
-//                        .padding(.vertical, 4)
-//                    }
-//                }
-            }
-            
-            Section(header: Text("Angle Data")) {
-                ForEach(angleData) { data in
-                    NavigationLink(destination: AngleDataDetailView(angleData: data)) {
-                        VStack(alignment: .leading) {
-                            Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
-                                .font(.body)
-                            Text("Angle: \(data.angle)")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 4)
-                    }
+                    .padding(.vertical, 4)
                 }
             }
-        
-        .navigationTitle("Rpi Data")
+        }
+        .navigationTitle("Angle Data")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct ForceDataView: View {
+    let forceData: [ForceData]
+    var body: some View {
+        List(forceData) { data in
+            NavigationLink(destination: ForceDataDetailView(forceData: data)) {
+                Text("Timestamp: \(data.timeStamp, specifier: "%.3f")")
+                
+            }
+        }
+        .navigationTitle("Force Data")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

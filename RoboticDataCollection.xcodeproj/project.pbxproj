@@ -10,6 +10,8 @@
 		3D117EEB2C63E02D006A7871 /* ScenarioCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D117EEA2C63E02D006A7871 /* ScenarioCase.swift */; };
 		3D117EED2C63E6B8006A7871 /* AngleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D117EEC2C63E6B8006A7871 /* AngleView.swift */; };
 		3D625B6A2C622CEF00180FCB /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D625B692C622CEF00180FCB /* extension.swift */; };
+		607B2DB22C6C55B00010D914 /* DescriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607B2DB12C6C55B00010D914 /* DescriptionModel.swift */; };
+		607B2DEA2C6C6A1F0010D914 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607B2DE92C6C6A1F0010D914 /* test.swift */; };
 		609395232C55473700E98950 /* RoboticDataCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* RoboticDataCollectionApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
 		6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395292C55473A00E98950 /* Preview Assets.xcassets */; };
@@ -43,6 +45,8 @@
 		3D117EEC2C63E6B8006A7871 /* AngleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleView.swift; sourceTree = "<group>"; };
 		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3D625B692C622CEF00180FCB /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		607B2DB12C6C55B00010D914 /* DescriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionModel.swift; sourceTree = "<group>"; };
+		607B2DE92C6C6A1F0010D914 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* RoboticDataCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoboticDataCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* RoboticDataCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoboticDataCollectionApp.swift; sourceTree = "<group>"; };
 		609395262C55473A00E98950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				6093954E2C554A7200E98950 /* ARView.swift */,
 				609395512C554A7200E98950 /* ContentView.swift */,
 				609395522C554A7200E98950 /* ControlButtonView.swift */,
+				607B2DE92C6C6A1F0010D914 /* test.swift */,
 				609395542C554A7200E98950 /* ForceView.swift */,
 				609395552C554A7200E98950 /* HistoryView.swift */,
 				609395562C554A7200E98950 /* PanelView.swift */,
@@ -174,6 +179,7 @@
 				609395632C554A7200E98950 /* ARRecorder.swift */,
 				609395642C554A7200E98950 /* CameraManager.swift */,
 				609395652C554A7200E98950 /* DataModel.swift */,
+				607B2DB12C6C55B00010D914 /* DescriptionModel.swift */,
 				609395662C554A7200E98950 /* MotionDataModel.swift */,
 				609395672C554A7200E98950 /* RecordAllDataModel.swift */,
 				3D117EEA2C63E02D006A7871 /* ScenarioCase.swift */,
@@ -269,8 +275,10 @@
 				6093957F2C554A7200E98950 /* HistoryView.swift in Sources */,
 				609395832C554A7200E98950 /* StopWach.swift in Sources */,
 				609395232C55473700E98950 /* RoboticDataCollectionApp.swift in Sources */,
+				607B2DB22C6C55B00010D914 /* DescriptionModel.swift in Sources */,
 				6093958D2C554A7200E98950 /* MotionDataModel.swift in Sources */,
 				6093958B2C554A7200E98950 /* CameraManager.swift in Sources */,
+				607B2DEA2C6C6A1F0010D914 /* test.swift in Sources */,
 				609395782C554A7200E98950 /* ARView.swift in Sources */,
 				3D117EEB2C63E02D006A7871 /* ScenarioCase.swift in Sources */,
 				6093957D2C554A7200E98950 /* ExportView.swift in Sources */,
@@ -431,6 +439,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -438,6 +447,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wty2358.RoboticDataCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -465,6 +478,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -472,6 +486,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wty2358.RoboticDataCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
