@@ -13,24 +13,15 @@ struct MyARView: View {
     @State private var cameraTransform = simd_float4x4()
     @State private var isRecording = false
     @State private var isProcessing = false
-    
-    //    private var recorder = ARRecorder.shared
     @EnvironmentObject var recorder: ARRecorder
     @State private var currentOrientation = UIDevice.current.orientation
     
+    
     var body: some View {
-        VStack {
-            ARViewContainer(cameraTransform: $cameraTransform, recorder: recorder)
-//                .onAppear {
-//                    print("on appear")
-//                    ARViewContainer.resumeARSession()
-//                }
-//                .onDisappear {
-//                    print("disappear")
-//                    ARViewContainer.pauseARSession()
-//                }
-            
+        GeometryReader { geo in
+            ARViewContainer(frameSize: CGSize(width: geo.size.width, height: geo.size.width * 4 / 3), cameraTransform: $cameraTransform, recorder: recorder)
         }
+        
     }
 }
 
@@ -43,73 +34,93 @@ struct MyARView: View {
 //#endif
 
 
-struct ARViewContainer: UIViewRepresentable {
+struct ARViewContainer: UIViewControllerRepresentable {
+    var frameSize: CGSize
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
-    static private weak var arView: ARView?
-    var isSessionRunning = false
     
-    func makeUIView(context: Context) -> ARView {
-        print("make AR UI View")
-        let arView = ARView(frame: .zero)
-        arView.setupARView()
-        
-        arView.session.delegate = context.coordinator
-        ARViewContainer.arView = arView
-        //        arView.environment.background = .color(.black)
-        return arView
+    func makeUIViewController(context: Context) -> ARViewController {
+        let arViewController = ARViewController(frameSize: frameSize)
+        arViewController.recorder = recorder
+        return arViewController
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {
+    func updateUIViewController(_ uiViewController: ARViewController, context: Context) {
+      
+        uiViewController.updateARViewFrame(frameSize: frameSize)
     }
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self, recorder: recorder)
-    }
-    
-    class Coordinator: NSObject, ARSessionDelegate {
+    class Coordinator: NSObject {
         var parent: ARViewContainer
         var recorder: ARRecorder
         
-        init(_ parent: ARViewContainer, recorder: ARRecorder) {
+        init(parent: ARViewContainer, recorder: ARRecorder) {
             self.parent = parent
             self.recorder = recorder
         }
-        deinit {
-            ARViewContainer.pauseARSession()
-            print("Coordinator is being deinitialized and ARSession paused")
-        }
-        
-        func session(_ session: ARSession, didUpdate frame: ARFrame) {
-            DispatchQueue.main.async {
-                self.parent.cameraTransform = frame.camera.transform
-                //                print("Camera transform: \(self.parent.cameraTransform.description)")
-                let intrinsics = frame.camera.intrinsics
-                //                print("Camera intrinsics: \(intrinsics)")
-            }
-            recorder.recordFrame(frame)
-        }
-        
     }
-//    static func pauseARSession() {
-//        arView?.session.pause()
-//        isSessionRunning = false
-//        print("AR session paused")
-//    }
-//    static func resumeARSession() {
-//        guard let arView = arView else { return }
-//        if !isSessionRunning {
-//            arView.runARSession()
-//            isSessionRunning = true
-//            print("AR session resumed")
-//        }
-//        
-//    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self, recorder: recorder)
+    }
+}
+
+class ARViewController: UIViewController, ARSessionDelegate {
+    var arView: ARView!
+    var frameSize: CGSize
+    var recorder: ARRecorder!
+    
+    init(frameSize: CGSize) {
+            self.frameSize = frameSize
+            super.init(nibName: nil, bundle: nil)
+        }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        arView = ARView(frame: CGRect(origin: .zero, size: frameSize))
+        self.view.addSubview(arView)
+        arView.setupARView()
+        arView.session.delegate = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+           super.viewDidLayoutSubviews()
+           // Update ARView frame when layout changes
+           arView.frame = CGRect(origin: .zero, size: frameSize)
+       }
+    
+    func updateARViewFrame(frameSize: CGSize) {
+           // Update the frame size when passed from SwiftUI
+           self.frameSize = frameSize
+           arView.frame = CGRect(origin: .zero, size: frameSize)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        arView.runARSession()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        arView.session.pause()
+    }
+    
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        // Update camera transform and other data
+        DispatchQueue.main.async {
+            // Update camera transform if needed
+        }
+        recorder.recordFrame(frame)
+    }
 }
 
 extension ARView {
     func setupARView() {
-        runARSession()
+//        runARSession()
         debugOptions = [.showWorldOrigin]
     }
     

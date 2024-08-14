@@ -19,3 +19,11 @@ extension View {
         )
     }
 }
+struct historyAlignmentID: AlignmentID {
+    static func defaultValue(in dim: ViewDimensions) -> CGFloat {
+        dim[VerticalAlignment.center]
+    }
+}
+extension VerticalAlignment {
+    static let historyAlignment = VerticalAlignment(historyAlignmentID.self)
+}

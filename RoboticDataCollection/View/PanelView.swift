@@ -23,6 +23,8 @@ struct PanelView: View {
                             .id("ar")
                             .cornerRadius(10)
                             .aspectRatio(3/4, contentMode: .fit)
+//                            .frame(width: 150, height: 200)
+                            
                             .padding(.top, 15)
                             .offset(y: showBigAr ? -130 : 0)
                         GroupBox {

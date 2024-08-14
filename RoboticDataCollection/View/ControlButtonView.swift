@@ -58,6 +58,7 @@ struct ControlButtonView: View {
                     TextField("Enter description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
+                        
                         .onChange(of: description) {oldValue, newValue in
                             descriptionModel.description = newValue
                         }
@@ -69,9 +70,9 @@ struct ControlButtonView: View {
                                 self.isRunningTimer = false
                                 self.isWaitingtoSave = true
                                 
-                                
-                                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
-                                modelContext.insert(newAllData)
+                                // MARK: - Save All Data to SwiftData Here
+                                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, scenario: .unspecified, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                                    modelContext.insert(newAllData)
                                 
                                 do {
                                     try modelContext.save()
@@ -212,7 +213,7 @@ struct ControlButtonView: View {
                                             self.isWaitingtoSave = true
                                             
                                             
-                                            let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                                            let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, scenario: .unspecified, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
                                             modelContext.insert(newAllData)
                                             
                                             do {
@@ -221,7 +222,7 @@ struct ControlButtonView: View {
                                             } catch {
                                                 print("Failed to save AR data: \(error.localizedDescription)")
                                             }
-                                            
+//                                            
                                             
                                         } else {
                                             recordAllDataModel.startRecordingData()

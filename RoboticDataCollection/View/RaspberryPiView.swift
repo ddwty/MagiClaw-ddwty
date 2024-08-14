@@ -35,9 +35,9 @@ struct RaspberryPiView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30, height: 30)
                         }
-                        Button("Re") {
-                            ARViewContainer.resumeARSession()
-                        }
+//                        Button("Re") {
+//                            ARViewContainer.resumeARSession()
+//                        }
                     }
                 }
 //                Label(webSocketManager.isConnected ? "Connected" : "Disconnected", systemImage: webSocketManager.isConnected ? "checkmark.circle" : "xmark.circle")

@@ -18,6 +18,7 @@ class RecordAllDataModel: ObservableObject {
     private let webSocketManager = WebSocketManager.shared
     
     //    private let arRecorder = ARRecorder.shared
+    // 用于为文件夹命名场景
     private var scenarioName = SelectedScenario.shared.selectedScenario
     
     

@@ -17,33 +17,64 @@ struct HistoryView: View {
     
     var body: some View {
         NavigationStack {
-                    List {
-                        ForEach(allStorgeData) { recording in
-                            NavigationLink(destination: RecordingDetailView(recording: recording)) {
-                                HStack(alignment: .center, spacing: 6) {
-                                    VStack(alignment: .leading) {
-                                        Text("Created at: \(recording.createTime, formatter: dateFormatter)")
-                                        Text(recording.notes)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
+            List {
+                // 创建时间倒序
+                ForEach(allStorgeData.sorted(by: { $0.createTime > $1.createTime })) { recording in
+                    NavigationLink(destination: RecordingDetailView(recording: recording)) {
+                        HStack(alignment: .historyAlignment) {
+                            VStack(alignment: .leading) {
+                                Text(recording.scenario.rawValue)
+                                    .font(.caption)
+                                    .foregroundColor(recording.scenario.color)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 3)
+                                    .background(
+                                        Capsule()
+                                            .strokeBorder(recording.scenario.color, lineWidth: 1) 
+                                    )
+                                    .offset(y: 2)
+                                    
+                                Text("\(recording.createTime, formatter: dateFormatter)")
+                                    .foregroundColor(.primary)
+                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                        dim[VerticalAlignment.center]
+                                        
                                     }
-                                    Spacer()
-                                    Text("Duration: \(recording.timeDuration, specifier: "%.2f") seconds")
-                                        .font(.body)
-                                        .foregroundStyle(.gray)
-                                }
+                                    
+                                Text(recording.notes.isEmpty ? "No description" : recording.notes)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .offset(y: 2)
+                                
                             }
+                            Spacer()
+                            VStack {
+                                Spacer()
+                                Text("\(recording.timeDuration, specifier: "%.1f") seconds")
+                                    .font(.body)
+                                    .foregroundStyle(.gray)
+                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                        dim[VerticalAlignment.center]
+                                        
+                                }
+                                Spacer()
+                            }
+                              
                         }
-                        .onDelete(perform: deleteRecordings) // Add this line
+
+                     
                     }
-                    .navigationTitle("History")
                 }
+                .onDelete(perform: deleteRecordings)
+            }
+            .navigationTitle("History")
+        }
     }
     
     private func deleteRecordings(at indexSet: IndexSet) {
         for index in indexSet {
             modelContext.delete(allStorgeData[index])
-            }
+        }
     }
 }
 
@@ -105,7 +136,7 @@ struct RecordingDetailView: View {
                         }) {
                             HStack {
                                 Spacer()
-                                Label("Generate CSV file", systemImage: "square.and.arrow.up")
+                                Label("Generate CSV file", systemImage: "arrow.up.doc")
                                 Spacer()
                             }
                         }
@@ -114,21 +145,11 @@ struct RecordingDetailView: View {
                             HStack {
                                 Spacer()
                                 Label("Ready to share", systemImage: "square.and.arrow.up")
+                                    .foregroundColor(.green)
                                 Spacer()
                             }
                         }
                     }
-                    
-                    Button(action: {
-                        // Add delete functionality if needed
-                    }) {
-                        HStack {
-                            Spacer()
-                            Label("Delete", systemImage: "trash")
-                            Spacer()
-                        }
-                    }
-                    .foregroundColor(.red)
                 }
                 Section {
                     VStack(alignment: .leading, spacing: 16) {
@@ -136,7 +157,7 @@ struct RecordingDetailView: View {
                             Text("Duration:")
                                 .font(.headline)
                             Spacer()
-                            Text("\(recording.timeDuration, specifier: "%.2f") seconds")
+                            Text("\(recording.timeDuration, specifier: "%.3f") seconds")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                         }
@@ -167,15 +188,32 @@ struct RecordingDetailView: View {
                     
                 }
                 NavigationLink(destination: ARDataView(arData: recording.arData)) {
-                    Text("AR Data")
+                    HStack(alignment: .center) {
+                        Text("Pose Data")
+                        Spacer()
+                        Text("\(recording.unsortedARData.count)")
+                            .foregroundStyle(.gray)
+                    }
                 }
                 NavigationLink(destination: ForceDataView(forceData: recording.forceData)) {
-                    Text("Rpi Data")
+                    HStack(alignment: .center) {
+                        Text("Force Data")
+                        Spacer()
+                        Text("\(recording.unsortedForceData.count)")
+                            .foregroundStyle(.gray)
+                        
+                    }
                 }
                 NavigationLink(destination: AngleDataView(angleData: recording.angleData)) {
-                    Text("Angle Data")
+                    HStack(alignment: .center) {
+                        Text("Angle Data")
+                        Spacer()
+                        Text("\(recording.unsortedAngleData.count)")
+                            .foregroundStyle(.gray)
+                        
+                    }
                 }
-               
+                
                 
             }
             .navigationTitle("Recording Details")
@@ -270,9 +308,9 @@ struct ARDataView: View {
                 VStack(alignment: .leading) {
                     Text("Timestamp: \(data.timestamp, specifier: "%.3f")")
                         .font(.body)
-//                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
-//                        .font(.caption)
-//                        .foregroundColor(.secondary)
+                    //                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
+                    //                        .font(.caption)
+                    //                        .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 4)
             }
@@ -280,7 +318,7 @@ struct ARDataView: View {
         .navigationTitle("AR Data")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
 }
 
 struct ARDataDetailView: View {
@@ -295,16 +333,15 @@ struct ARDataDetailView: View {
                 .font(.headline)
             
             VStack(alignment: .leading, spacing: 4) {
-                ForEach(0..<4) { row in
+                ForEach(0..<4) { col in
                     HStack {
-                        ForEach(0..<4) { col in
+                        ForEach(0..<4) { row in
                             Text(String(format: "%.3f", arData.transform[row * 4 + col]))
                                 .frame(width: 70, alignment: .leading)
                         }
                     }
                 }
             }
-            
             Spacer()
         }
         .padding()
@@ -316,17 +353,13 @@ struct ARDataDetailView: View {
 struct AngleDataView: View {
     let angleData: [AngleData]
     var body: some View {
-        ScrollView {
-            ForEach(angleData) { data in
-                NavigationLink(destination: AngleDataDetailView(angleData: data)) {
-                    VStack(alignment: .leading) {
-                        Text("Timestamp: \(data.timeStamp, specifier: "%.2f")")
-                            .font(.body)
-                    }
-                    .padding(.vertical, 4)
-                }
+        List(angleData) { data in
+            NavigationLink(destination: AngleDataDetailView(angleData: data)) {
+                Text("Timestamp: \(data.timeStamp, specifier: "%.3f")")
+                    .font(.body)
             }
         }
+        
         .navigationTitle("Angle Data")
         .navigationBarTitleDisplayMode(.inline)
     }

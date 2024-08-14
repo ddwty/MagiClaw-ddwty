@@ -9,46 +9,46 @@ import SwiftUI
 import Charts
 import SceneKit
 
-struct ForceView: View {
-    @EnvironmentObject var webSocketManager: WebSocketManager
-    var body: some View {
-        ForceBarChartView()
-            .environmentObject(webSocketManager)
-    }
-}
+//struct ForceView: View {
+//    @EnvironmentObject var webSocketManager: WebSocketManager
+//    var body: some View {
+//        ForceBarChartView()
+//            .environmentObject(webSocketManager)
+//    }
+//}
 
 #Preview() {
     TotalForceView()
         .environmentObject(WebSocketManager.shared)
 }
 
-struct ForceBarChartView: View {
-    @EnvironmentObject var webSocketManager: WebSocketManager
-    
-    var body: some View {
-        VStack {
-            let latestForceData = webSocketManager.forceDataforShow?.forceData ?? [0, 0, 0]
-            
-            Chart {
-                ForEach(0..<3, id: \.self) { index in
-                    let forceValue = latestForceData[index]
-                    BarMark(
-                        x: .value("Direction", index),
-                        y: .value("Force", forceValue)
-                    )
-                    .foregroundStyle(by: .value("Direction", index))
-                    
-                }
-            }
-            //            .chartXAxisLabel("Direction")
-            .chartYAxisLabel("Force Value")
-            .frame(width: 300, height: 300)
-            .padding()
-            .animation(.easeInOut(duration: 0.1), value: latestForceData)
-            
-        }
-    }
-}
+//struct ForceBarChartView: View {
+//    @EnvironmentObject var webSocketManager: WebSocketManager
+//    
+//    var body: some View {
+//        VStack {
+//            let latestForceData = webSocketManager.forceDataforShow?.forceData ?? [0, 0, 0]
+//            
+//            Chart {
+//                ForEach(0..<3, id: \.self) { index in
+//                    let forceValue = latestForceData[index]
+//                    BarMark(
+//                        x: .value("Direction", index),
+//                        y: .value("Force", forceValue)
+//                    )
+//                    .foregroundStyle(by: .value("Direction", index))
+//                    
+//                }
+//            }
+//            //            .chartXAxisLabel("Direction")
+//            .chartYAxisLabel("Force Value")
+////            .frame(width: 300, height: 300)
+//            .padding()
+//            .animation(.easeInOut(duration: 0.1), value: latestForceData)
+//            
+//        }
+//    }
+//}
 
 struct TotalForceView: View {
     @EnvironmentObject var webSocketManager: WebSocketManager
@@ -75,25 +75,31 @@ struct TotalForceView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .chartYAxis(Visibility.hidden)
-                .chartXScale(domain: 0...100)
+                .chartXScale(domain: 0...10)
                 .chartXAxis {
-                    AxisMarks() { _ in
+                    AxisMarks(values: Array(stride(from: 0, through: 10, by: 2))) { _ in
                         AxisGridLine()
                             .foregroundStyle(Color.gray)
-                        AxisTick(
-                        )
-                        .foregroundStyle(Color.gray)
+                        
+                        AxisTick()
+                            .foregroundStyle(Color.gray)
+                        
                         AxisValueLabel()
                             .foregroundStyle(Color.primary)
+                            .font(.caption) // 可以调整字体大小
+                             
                         
                     }
                     AxisMarks(
-                        values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+//                        values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+                     
+                        values: Array(stride(from: 0, through: 10, by: 1))
                     ) {
                         AxisGridLine()
                     }
                 }
                 .frame(height: 30)
+                .padding(.trailing, 50)
             }
             .animation(.easeInOut(duration: 0.5), value: webSocketManager.totalForce)
             //                .padding()

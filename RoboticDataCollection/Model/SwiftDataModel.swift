@@ -35,6 +35,8 @@ class AllStorgeData {
     var createTime: Date
     var timeDuration: TimeInterval
     var notes: String
+    var scenario: Scenario
+   
     var unsortedForceData: [ForceData]
     var unsortedAngleData: [AngleData]
     var unsortedARData: [ARData]
@@ -49,10 +51,19 @@ class AllStorgeData {
         return unsortedARData.sorted { $0.timestamp < $1.timestamp }
     }
     
-    init(createTime: Date, timeDuration: TimeInterval, notes: String, forceData unsortedForceData: [ForceData], angleData unsortedAngleData: [AngleData], aRData unsortedARData: [ARData]) {
+    init(createTime: Date, 
+         timeDuration: TimeInterval,
+         notes: String,
+         scenario: Scenario,
+         forceData unsortedForceData: [ForceData],
+         angleData unsortedAngleData: [AngleData],
+         aRData unsortedARData: [ARData]
+    ){
         self.createTime = createTime
         self.timeDuration = timeDuration
         self.notes = notes
+//        self.scenarioString = scenario.rawValue
+        self.scenario = scenario
         self.unsortedForceData = unsortedForceData
         self.unsortedAngleData = unsortedAngleData
         self.unsortedARData = unsortedARData
