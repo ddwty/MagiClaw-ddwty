@@ -14,12 +14,15 @@ struct MyARView: View {
     @State private var isRecording = false
     @State private var isProcessing = false
     @EnvironmentObject var recorder: ARRecorder
-    @State private var currentOrientation = UIDevice.current.orientation
-    
-    
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    @State private var frameRate: Double = 0
     var body: some View {
-        GeometryReader { geo in
-            ARViewContainer(frameSize: CGSize(width: geo.size.width, height: geo.size.width * 4 / 3), cameraTransform: $cameraTransform, recorder: recorder)
+        VStack {
+            GeometryReader { geo in
+                ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
+//                Text("Frame Rate: \n\(String(format: "%.2f", frameRate)) FPS")
+                               .padding()
+            }
         }
         
     }
@@ -38,11 +41,13 @@ struct ARViewContainer: UIViewControllerRepresentable {
     var frameSize: CGSize
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
+    @Binding var frameRate: Double
     
     func makeUIViewController(context: Context) -> ARViewController {
         let arViewController = ARViewController(frameSize: frameSize)
-        arViewController.recorder = recorder
-        return arViewController
+                arViewController.recorder = recorder
+                arViewController.updateFrameRateBinding($frameRate)
+                return arViewController
     }
     
     func updateUIViewController(_ uiViewController: ARViewController, context: Context) {
@@ -70,6 +75,10 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var frameSize: CGSize
     var recorder: ARRecorder!
     
+    private var lastUpdateTime: CFTimeInterval = 0
+        private var displayLink: CADisplayLink?
+        private var frameRateBinding: Binding<Double>?
+    
     init(frameSize: CGSize) {
             self.frameSize = frameSize
             super.init(nibName: nil, bundle: nil)
@@ -85,7 +94,24 @@ class ARViewController: UIViewController, ARSessionDelegate {
         self.view.addSubview(arView)
         arView.setupARView()
         arView.session.delegate = self
+        
+        // Setup CADisplayLink to track frame rate
+                displayLink = CADisplayLink(target: self, selector: #selector(updateFrameRate))
+                displayLink?.add(to: .main, forMode: .default)
     }
+    
+    func updateFrameRateBinding(_ binding: Binding<Double>) {
+            self.frameRateBinding = binding
+        }
+        
+        @objc private func updateFrameRate() {
+            let now = CACurrentMediaTime()
+            let delta = now - lastUpdateTime
+            if delta > 0 {
+                frameRateBinding?.wrappedValue = 1.0 / delta
+            }
+            lastUpdateTime = now
+        }
     
     override func viewDidLayoutSubviews() {
            super.viewDidLayoutSubviews()
@@ -121,7 +147,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
 extension ARView {
     func setupARView() {
 //        runARSession()
-        debugOptions = [.showWorldOrigin]
+//        debugOptions = [.showWorldOrigin]
     }
     
     func runARSession() {

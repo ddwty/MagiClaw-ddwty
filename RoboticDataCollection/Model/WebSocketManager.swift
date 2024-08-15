@@ -80,7 +80,7 @@ class WebSocketManager: ObservableObject {
     }
     
     private var throttleTimer: Timer?
-    private let throttleInterval: TimeInterval = 0.1 // 更新UI时间
+    private let throttleInterval: TimeInterval = 1 // 更新UI时间
 
     
     
@@ -117,7 +117,8 @@ class WebSocketManager: ObservableObject {
         leftFingerSocket = WebSocket(request: leftFingerRequest)
         leftFingerSocket?.connect()
         leftFingerRequest.timeoutInterval = 50
-        leftFingerSocket?.onEvent = { event in
+        leftFingerSocket?.onEvent = {[weak self] event in
+            guard let self = self else { return }
             switch event {
             case .connected(let headers):
                 self.isLeftFingerConnected = true
@@ -165,7 +166,8 @@ class WebSocketManager: ObservableObject {
         angelSocket = WebSocket(request: angelRequest)
         angelSocket?.connect()
         angelRequest.timeoutInterval = 5000
-        angelSocket?.onEvent = { event in
+        angelSocket?.onEvent = { [weak self]  event in
+            guard let self = self else { return }
             switch event {
             case .connected(let headers):
                 self.isAngelConnected = true
@@ -225,7 +227,7 @@ class WebSocketManager: ObservableObject {
         print("Attempting to reconnect...)")
         
         // 延迟重连
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.reConnectToServer() // 重连到服务器
         }
     }
@@ -253,14 +255,14 @@ extension WebSocketManager {
                 let yForce = forceData.forceData?[1] ?? 0
                 let zForce = forceData.forceData?[2] ?? 0
                 self.totalForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
-//                print("\(totalForce)")
+                print("\(totalForce)")
                 if self.isRecording {
                     //TODO: - 检查是否需要async
-                    DispatchQueue.main.async {
                         self.recordedForceData.append(forceData)
-                    }
+                    
+                    
                 }
-                throttleUpdate() // 调用节流函数
+//                throttleUpdate() // 调用节流函数
             }
         }
     }
@@ -279,11 +281,10 @@ extension WebSocketManager {
                 self.angleDataforShow = angleData
 
                 if self.isRecording {
-                    DispatchQueue.main.async {
                         self.recordedAngleData.append(angleData)
-                    }
+                    
                 }
-                throttleUpdate() // 调用节流函数
+//                throttleUpdate() // 调用节流函数
             }
         }
     }
@@ -302,20 +303,20 @@ extension WebSocketManager {
 
 extension WebSocketManager {
   
-    private func throttleUpdate() {
-        throttleTimer?.invalidate() // 取消之前的定时器
-        throttleTimer = Timer.scheduledTimer(withTimeInterval: throttleInterval, repeats: false) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.updateUI()
-            }
-        }
-    }
+//    private func throttleUpdate() {
+//        throttleTimer?.invalidate() // 取消之前的定时器
+//        throttleTimer = Timer.scheduledTimer(withTimeInterval: throttleInterval, repeats: false) { [weak self] _ in
+//            DispatchQueue.main.async {
+//                self?.updateUI()
+//            }
+//        }
+//    }
 
-    private func updateUI() {
-//        self.forceDataforShow = self.recordedForceData.last
-        self.totalForce = self.totalForce
-        self.angleDataforShow = self.angleDataforShow
-    }
+//    private func updateUI() {
+////        self.forceDataforShow = self.recordedForceData.last
+//        self.totalForce = self.totalForce
+//        self.angleDataforShow = self.angleDataforShow
+//    }
 
     
 }

@@ -58,83 +58,84 @@ struct ControlButtonView: View {
                     TextField("Enter description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
-                        
+                    
                         .onChange(of: description) {oldValue, newValue in
                             descriptionModel.description = newValue
                         }
-                    Button(action: {
-                        withAnimation {
-                            if isRunningTimer {
-                                recordAllDataModel.stopRecordingData()
-                                timer.upstream.connect().cancel()
-                                self.isRunningTimer = false
-                                self.isWaitingtoSave = true
-                                
-                                // MARK: - Save All Data to SwiftData Here
-                                let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, scenario: self.scenario, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation {
+                                if isRunningTimer {
+                                    recordAllDataModel.stopRecordingData()
+                                    timer.upstream.connect().cancel()
+                                    self.isRunningTimer = false
+                                    self.isWaitingtoSave = true
+                                    
+                                    // MARK: - Save All Data to SwiftData Here
+                                    let newAllData = AllStorgeData(createTime: Date(), timeDuration: recordAllDataModel.recordingDuration, notes: self.description, scenario: self.scenario, forceData: recordAllDataModel.recordedForceData, angleData: recordAllDataModel.recordedAngleData, aRData: recordAllDataModel.recordedARData)
                                     modelContext.insert(newAllData)
-                                
-                                do {
-                                    try modelContext.save()
-                                    isSaved = true
-                                } catch {
-                                    print("Failed to save AR data: \(error.localizedDescription)")
+                                    
+                                    do {
+                                        try modelContext.save()
+                                        isSaved = true
+                                    } catch {
+                                        print("Failed to save AR data: \(error.localizedDescription)")
+                                    }
+                                    
+                                    
+                                } else {
+                                    recordAllDataModel.startRecordingData()
+                                    display = "00:00:00"
+                                    startTime = Date()
+                                    timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+                                    self.isRunningTimer = true
+                                    self.isWaitingtoSave = false
                                 }
-                                
-                                
-                            } else {
-                                recordAllDataModel.startRecordingData()
-                                display = "00:00:00"
-                                startTime = Date()
-                                timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-                                self.isRunningTimer = true
-                                self.isWaitingtoSave = false
                             }
+                        }) {
+                            HStack {
+                                if isRunningTimer {
+                                    Image(systemName: "stop.circle.fill")
+                                        .resizable()
+                                        .frame(width: 30, height: 30)
+                                    //                            .symbolVariant(.fill.circle)
+                                        .foregroundColor(.white)
+                                        .symbolEffect(.pulse.wholeSymbol)
+                                    
+                                    Text(display)
+                                        .font(.system(.headline, design: .monospaced))
+                                        .foregroundColor(.white)
+                                    //                            .frame(width: 80, alignment: .leading)
+                                } else {
+                                    Text("Start Recording")
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            //                .frame(width: 180, height: 30)
+                            .frame(height: 25)
+                            .padding()
+                            .background((ignorWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
+                            .clipShape(Capsule())
                         }
-                    }) {
-                        Spacer()
-                        HStack {
+                        
+                        // 当ignorewebsocket为true时，按钮就可以用
+                        .disabled(!(ignorWebsocket || webSocketManager.isConnected))
+                        .onReceive(timer) { _ in
                             if isRunningTimer {
-                                Image(systemName: "stop.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                //                            .symbolVariant(.fill.circle)
-                                    .foregroundColor(.white)
-                                    .symbolEffect(.pulse.wholeSymbol)
-                                
-                                Text(display)
-                                    .font(.system(.headline, design: .monospaced))
-                                    .foregroundColor(.white)
-                                //                            .frame(width: 80, alignment: .leading)
-                            } else {
-                                Text("Start Recording")
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.white)
+                                let duration = Date().timeIntervalSince(startTime)
+                                let minutes = Int(duration) / 60
+                                let seconds = Int(duration) % 60
+                                let milliseconds = Int((duration - Double(minutes * 60 + seconds)) * 100) % 100
+                                display = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
                             }
                         }
-                        //                .frame(width: 180, height: 30)
-                        .frame(height: 25)
-                        .padding()
-                        .background((ignorWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
-                        .clipShape(Capsule())
+                        .onAppear {
+                            timer.upstream.connect().cancel()
+                        }
                         Spacer()
                     }
-                    
-                    // 当ignorewebsocket为true时，按钮就可以用
-                    .disabled(!(ignorWebsocket || webSocketManager.isConnected))
-                    .onReceive(timer) { _ in
-                        if isRunningTimer {
-                            let duration = Date().timeIntervalSince(startTime)
-                            let minutes = Int(duration) / 60
-                            let seconds = Int(duration) % 60
-                            let milliseconds = Int((duration - Double(minutes * 60 + seconds)) * 100) % 100
-                            display = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
-                        }
-                    }
-                    .onAppear {
-                        timer.upstream.connect().cancel()
-                    }
-                    
                     //            Button(action: {
                     ////                guard !recordAllDataModel.recordedARData.isEmpty else { return }
                     //                // TODO: - 记得改一下这里的Date
@@ -194,7 +195,11 @@ struct ControlButtonView: View {
                                         .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
                                     Picker("Scenario", selection: $scenario) {
                                         ForEach(Scenario.allCases) { scenario in
-                                            Text(scenario.rawValue.capitalized).tag(scenario)
+                                            Text(scenario.rawValue.capitalized)
+                                                        .lineLimit(1)
+                                                        .truncationMode(.tail)
+                                                        .tag(scenario)
+                                                
                                         }
                                     }
                                     .pickerStyle(MenuPickerStyle())
@@ -222,7 +227,7 @@ struct ControlButtonView: View {
                                             } catch {
                                                 print("Failed to save AR data: \(error.localizedDescription)")
                                             }
-//                                            
+                                            //
                                             
                                         } else {
                                             recordAllDataModel.startRecordingData()

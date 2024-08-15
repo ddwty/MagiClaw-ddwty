@@ -19,13 +19,12 @@ struct PanelView: View {
             Group {
                 if verticalSizeClass == .regular {
                     VStack {
+                        
                         MyARView()
                             .id("ar")
-                            .cornerRadius(10)
+                            .cornerRadius(8)
                             .aspectRatio(3/4, contentMode: .fit)
-//                            .frame(width: 150, height: 200)
-                            
-                            .padding(.top, 15)
+                            .padding(.top, 10)
                             .offset(y: showBigAr ? -130 : 0)
                         GroupBox {
                             VStack(alignment: .leading) {
@@ -45,14 +44,14 @@ struct PanelView: View {
                         }
                         .padding(.horizontal)
                         ControlButtonView()
-                            .padding(.horizontal)
-                        //                                .fixedSize()
+                        .padding(.horizontal)
                         
                     }
                 } else {
                     VStack {
                         GroupBox {
                             VStack {
+                                Spacer()
                                 HStack {
                                     Spacer()
                                     Text("Status:")
@@ -69,28 +68,31 @@ struct PanelView: View {
                                     AngleView()
                                     Spacer()
                                 }
+                                Spacer()
                             }
                         }
                         .padding()
-                        .frame(maxWidth: geometry.size.width,maxHeight: geometry.size.height * 0.4)
+                        .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height * 0.4)
                         HStack {
                             VStack {
                                 Spacer()
                                 MyARView()
                                     .id("ar")
-                                    .cornerRadius(15)
-                                    .frame(maxWidth: .infinity)
+                                    .cornerRadius(8)
+                                    .frame(maxWidth: geometry.size.height * 2 / 3, maxHeight: geometry.size.height * 0.5)
                                     .aspectRatio(4/3, contentMode: .fit)
                                 
                                 Spacer()
                             }
                             .padding(.leading)
-                            .padding(.vertical)
+                            .padding(.vertical, 5)
                             VStack {
+                                Spacer()
                                 ControlButtonView()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .frame(maxWidth: .infinity, maxHeight: geometry.size.height * 0.5)
+                                Spacer()
                             }
-                            .padding()
+                            .padding(.trailing)
                             
                         }
                     }

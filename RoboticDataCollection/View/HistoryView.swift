@@ -61,8 +61,6 @@ struct HistoryView: View {
                             }
                               
                         }
-
-                     
                     }
                 }
                 .onDelete(perform: deleteRecordings)
@@ -187,30 +185,32 @@ struct RecordingDetailView: View {
                     }
                     
                 }
-                NavigationLink(destination: ARDataView(arData: recording.arData)) {
-                    HStack(alignment: .center) {
-                        Text("Pose Data")
-                        Spacer()
-                        Text("\(recording.unsortedARData.count)")
-                            .foregroundStyle(.gray)
+                Section {
+                    NavigationLink(destination: ARDataView(arData: recording.unsortedARData)) {
+                        HStack(alignment: .center) {
+                            Text("Pose Data")
+                            Spacer()
+                            Text("\(recording.unsortedARData.count)")
+                                .foregroundStyle(.gray)
+                        }
                     }
-                }
-                NavigationLink(destination: ForceDataView(forceData: recording.forceData)) {
-                    HStack(alignment: .center) {
-                        Text("Force Data")
-                        Spacer()
-                        Text("\(recording.unsortedForceData.count)")
-                            .foregroundStyle(.gray)
-                        
+                    NavigationLink(destination: ForceDataView(forceData: recording.unsortedForceData)) {
+                        HStack(alignment: .center) {
+                            Text("Force Data")
+                            Spacer()
+                            Text("\(recording.unsortedForceData.count)")
+                                .foregroundStyle(.gray)
+                            
+                        }
                     }
-                }
-                NavigationLink(destination: AngleDataView(angleData: recording.angleData)) {
-                    HStack(alignment: .center) {
-                        Text("Angle Data")
-                        Spacer()
-                        Text("\(recording.unsortedAngleData.count)")
-                            .foregroundStyle(.gray)
-                        
+                    NavigationLink(destination: AngleDataView(angleData: recording.unsortedAngleData)) {
+                        HStack(alignment: .center) {
+                            Text("Angle Data")
+                            Spacer()
+                            Text("\(recording.unsortedAngleData.count)")
+                                .foregroundStyle(.gray)
+                            //
+                        }
                     }
                 }
                 
@@ -218,13 +218,6 @@ struct RecordingDetailView: View {
             }
             .navigationTitle("Recording Details")
             .navigationBarTitleDisplayMode(.inline)
-            
-            //            .onAppear { // for showing the data in order
-            //                            self.isProcessingSort = true
-            //                            loadSortedData {
-            //                                self.isProcessingSort = false
-            //                            }
-            //                        }
             
         }
         
@@ -301,24 +294,25 @@ struct ShareSheet: UIViewControllerRepresentable {
 
 struct ARDataView: View {
     let arData: [ARData]
+    @State private var sortedARData: [ARData] = []
     
     var body: some View {
-        List(arData) { data in
+        List(sortedARData) { data in
             NavigationLink(destination: ARDataDetailView(arData: data)) {
                 VStack(alignment: .leading) {
                     Text("Timestamp: \(data.timestamp, specifier: "%.3f")")
                         .font(.body)
-                    //                    Text("Transform: \(data.transform.prefix(4).map { String(format: "%.3f", $0) }.joined(separator: ", "))...")
-                    //                        .font(.caption)
-                    //                        .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 4)
             }
         }
         .navigationTitle("AR Data")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+                    // Perform sorting when the view appears
+                    sortedARData = arData.sorted { $0.timestamp < $1.timestamp }
+        }
     }
-    
 }
 
 struct ARDataDetailView: View {
@@ -352,8 +346,9 @@ struct ARDataDetailView: View {
 
 struct AngleDataView: View {
     let angleData: [AngleData]
+    @State private var sortedAngleData: [AngleData] = []
     var body: some View {
-        List(angleData) { data in
+        List(sortedAngleData) { data in
             NavigationLink(destination: AngleDataDetailView(angleData: data)) {
                 Text("Timestamp: \(data.timeStamp, specifier: "%.3f")")
                     .font(.body)
@@ -362,13 +357,18 @@ struct AngleDataView: View {
         
         .navigationTitle("Angle Data")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+                    // Perform sorting when the view appears
+                    sortedAngleData = angleData.sorted { $0.timeStamp < $1.timeStamp }
+        }
     }
 }
 
 struct ForceDataView: View {
     let forceData: [ForceData]
+    @State private var sortedForceData: [ForceData] = []
     var body: some View {
-        List(forceData) { data in
+        List(sortedForceData) { data in
             NavigationLink(destination: ForceDataDetailView(forceData: data)) {
                 Text("Timestamp: \(data.timeStamp, specifier: "%.3f")")
                 
@@ -376,6 +376,10 @@ struct ForceDataView: View {
         }
         .navigationTitle("Force Data")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+                    // Perform sorting when the view appears
+            sortedForceData = forceData.sorted { $0.timeStamp < $1.timeStamp }
+        }
     }
 }
 

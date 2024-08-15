@@ -12,6 +12,7 @@
 		3D625B6A2C622CEF00180FCB /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D625B692C622CEF00180FCB /* extension.swift */; };
 		607B2DB22C6C55B00010D914 /* DescriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607B2DB12C6C55B00010D914 /* DescriptionModel.swift */; };
 		607B2DEA2C6C6A1F0010D914 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607B2DE92C6C6A1F0010D914 /* test.swift */; };
+		607B2DEC2C6D15340010D914 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 607B2DEB2C6D15340010D914 /* README.md */; };
 		609395232C55473700E98950 /* RoboticDataCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* RoboticDataCollectionApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
 		6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395292C55473A00E98950 /* Preview Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		3D625B692C622CEF00180FCB /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		607B2DB12C6C55B00010D914 /* DescriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionModel.swift; sourceTree = "<group>"; };
 		607B2DE92C6C6A1F0010D914 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* RoboticDataCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoboticDataCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* RoboticDataCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoboticDataCollectionApp.swift; sourceTree = "<group>"; };
 		609395262C55473A00E98950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		609395162C55473700E98950 = {
 			isa = PBXGroup;
 			children = (
+				607B2DEB2C6D15340010D914 /* README.md */,
 				609395212C55473700E98950 /* RoboticDataCollection */,
 				609395202C55473700E98950 /* Products */,
 			);
@@ -253,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				607B2DEC2C6D15340010D914 /* README.md in Resources */,
 				6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */,
 				609395272C55473A00E98950 /* Assets.xcassets in Resources */,
 			);

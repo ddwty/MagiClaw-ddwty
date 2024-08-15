@@ -12,7 +12,8 @@ struct SettingView: View {
     @EnvironmentObject  var arRecorder: ARRecorder
     @EnvironmentObject var websocketManager: WebSocketManager
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
-    @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 60
+    @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
+    
 
     let availableFrameRates = [30, 60] // 可以选择的帧率选项
     var body: some View {
