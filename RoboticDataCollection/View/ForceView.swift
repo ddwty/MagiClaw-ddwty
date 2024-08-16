@@ -29,7 +29,7 @@ struct TotalForceView: View {
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var displayedForce: Double = 0.0
     @State private var timer: Timer?
-    private var updateInterval: TimeInterval = 1
+    private var updateInterval: TimeInterval = 0.1
 
     var body: some View {
 //        let _ = Self._printChanges()
