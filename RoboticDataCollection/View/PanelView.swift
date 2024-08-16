@@ -115,7 +115,7 @@ struct PanelView: View {
 
 #Preview() {
     PanelView()
-        .environmentObject(RecordAllDataModel())
+        .environment(RecordAllDataModel())
     //        .environmentObject(MotionManager.shared)
         .environmentObject(ARRecorder.shared)
 }

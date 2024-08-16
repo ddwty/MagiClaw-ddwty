@@ -38,7 +38,7 @@ struct ContentView: View {
 #Preview() {
     ContentView()
 //        .environmentObject(MotionManager.shared)
-        .environmentObject(RecordAllDataModel())
+        .environment(RecordAllDataModel())
         .environment(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
         .modelContainer(previewContainer)

@@ -71,6 +71,7 @@ class MotionManager: ObservableObject {
     let queue = OperationQueue()
     
    private init() {
+       print("init motion manager")
         self.motionData = MotionData(
             timestamp: Date(),
             attitude: MotionData.Attitude(pitch: 0.0, yaw: 0.0, roll: 0.0),

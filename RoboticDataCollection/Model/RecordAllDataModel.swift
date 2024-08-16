@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-class RecordAllDataModel: ObservableObject {
+@Observable class RecordAllDataModel {
     private var isRecording = false
     
    
@@ -20,26 +20,22 @@ class RecordAllDataModel: ObservableObject {
     private let webSocketManager = WebSocketManager.shared
    
     
-    //    private let arRecorder = ARRecorder.shared
     // 用于为文件夹命名场景
-    private var scenarioName = SelectedScenario.shared.selectedScenario
+//    private var scenarioName = SelectedScenario.shared.selectedScenario
     
-    
+    var scenarioName = Scenario.unspecified
+    var description = "" // 暂时还没保存
     private var timer: Timer?
     private var recordingStartTime: Date?
     private var parentFolderURL: URL?
     
-    // TODO: - 这个好像没用吧
-    @Published var recordingDuration: TimeInterval = 0
+    // 用于记录这个数据录制时长
+    var recordingDuration: TimeInterval = 0
     
     var recordedMotionData: [MotionData] = []
     var recordedForceData: [ForceData] = []
     var recordedARData: [ARData] = []
     var recordedAngleData: [AngleData] = []
-    //    var recordedARTransformData: [] = []
-    
-    
-    
     
     func startRecordingData() {
         guard !isRecording else { return }
@@ -129,19 +125,6 @@ extension RecordAllDataModel {
         timer = nil
     }
     
-    // mm:ss:ms
-    func formattedDuration() -> String {
-        let minutes = Int(recordingDuration) / 60
-        let seconds = Int(recordingDuration) % 60
-        let milliseconds = Int((recordingDuration - TimeInterval(minutes * 60 + seconds)) * 1000)
-        return String(format: "%02d:%02d:%2d", minutes, seconds, milliseconds)
-    }
-    
-    
-    //    private func saveARStorageData(_ arStorageData: ARStorgeData) {
-    //        // Implement the logic to save arStorageData
-    //        // For example, using Core Data, Realm, or writing to a file
-    //    }
     
     private func generateCSV(in parentFolderURL: URL) {
         DispatchQueue.global(qos: .userInitiated).async {

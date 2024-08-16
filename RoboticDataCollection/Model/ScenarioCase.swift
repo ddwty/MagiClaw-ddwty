@@ -30,11 +30,11 @@ enum Scenario: String, CaseIterable, Identifiable , Codable{
 }
 
 
-class SelectedScenario: ObservableObject {
-    static let shared = SelectedScenario()
-    @Published var selectedScenario: Scenario
-    
-    private init(selectedScenario: Scenario = .unspecified) {
-        self.selectedScenario = selectedScenario
-    }
-}
+//@Observable class SelectedScenario {
+//   
+//    static var selectedScenario: Scenario = .unspecified
+//    
+//    init(scenario: Scenario = .unspecified) {
+//        SelectedScenario.selectedScenario = scenario
+//    }
+//}

@@ -15,8 +15,6 @@ struct RaspberryPiView: View {
     @State private var message: String = ""
         var body: some View {
             VStack {
-                Text("Left: \(webSocketManager.isLeftFingerConnected)")
-                Text("Angle: \(webSocketManager.isAngelConnected)")
                 if webSocketManager.isConnected {
                     Label("Connected", systemImage: "checkmark.circle")
                         .font(.title3)

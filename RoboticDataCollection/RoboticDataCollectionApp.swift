@@ -10,12 +10,14 @@ import SwiftData
 
 @main
 struct RoboticDataCollectionApp: App {
-    @StateObject private var recordAllDataModel = RecordAllDataModel()
+    @State private var recordAllDataModel = RecordAllDataModel()
     @State var webSocketManager = WebSocketManager.shared
+//    @State var selectedScenario = SelectedScenario()
+    
        var body: some Scene {
            WindowGroup {
                ContentView()
-                   .environmentObject(recordAllDataModel)
+                   .environment(recordAllDataModel)
                    .environment(webSocketManager)
                    .environmentObject(ARRecorder.shared)
                    .modelContainer(for: AllStorgeData.self)
