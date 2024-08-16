@@ -15,6 +15,9 @@ struct PanelView: View {
     @State var showBigAr = false
     
     var body: some View {
+//#if DEBUG
+//        let _ = Self._printChanges()
+//    #endif
         GeometryReader { geometry in
             Group {
                 if verticalSizeClass == .regular {
@@ -114,7 +117,6 @@ struct PanelView: View {
     PanelView()
         .environmentObject(RecordAllDataModel())
     //        .environmentObject(MotionManager.shared)
-        .environmentObject(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
 }
 

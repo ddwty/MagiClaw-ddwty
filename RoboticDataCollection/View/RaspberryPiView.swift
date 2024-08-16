@@ -11,10 +11,12 @@ import Starscream
 
 struct RaspberryPiView: View {
 //    @ObservedObject var webSocketManager = WebSocketManager.shared
-    @EnvironmentObject var webSocketManager: WebSocketManager
+    @Environment(WebSocketManager.self) private var webSocketManager
     @State private var message: String = ""
         var body: some View {
             VStack {
+                Text("Left: \(webSocketManager.isLeftFingerConnected)")
+                Text("Angle: \(webSocketManager.isAngelConnected)")
                 if webSocketManager.isConnected {
                     Label("Connected", systemImage: "checkmark.circle")
                         .font(.title3)
@@ -35,40 +37,8 @@ struct RaspberryPiView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30, height: 30)
                         }
-//                        Button("Re") {
-//                            ARViewContainer.resumeARSession()
-//                        }
                     }
                 }
-//                Label(webSocketManager.isConnected ? "Connected" : "Disconnected", systemImage: webSocketManager.isConnected ? "checkmark.circle" : "xmark.circle")
-//                    .font(.title)
-//                    .foregroundColor(webSocketManager.isConnected ? .green : .red)
-                //                Button(action: {webSocketManager.connect()}) {
-//                HStack{
-//                    Button(action: {
-//                        if webSocketManager.isConnected {
-//                            webSocketManager.disconnect()
-//                        } else {
-//                            webSocketManager.reConnectToServer()
-//                        }
-//                    }) {
-//                        Text(webSocketManager.isConnected ? "Disconnect" : "Reconnect to Raspberry Pi")
-//                    }
-//                    .buttonStyle(BorderedButtonStyle())
-//                    
-//                    
-//                    Button(action: {
-//                        webSocketManager.connectLeftFinger()
-//                    }) {
-//                        Text("Get Force Data")
-//                    }
-//                    .disabled(!webSocketManager.isConnected)
-////                    .padding()
-//                    
-//                    
-//                }
-//                Text("Received message: \(webSocketManager.receivedMessage)")
-//                    .padding()
             }
         }
 }
@@ -87,6 +57,6 @@ struct FilledButtonStyle: ButtonStyle {
 struct ViaWifiView_Previews: PreviewProvider {
     static var previews: some View {
         RaspberryPiView()
-            .environmentObject(WebSocketManager.shared)
+            .environment(WebSocketManager.shared)
     }
 }

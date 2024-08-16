@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingView: View {
     @AppStorage("ignore websocket") private var ignorWebsocket = false
     @EnvironmentObject  var arRecorder: ARRecorder
-    @EnvironmentObject var websocketManager: WebSocketManager
+    @Environment(WebSocketManager.self) private var webSocketManager
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     
@@ -49,6 +49,6 @@ struct SettingView: View {
 #Preview {
     SettingView()
         .environmentObject(ARRecorder.shared)
-        .environmentObject(WebSocketManager.shared)
+        .environment(WebSocketManager.shared)
 }
 

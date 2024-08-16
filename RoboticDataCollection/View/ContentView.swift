@@ -27,6 +27,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings",systemImage: "gear")
                 }
+            MyARView()
+                .tabItem {
+                    Label("AR",systemImage: "ar")
+                }
         }
     }
 }
@@ -35,7 +39,7 @@ struct ContentView: View {
     ContentView()
 //        .environmentObject(MotionManager.shared)
         .environmentObject(RecordAllDataModel())
-        .environmentObject(WebSocketManager.shared)
+        .environment(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
         .modelContainer(previewContainer)
 }

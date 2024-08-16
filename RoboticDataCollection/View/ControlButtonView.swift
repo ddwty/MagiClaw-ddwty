@@ -8,15 +8,15 @@
 import SwiftUI
 import SwiftData
 import UIKit
+
 struct ControlButtonView: View {
     @EnvironmentObject var recordAllDataModel: RecordAllDataModel
     //    @EnvironmentObject var cameraManager: CameraManager
-    @EnvironmentObject var webSocketManager: WebSocketManager
+    @Environment(WebSocketManager.self) private var webSocketManager
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.modelContext) private var modelContext
     //    @EnvironmentObject var arRecorder: ARRecorder
     @AppStorage("ignore websocket") private var ignorWebsocket = false
-    
     
     @State var isRunningTimer = false
     @State var isWaitingtoSave = false
@@ -309,6 +309,6 @@ struct ControlButtonView: View {
         .environmentObject(RecordAllDataModel())
     //        .environmentObject(MotionManager.shared)
     //        .environmentObject(CameraManager.shared)
-        .environmentObject(WebSocketManager.shared)
+        .environment(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
 }

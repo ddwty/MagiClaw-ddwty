@@ -17,13 +17,11 @@ struct MyARView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @State private var frameRate: Double = 0
     var body: some View {
-        VStack {
             GeometryReader { geo in
                 ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
 //                Text("Frame Rate: \n\(String(format: "%.2f", frameRate)) FPS")
-                               .padding()
+//                               .padding()
             }
-        }
         
     }
 }

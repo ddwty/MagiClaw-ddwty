@@ -30,31 +30,21 @@ struct FingerAngle: Codable {
 }
 
 // TODO: - 退到后台重新进入重连
-class WebSocketManager: ObservableObject {
+@Observable class WebSocketManager {
     static let shared = WebSocketManager()
+   
     var recordedForceData: [ForceData] = []  //用于储存
     var recordedAngleData: [AngleData] = []
-    @Published var forceDataforShow: ForceData?
-    @Published var angleDataforShow: AngleData?
-    @Published var totalForce: Double = 0
-    @Published var time: TimeStamp?
-    //    @Published var isConnected = false {
-    //            didSet {
-    //                if isConnected {
-    //                    pingTimer?.invalidate()
-    //                } else if shouldPing {
-    //                    startPingTimer()
-    //                }
-    //            }
-    //        }
     
+    public var forceDataforShow: ForceData?
+    public var angleDataforShow: Int = 0
+    public var totalForce: Double = 0
+    public var time: TimeStamp?
     
-    @Published var isConnected = false
+    public var isConnected = false
     
-    // TODO: - 通过输入框来输入hostname
-    //    @Published var hostName: String = "raspberrypi.local"
-    @AppStorage("hostname") private var hostname = "raspberrypi.local"
-    @Published var receivedMessage: String = ""
+    @ObservationIgnored @AppStorage("hostname") private var hostname = "raspberrypi.local"
+    public var receivedMessage: String = ""
     
     private var angelSocket: WebSocket?
     private var leftFingerSocket: WebSocket?
@@ -68,12 +58,12 @@ class WebSocketManager: ObservableObject {
     private var isFirstFrameOfAngle = false
     
     
-    private var isLeftFingerConnected = false {
+    public var isLeftFingerConnected = false {
         didSet {
             updateConnectionStatus()
         }
     }
-    private var isAngelConnected = false {
+    public var isAngelConnected = false {
         didSet {
             updateConnectionStatus()
         }
@@ -81,7 +71,7 @@ class WebSocketManager: ObservableObject {
     
     private var throttleTimer: Timer?
     private let throttleInterval: TimeInterval = 1 // 更新UI时间
-
+    
     
     
     // MARK: - AND both left finger and angel connected status
@@ -104,7 +94,7 @@ class WebSocketManager: ObservableObject {
         connectAngel()
     }
     
-    func disconnect() {
+    private func disconnect() {
         shouldPing = false
         isLeftFingerConnected = false
         isAngelConnected = false
@@ -112,39 +102,40 @@ class WebSocketManager: ObservableObject {
         leftFingerSocket?.disconnect()
     }
     
-    func connectLeftFinger() {
+    private func connectLeftFinger() {
         var leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/left_finger/force")!)
         leftFingerSocket = WebSocket(request: leftFingerRequest)
         leftFingerSocket?.connect()
-        leftFingerRequest.timeoutInterval = 50
+        //        leftFingerRequest.timeoutInterval = 1
         leftFingerSocket?.onEvent = {[weak self] event in
             guard let self = self else { return }
             switch event {
             case .connected(let headers):
                 self.isLeftFingerConnected = true
                 
-                print("WebSocket is connected to left finger: \(headers)")
+                print("WebSocket is connected to left finger:")
                 print("isLeftFingerConnected: \(self.isLeftFingerConnected)")
                 
             case .disconnected(let reason, let code):
                 self.isLeftFingerConnected = false
+                print("disconnect to left finger: \(self.isLeftFingerConnected)")
                 print("WebSocket disconnected: \(reason) to left finger with code: \(code)")
                 self.attemptReconnect()
                 
             case .text(let string):
-//                if self.isRecording {
-                    self.handleLeftFingerMessage(string: string)
-                    //                            print("Receive text from left finger message, is recording: \(self.isRecording)")
-//                }
-//                                        print("\(string)")
+                //                if self.isRecording {
+                self.handleLeftFingerMessage(string: string)
+                //                            print("Receive text from left finger message, is recording: \(self.isRecording)")
+                //                }
+//                print("\(string)")
             case .binary(let data):
                 print("Received data: \(data.count)")
             case .ping(_):
                 break
             case .pong(_):
                 break
-            case .viabilityChanged(_):
-                break
+            case .viabilityChanged(let isViable):
+                self.isLeftFingerConnected = isViable  //在这里得知是否连接
             case .reconnectSuggested(_):
                 break
             case .cancelled:
@@ -161,39 +152,41 @@ class WebSocketManager: ObservableObject {
         }
     }
     
-    func connectAngel() {
+    private func connectAngel() {
         var angelRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/angle")!)
         angelSocket = WebSocket(request: angelRequest)
         angelSocket?.connect()
-        angelRequest.timeoutInterval = 5000
+        //        angelRequest.timeoutInterval = 1
         angelSocket?.onEvent = { [weak self]  event in
             guard let self = self else { return }
             switch event {
             case .connected(let headers):
                 self.isAngelConnected = true
-                print("WebSocket is connected to angel: \(headers)")
+                print("WebSocket is connected to angel")
                 print("isAngleConnected: \(self.isAngelConnected)")
                 
             case .disconnected(let reason, let code):
                 self.isAngelConnected = false
+                print("disconnect to Angel: \(self.isAngelConnected)")
                 print("WebSocket disconnected: \(reason) to angel with code: \(code)")
                 self.attemptReconnect()
                 
             case .text(let string):
-//                if self.isRecording {
-                    self.handleAngleMessage(string: string)
-//                }
-//                                        print(string)
+                //                if self.isRecording {
+                self.handleAngleMessage(string: string)
+                //                }
+                //                                        print(string)
             case .binary(let data):
                 print("Received data: \(data.count)")
             case .ping(_):
                 break
             case .pong(_):
                 break
-            case .viabilityChanged(_):
-                break
-            case .reconnectSuggested(_):
-                break
+            case .viabilityChanged(let isViable):
+                print("WebSocket viability changed: \(isViable)")
+                self.isAngelConnected = isViable //在这里得知是否连接
+            case .reconnectSuggested(let shouldReconnect):
+                print("Reconnect suggested: \(shouldReconnect)")
             case .cancelled:
                 self.isLeftFingerConnected = false
                 print("WebSocket is cancelled")
@@ -206,21 +199,22 @@ class WebSocketManager: ObservableObject {
                 self.attemptReconnect()
             }
         }
-        
     }
     
     // TODO: - 存到同一个结构体中，保持频率一致
     func startRecordingData() {
-        recordedForceData.removeAll()
-        recordedAngleData.removeAll()
+        self.recordedForceData.removeAll()
+        self.recordedAngleData.removeAll()
         
         isRecording = true
         self.isFirstFrameOfAngle = true
         self.isFirstFrameOfForce = true
+        print("start recording data")
     }
     
-    func stopRecordingForceData() {
+   func stopRecordingForceData() {
         isRecording = false
+       print("stop recording data")
     }
     
     private func attemptReconnect() {
@@ -231,11 +225,11 @@ class WebSocketManager: ObservableObject {
             self.reConnectToServer() // 重连到服务器
         }
     }
-
+    
 }
 
 extension WebSocketManager {
-    func handleLeftFingerMessage(string: String) {
+    private func handleLeftFingerMessage(string: String) {
         if let data = string.data(using: .utf8) {
             if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
                 
@@ -247,27 +241,27 @@ extension WebSocketManager {
                 let forceData = ForceData(
                     timeStamp: timestamp - firstTimestampOfForce,
                     forceData: fingerForce.force?.value)
-               
-//                self.forceDataforShow = forceData
-//                print(forceDataforShow?.forceData ?? [1,2,4])
-//                print(forceDataforShow ?? "No force data")
+                
+                //                self.forceDataforShow = forceData
+                //                print(forceDataforShow?.forceData ?? [1,2,4])
+                //                print(forceDataforShow ?? "No force data")
                 let xForce = forceData.forceData?[0] ?? 0
                 let yForce = forceData.forceData?[1] ?? 0
                 let zForce = forceData.forceData?[2] ?? 0
                 self.totalForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
-                print("\(totalForce)")
+                //                print("\(totalForce)")
+               
                 if self.isRecording {
-                    //TODO: - 检查是否需要async
-                        self.recordedForceData.append(forceData)
-                    
-                    
+                    print("isrecording: \(isRecording)")
+                    self.recordedForceData.append(forceData)
+                    print("forcedata: \(forceData)")
                 }
-//                throttleUpdate() // 调用节流函数
+                //                throttleUpdate() // 调用节流函数
             }
         }
     }
     
-    func handleAngleMessage(string: String) {
+    private func handleAngleMessage(string: String) {
         if let data = string.data(using: .utf8) {
             if let fingerAngle = try? JSONDecoder().decode(FingerAngle.self, from: data) {
                 let timestamp = Double(fingerAngle.time_stamp.secs) + Double(fingerAngle.time_stamp.nanos) * 1e-9
@@ -278,45 +272,45 @@ extension WebSocketManager {
                 let angleData = AngleData(
                     timeStamp: timestamp - firstTimestampOfAngle,
                     angle: fingerAngle.data)
-                self.angleDataforShow = angleData
-
+                self.angleDataforShow = angleData.angle
+                
                 if self.isRecording {
-                        self.recordedAngleData.append(angleData)
-                    
+                    self.recordedAngleData.append(angleData)
+//                    print("angle data: \(angleData)")
                 }
-//                throttleUpdate() // 调用节流函数
+                //                throttleUpdate() // 调用节流函数
             }
         }
     }
 }
 
 extension WebSocketManager {
-    func generateSampleData() {
+    private func generateSampleData() {
         let sampleForces = [
             ForceData(timeStamp: 0, forceData: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]),
             ForceData(timeStamp: 1, forceData: [2.0, 3.0, 4.0, 5.0, 6.0, 7.0]),
             ForceData(timeStamp: 2, forceData: [3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
         ]
-        recordedForceData = sampleForces
+        self.recordedForceData = sampleForces
     }
 }
 
 extension WebSocketManager {
-  
-//    private func throttleUpdate() {
-//        throttleTimer?.invalidate() // 取消之前的定时器
-//        throttleTimer = Timer.scheduledTimer(withTimeInterval: throttleInterval, repeats: false) { [weak self] _ in
-//            DispatchQueue.main.async {
-//                self?.updateUI()
-//            }
-//        }
-//    }
-
-//    private func updateUI() {
-////        self.forceDataforShow = self.recordedForceData.last
-//        self.totalForce = self.totalForce
-//        self.angleDataforShow = self.angleDataforShow
-//    }
-
+    
+    //    private func throttleUpdate() {
+    //        throttleTimer?.invalidate() // 取消之前的定时器
+    //        throttleTimer = Timer.scheduledTimer(withTimeInterval: throttleInterval, repeats: false) { [weak self] _ in
+    //            DispatchQueue.main.async {
+    //                self?.updateUI()
+    //            }
+    //        }
+    //    }
+    
+    //    private func updateUI() {
+    ////        self.forceDataforShow = self.recordedForceData.last
+    //        self.totalForce = self.totalForce
+    //        self.angleDataforShow = self.angleDataforShow
+    //    }
+    
     
 }

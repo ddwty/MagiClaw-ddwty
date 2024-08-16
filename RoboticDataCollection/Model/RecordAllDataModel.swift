@@ -11,11 +11,14 @@ import SwiftData
 
 class RecordAllDataModel: ObservableObject {
     private var isRecording = false
+    
+   
     let arRecorder = ARRecorder.shared
     
     private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
+   
     
     //    private let arRecorder = ARRecorder.shared
     // 用于为文件夹命名场景
@@ -34,6 +37,9 @@ class RecordAllDataModel: ObservableObject {
     var recordedARData: [ARData] = []
     var recordedAngleData: [AngleData] = []
     //    var recordedARTransformData: [] = []
+    
+    
+    
     
     func startRecordingData() {
         guard !isRecording else { return }
