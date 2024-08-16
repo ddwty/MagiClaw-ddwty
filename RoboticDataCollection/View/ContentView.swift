@@ -16,6 +16,7 @@ struct ContentView: View {
                 .onTapGesture {
                 hideKeyboard()
             }
+               
             .tabItem {
                 Label("Panel", systemImage: "record.circle" )
             }
@@ -27,10 +28,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings",systemImage: "gear")
                 }
-            MyARView()
-                .tabItem {
-                    Label("AR",systemImage: "ar")
-                }
+            
         }
     }
 }

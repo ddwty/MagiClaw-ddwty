@@ -254,7 +254,7 @@ extension WebSocketManager {
                 if self.isRecording {
                     print("isrecording: \(isRecording)")
                     self.recordedForceData.append(forceData)
-                    print("forcedata: \(forceData)")
+                   
                 }
                 //                throttleUpdate() // 调用节流函数
             }

@@ -26,6 +26,7 @@ import Combine
 }
 
 struct TotalForceView: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var displayedForce: Double = 0.0
     @State private var timer: Timer?
@@ -33,7 +34,6 @@ struct TotalForceView: View {
 
     var body: some View {
 //        let _ = Self._printChanges()
-        VStack {
             VStack(alignment: .leading) {
                 Text("Force (N)")
                     .font(.headline)
@@ -73,6 +73,8 @@ struct TotalForceView: View {
                 }
                 .frame(height: 30)
                 .padding(.trailing, 50)
+                
+                
             }
 //            .animation(.easeInOut(duration: 0.1), value: displayedForce)
             .onAppear {
@@ -86,6 +88,5 @@ struct TotalForceView: View {
                 timer?.invalidate()
                 timer = nil
             }
-        }
     }
 }

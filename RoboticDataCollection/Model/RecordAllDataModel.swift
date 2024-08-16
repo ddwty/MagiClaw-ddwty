@@ -103,9 +103,7 @@ import SwiftData
         
         // 将其他数据保存为CSV
         self.generateCSV(in: parentFolderURL!)
-        
         self.isRecording = false
-        
         stopTimer()
         
     }

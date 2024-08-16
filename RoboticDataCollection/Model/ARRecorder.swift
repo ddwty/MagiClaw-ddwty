@@ -77,11 +77,17 @@ class ARRecorder: NSObject, ObservableObject {
             let data = Data(buffer: buffer)
             
             let fileName = String(format: "depth_%.3f.bin", timestamp)
-            let fileURL = self.depthDataURL?.appendingPathComponent(fileName)
+            
+//            let fileURL = self.depthDataURL?.appendingPathComponent(fileName)
+            // 使用可选绑定来安全地创建文件URL
+           guard let fileURL = self.depthDataURL?.appendingPathComponent(fileName) else {
+               print("Error: Unable to create file URL for depth buffer")
+               return
+           }
             
             do {
-                try data.write(to: fileURL!)
-                print("Saved depth buffer to \(fileURL!)")
+                try data.write(to: fileURL)
+                print("Saved depth buffer to \(fileURL)")
             } catch {
                 print("Error saving depth buffer: \(error)")
             }
@@ -268,6 +274,11 @@ class ARRecorder: NSObject, ObservableObject {
         assetWriterInput?.markAsFinished()
         assetWriter?.finishWriting { [weak self] in
             guard let self = self else { return }
+            // 清理资源
+            self.assetWriter = nil
+            self.assetWriterInput = nil
+            self.pixelBufferAdaptor = nil
+
             
 //            if let depthDataURL = self.depthDataURL, FileManager.default.fileExists(atPath: depthDataURL.path) {
 //                self.saveFilesToDocumentDirectory(sourceURL: depthDataURL)
@@ -280,23 +291,5 @@ class ARRecorder: NSObject, ObservableObject {
         }
     }
     
-    // 移动录制文件到文档目录
-//    private func saveFilesToDocumentDirectory(sourceURL: URL?) {
-//        guard let sourceURL = sourceURL else { return }
-//        
-//        let fileManager = FileManager.default
-//        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-//        let destinationURL = documentsDirectory.appendingPathComponent(sourceURL.lastPathComponent)
-//        
-//        do {
-//            if fileManager.fileExists(atPath: destinationURL.path) {
-//                try fileManager.removeItem(at: destinationURL)
-//            }
-//            try fileManager.moveItem(at: sourceURL, to: destinationURL)
-//            print("Saved files to \(destinationURL)")
-//        } catch {
-//            print("Error saving files: \(error.localizedDescription)")
-//        }
-//    }
 }
 
