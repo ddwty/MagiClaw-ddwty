@@ -2,11 +2,11 @@
 
 [![Swift](https://img.shields.io/badge/Swift-5.7-orange.svg)](https://swift.org) ![iOS](https://img.shields.io/badge/iOS-15.0%2B-blue.svg) 
 
-A SwiftUI-based iOS application designed for collecting various types of data using ARKit and external sensors. This app allows for recording RGB images, LiDAR depth data, and 4x4 transform matrices from the iPhone's sensor. Additionally, it interfaces with a Raspberry Pi via WebSocket to capture force and angle data in real-time.
+A SwiftUI-based iOS application designed for collecting various types of data using ARKit and external sensors. This app allows for recording RGB video, LiDAR depth data, and 4x4 transform matrices from the iPhone's sensor. Additionally, it interfaces with a Raspberry Pi via WebSocket to capture many other types data in real-time.
 
 ## Features
 
-- **RGB Image Recording**: Capture high-quality RGB images from the iPhone's rear camera during data collection.
+- **RGB Video Recording**: Capture RGB vidoes from the iPhone's rear camera.
 - **LiDAR Depth Data**: Record depth data using the iPhone's LiDAR sensor, if available. Depth frames are saved in `.bin` format.
 - **Transform Matrix Collection**: Store 4x4 homogeneous transform matrices that represent the device's pose during recording.
 - **WebSocket Integration**: Connect to a Raspberry Pi on the same local network to receive and record force and angle data from external sensors.
@@ -14,7 +14,7 @@ A SwiftUI-based iOS application designed for collecting various types of data us
   - `AngleData.csv`: Captures angle data received from the Raspberry Pi.
   - `ForceData.csv`: Captures force data received from the Raspberry Pi.
   - `PoseData.csv`: Stores the transform matrices collected from the iPhone.
-  - `yyyyMMdd_HHmmss_RGB.mp4`: A video file of the recorded RGB images.
+  - `yyyyMMdd_HHmmss_RGB.mp4`: A video file of the recorded RGB frames.
   - `yyyyMMdd_HHmmss_Depth/`: A directory containing depth data frames in `.bin` format.
 
 ## Usage

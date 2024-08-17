@@ -40,11 +40,9 @@ struct SettingView: View {
             }
             .navigationTitle("Settings")
         }
-       
-        
-        
     }
 }
+
 
 #Preview {
     SettingView()
