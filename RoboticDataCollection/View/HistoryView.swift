@@ -114,7 +114,7 @@ struct RecordingDetailView: View {
                         Text("Task description: ")
                             .font(.headline)
                         
-                        Text(recording.notes)
+                        Text(recording.notes == "" ? "No description " : recording.notes)
                             .font(.body)
                             .foregroundColor(.secondary)
                     }
@@ -167,7 +167,7 @@ struct RecordingDetailView: View {
                                 .font(.headline)
                             Spacer()
                             
-                            Text("ARData: \(recording.unsortedARData.count) | ForceData: \(recording.unsortedForceData.count) | AngleData: \(recording.unsortedAngleData.count)")
+                            Text("ARData: \(recording.unsortedARData.count)\nL_Force: \(recording.unsortedForceData.count)\nR_Force: \(recording.unsortedRightForceData.count)\nAngleData: \(recording.unsortedAngleData.count)")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                         }
@@ -196,13 +196,25 @@ struct RecordingDetailView: View {
                     }
                     NavigationLink(destination: ForceDataView(forceData: recording.unsortedForceData)) {
                         HStack(alignment: .center) {
-                            Text("Force Data")
+                            Text("Left Force Data")
                             Spacer()
                             Text("\(recording.unsortedForceData.count)")
                                 .foregroundStyle(.gray)
                             
                         }
                     }
+                    
+                    NavigationLink(destination: ForceDataView(forceData: recording.unsortedRightForceData)) {
+                        HStack(alignment: .center) {
+                            Text("Right Force Data")
+                            Spacer()
+                            Text("\(recording.unsortedRightForceData.count)")
+                                .foregroundStyle(.gray)
+                            
+                        }
+                    }
+                    
+                    
                     NavigationLink(destination: AngleDataView(angleData: recording.unsortedAngleData)) {
                         HStack(alignment: .center) {
                             Text("Angle Data")

@@ -38,6 +38,7 @@ class AllStorgeData {
     var scenario: Scenario
    
     var unsortedForceData: [ForceData]
+    var unsortedRightForceData: [ForceData]
     var unsortedAngleData: [AngleData]
     var unsortedARData: [ARData]
     
@@ -56,6 +57,7 @@ class AllStorgeData {
          notes: String,
          scenario: Scenario,
          forceData unsortedForceData: [ForceData],
+         rightForceData unsortedRightForceData: [ForceData]? = nil,
          angleData unsortedAngleData: [AngleData],
          aRData unsortedARData: [ARData]
     ){
@@ -65,6 +67,7 @@ class AllStorgeData {
 //        self.scenarioString = scenario.rawValue
         self.scenario = scenario
         self.unsortedForceData = unsortedForceData
+        self.unsortedRightForceData = unsortedRightForceData ?? [defaultForceData] // 在这里设置默认值
         self.unsortedAngleData = unsortedAngleData
         self.unsortedARData = unsortedARData
     }
@@ -72,3 +75,16 @@ class AllStorgeData {
 }
 
 extension AllStorgeData: Identifiable {}
+
+//enum StoredDataSchemaV1: VersionedSchema {
+//    static var versionIdentifier: Schema.Version = Schema.Version.init(1, 0, 0)
+//    
+//    static var models: [any PersistentModel.Type] {
+//        return [AllStorgeData.self, ForceData.self, AngleData.self, ARData.self]
+//    }
+//    
+//    
+//    
+//}
+
+let defaultForceData = ForceData(timeStamp: 0.0000, forceData: [0,0,0,0,0,0])

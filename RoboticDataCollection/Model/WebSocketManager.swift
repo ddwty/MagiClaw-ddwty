@@ -34,11 +34,13 @@ struct FingerAngle: Codable {
     static let shared = WebSocketManager()
    
     var recordedForceData: [ForceData] = []  //用于储存
+    var recordedRightFingerForceData: [ForceData] = []
     var recordedAngleData: [AngleData] = []
     
     public var forceDataforShow: ForceData?
     public var angleDataforShow: Int = 0
-    public var totalForce: Double = 0
+    public var totalLeftForce: Double = 0
+    public var totalRightForce: Double = 0
     public var time: TimeStamp?
     
     public var isConnected = false
@@ -48,6 +50,7 @@ struct FingerAngle: Codable {
     
     private var angelSocket: WebSocket?
     private var leftFingerSocket: WebSocket?
+    private var rightFingerSocket: WebSocket?
     private var pingTimer: Timer?
     private var shouldPing: Bool = true
     var isRecording = false
@@ -63,11 +66,21 @@ struct FingerAngle: Codable {
             updateConnectionStatus()
         }
     }
+    
+    public var isRightFingerConnected = false {
+        didSet {
+            updateConnectionStatus()
+        }
+    }
+    
     public var isAngelConnected = false {
         didSet {
             updateConnectionStatus()
         }
     }
+    
+    
+//    public var isRightFingerConnected = false
     
     private var throttleTimer: Timer?
     private let throttleInterval: TimeInterval = 1 // 更新UI时间
@@ -76,14 +89,17 @@ struct FingerAngle: Codable {
     
     // MARK: - AND both left finger and angel connected status
     private func updateConnectionStatus() {
-        self.isConnected = isLeftFingerConnected && isAngelConnected
+        self.isConnected = isLeftFingerConnected  && isRightFingerConnected && isAngelConnected
     }
     
     private init() {
         //        connectToServer()
         self.recordedForceData.reserveCapacity(10000)
+        self.recordedRightFingerForceData.reserveCapacity(10000)
         self.recordedAngleData.reserveCapacity(100000)
         connectLeftFinger()
+        connectRightFinger()
+        
         connectAngel()
         
     }
@@ -103,7 +119,7 @@ struct FingerAngle: Codable {
     }
     
     private func connectLeftFinger() {
-        var leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/left_finger/force")!)
+        let leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/left_finger/force")!)
         leftFingerSocket = WebSocket(request: leftFingerRequest)
         leftFingerSocket?.connect()
         //        leftFingerRequest.timeoutInterval = 1
@@ -152,8 +168,57 @@ struct FingerAngle: Codable {
         }
     }
     
+    private func connectRightFinger() {
+        let rightFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/right_finger/force")!)
+        rightFingerSocket = WebSocket(request: rightFingerRequest)
+        rightFingerSocket?.connect()
+        //        leftFingerRequest.timeoutInterval = 1
+        rightFingerSocket?.onEvent = {[weak self] event in
+            guard let self = self else { return }
+            switch event {
+            case .connected(let headers):
+                self.isRightFingerConnected = true
+                
+                print("WebSocket is connected to right finger:")
+                
+            case .disconnected(let reason, let code):
+                self.isRightFingerConnected = false
+//                print("disconnect to left finger: \(self.isLeftFingerConnected)")
+                print("WebSocket disconnected: \(reason) to left finger with code: \(code)")
+                self.attemptReconnect()
+                
+            case .text(let string):
+                //                if self.isRecording {
+                self.handleRightFingerMessage(string: string)
+                //                            print("Receive text from left finger message, is recording: \(self.isRecording)")
+                //                }
+//                print("\(string)")
+            case .binary(let data):
+                print("Received data: \(data.count)")
+            case .ping(_):
+                break
+            case .pong(_):
+                break
+            case .viabilityChanged(let isViable):
+                self.isRightFingerConnected = isViable  //在这里得知是否连接
+            case .reconnectSuggested(_):
+                break
+            case .cancelled:
+                self.isRightFingerConnected = false
+                print("WebSocket is cancelled")
+                self.attemptReconnect()
+            case .peerClosed:
+                break
+            case .error(let error):
+                self.isRightFingerConnected = false
+                print("WebSocket encountered an error: \(error?.localizedDescription ?? "")")
+                self.attemptReconnect()
+            }
+        }
+    }
+    
     private func connectAngel() {
-        var angelRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/angle")!)
+        let angelRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/angle")!)
         angelSocket = WebSocket(request: angelRequest)
         angelSocket?.connect()
         //        angelRequest.timeoutInterval = 1
@@ -248,13 +313,41 @@ extension WebSocketManager {
                 let xForce = forceData.forceData?[0] ?? 0
                 let yForce = forceData.forceData?[1] ?? 0
                 let zForce = forceData.forceData?[2] ?? 0
-                self.totalForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
+                self.totalLeftForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
                 //                print("\(totalForce)")
                
                 if self.isRecording {
                     print("isrecording: \(isRecording)")
                     self.recordedForceData.append(forceData)
                    
+                }
+                //                throttleUpdate() // 调用节流函数
+            }
+        }
+    }
+    
+    private func handleRightFingerMessage(string: String) {
+        if let data = string.data(using: .utf8) {
+            if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
+                
+                let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos) * 1e-9
+                if isFirstFrameOfForce {
+                    self.firstTimestampOfForce = timestamp
+                    self.isFirstFrameOfForce = false
+                }
+                let forceData = ForceData(
+                    timeStamp: timestamp - firstTimestampOfForce,
+                    forceData: fingerForce.force?.value)
+                
+                let xForce = forceData.forceData?[0] ?? 0
+                let yForce = forceData.forceData?[1] ?? 0
+                let zForce = forceData.forceData?[2] ?? 0
+                self.totalRightForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
+                //                print("\(totalForce)")
+               
+                if self.isRecording {
+                    print("isrecording: \(isRecording)")
+                    self.recordedRightFingerForceData.append(forceData)
                 }
                 //                throttleUpdate() // 调用节流函数
             }

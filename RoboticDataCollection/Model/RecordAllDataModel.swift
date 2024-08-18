@@ -12,7 +12,6 @@ import SwiftData
 @Observable class RecordAllDataModel {
     private var isRecording = false
     
-   
     let arRecorder = ARRecorder.shared
     
     private let motionManager = MotionManager.shared
@@ -34,6 +33,7 @@ import SwiftData
     
     var recordedMotionData: [MotionData] = []
     var recordedForceData: [ForceData] = []
+    var recordedRightForceData: [ForceData] = []
     var recordedARData: [ARData] = []
     var recordedAngleData: [AngleData] = []
     
@@ -95,10 +95,11 @@ import SwiftData
             }
 //      recordedMotionData = motionManager.motionDataArray
         recordedForceData = webSocketManager.recordedForceData
+        recordedRightForceData = webSocketManager.recordedRightFingerForceData
         recordedAngleData = webSocketManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
         
-        print("Recorded force data length: \(recordedForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
+        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
         //        print("Force data:\(recordedForceData)")
         
         // 将其他数据保存为CSV
@@ -127,7 +128,8 @@ extension RecordAllDataModel {
     private func generateCSV(in parentFolderURL: URL) {
         DispatchQueue.global(qos: .userInitiated).async {
             let arCSVURL = self.exportToCSV(data: self.recordedARData, fileName: "PoseData", folderURL: parentFolderURL)
-            let forceCSVURL = self.exportToCSV(data: self.recordedForceData, fileName: "ForceData", folderURL: parentFolderURL)
+            let forceCSVURL = self.exportToCSV(data: self.recordedForceData, fileName: "L_ForceData", folderURL: parentFolderURL)
+            let rightForceCSVURL = self.exportToCSV(data: self.recordedRightForceData, fileName: "R_ForceData", folderURL: parentFolderURL)
             let angleCSVURL = self.exportToCSV(data: self.recordedAngleData, fileName: "AngleData", folderURL: parentFolderURL)
             
             DispatchQueue.main.async {

@@ -88,6 +88,7 @@ struct ControlButtonView: View {
                                         recordAllDataModel.description = newValue
                                     }
                                     .disableAutocorrection(true)
+                                    .frame(minWidth: 100, minHeight: 50)
                             }
                             Spacer()
                             VStack(alignment: .leading) {
@@ -174,7 +175,7 @@ struct StartRecordingButton: View {
                         timeDuration: recordAllDataModel.recordingDuration,
                         notes: self.description,
                         scenario: self.scenario,
-                        forceData: recordAllDataModel.recordedForceData,
+                        forceData: recordAllDataModel.recordedForceData, rightForceData: recordAllDataModel.recordedRightForceData,
                         angleData: recordAllDataModel.recordedAngleData,
                         aRData: recordAllDataModel.recordedARData
                     )

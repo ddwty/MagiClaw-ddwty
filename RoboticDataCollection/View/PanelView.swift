@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PanelView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(WebSocketManager.self) private var webSocketManager
 //    @StateObject private var keyboardResponder = KeyboardResponder()
     @State var motionData: [MotionData] = []
     @State var showBigAr = false
@@ -33,7 +34,7 @@ struct PanelView: View {
                             .aspectRatio(3/4, contentMode: .fit)
                             .padding(.top, 10)
                             .frame(minWidth: screenWidth * 0.2, minHeight: screenHeight * 0.2)
-                        Text("width: " + String(describing: geometry.size.width) + "height: " + String(describing: geometry.size.height))
+//                        Text("width: " + String(describing: geometry.size.width) + "height: " + String(describing: geometry.size.height))
                         GroupBox {
                             VStack(alignment: .leading) {
                                 HStack {
@@ -45,7 +46,7 @@ struct PanelView: View {
                                     Spacer()
                                 }
                                 Divider()
-                                TotalForceView()
+                                TotalForceView(force: webSocketManager.totalLeftForce, leftOrRight: "L")
                                 Divider()
                                 AngleView()
                             }
@@ -70,11 +71,15 @@ struct PanelView: View {
                                 }
                                 Divider()
                                 HStack {
-                                    TotalForceView()
-                                        .frame(width: screenWidth * 0.5)
+                                    TotalForceView(force: webSocketManager.totalLeftForce, leftOrRight: "L")
+                                        .frame(width: screenHeight * 0.3)
                                     Spacer()
                                     AngleView()
+                                        .frame(width: screenHeight * 0.15)
                                     Spacer()
+                                    TotalForceView(force: webSocketManager.totalRightForce, leftOrRight: "R")
+                                        .frame(width: screenHeight * 0.3)
+//                                    Spacer()
                                 }
                             }
                         }
@@ -87,7 +92,7 @@ struct PanelView: View {
                                         .cornerRadius(8)
                                     //                                    .frame(maxWidth: geometry.size.height * 2 / 3, maxHeight: geometry.size.height * 0.5)
                                         .aspectRatio(4/3, contentMode: .fit)
-                                        .padding()
+                                        .padding(.bottom)
                                     //                                Spacer()
                                 }
                                 ControlButtonView()

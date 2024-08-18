@@ -16,11 +16,12 @@ struct AngleView: View {
     private var updateInterval: TimeInterval = 1/10
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             // Text displaying the angle
             Text("Angle: \(displayedAngle)°")
                 .font(.headline)
         }
+        
         .onAppear {
             // 创建定时器
             timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { _ in

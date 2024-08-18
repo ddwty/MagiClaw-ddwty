@@ -21,7 +21,7 @@ import Combine
 //}
 
 #Preview() {
-    TotalForceView()
+    TotalForceView(force: 1, leftOrRight: "L")
         .environment(WebSocketManager.shared)
 }
 
@@ -30,15 +30,24 @@ struct TotalForceView: View {
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var displayedForce: Double = 0.0
     @State private var timer: Timer?
-    private var updateInterval: TimeInterval = 0.1
+    var force: Double 
+    var leftOrRight: String
+    var updateInterval: TimeInterval = 0.1
 
     var body: some View {
 //        let _ = Self._printChanges()
             VStack(alignment: .leading) {
-                Text("Force (N)")
-                    .font(.headline)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
+                if self.leftOrRight == "L" {
+                    Text("Left Force (N)")
+                        .font(.headline)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                } else {
+                    Text("Right Force (N)")
+                        .font(.headline)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                }
                 
                 Chart {
                     BarMark(
@@ -81,7 +90,7 @@ struct TotalForceView: View {
                 // Create a timer that updates displayedForce at the specified interval
                 
                 timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { _ in
-                    displayedForce = webSocketManager.totalForce
+                    displayedForce = webSocketManager.totalLeftForce
                 }
             }
             .onDisappear {
