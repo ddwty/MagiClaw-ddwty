@@ -97,7 +97,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
         arView.setupARView()
         arView.session.delegate = self
         // 启动TCP服务器
-               tcpServerManager = TCPServerManager(port: 8080)
+        tcpServerManager = TCPServerManager(port: 8080)
         
         // Setup CADisplayLink to track frame rate
                 displayLink = CADisplayLink(target: self, selector: #selector(updateFrameRate))
@@ -123,6 +123,17 @@ class ARViewController: UIViewController, ARSessionDelegate {
            arView.frame = CGRect(origin: .zero, size: frameSize)
        }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+            super.viewWillTransition(to: size, with: coordinator)
+            // 在屏幕旋转时更新框架大小
+            coordinator.animate(alongsideTransition: { _ in
+                self.frameSize = size
+                self.arView.frame = CGRect(origin: .zero, size: size)
+            }, completion: { _ in
+                self.arView.runARSession() // 重新确保 ARSession 继续运行
+            })
+        }
+    
     func updateARViewFrame(frameSize: CGSize) {
            // Update the frame size when passed from SwiftUI
            self.frameSize = frameSize
@@ -145,11 +156,12 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //        tcpServerManager?.broadcastMessage(transformString)
         
             let cameraTransform = frame.camera.transform
-            
             // 将 transform 转换为 JSON 字符串
-            if let jsonString = cameraTransform.toJSONString() {
-                // 通过 TCP 服务器发送 JSON 数据
-                tcpServerManager?.broadcastMessage(jsonString)
+        if let jsonString = cameraTransform.toJSONString() {
+                // 发送网络请求在后台线程
+                DispatchQueue.global(qos: .background).async {
+                    self.tcpServerManager?.broadcastMessage(jsonString)
+                }
             }
        
         recorder.recordFrame(frame)

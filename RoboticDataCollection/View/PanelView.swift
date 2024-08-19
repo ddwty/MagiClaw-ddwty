@@ -72,13 +72,15 @@ struct PanelView: View {
                                 Divider()
                                 HStack {
                                     TotalForceView(force: webSocketManager.totalLeftForce, leftOrRight: "L")
-                                        .frame(width: screenHeight * 0.3)
+//                                        .frame(width: screenHeight * 0.3)
+                                        .frame(minWidth: 200)
                                     Spacer()
                                     AngleView()
-                                        .frame(width: screenHeight * 0.15)
+                                        .frame(width: 120)
                                     Spacer()
                                     TotalForceView(force: webSocketManager.totalRightForce, leftOrRight: "R")
-                                        .frame(width: screenHeight * 0.3)
+//                                        .frame(width: screenHeight * 0.3)
+                                        .frame(minWidth: 200)
 //                                    Spacer()
                                 }
                             }
