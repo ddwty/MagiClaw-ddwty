@@ -8,6 +8,8 @@
 import SwiftUI
 import RealityKit
 import ARKit
+import simd
+import Accelerate
 
 struct MyARView: View {
     @State private var cameraTransform = simd_float4x4()
@@ -73,6 +75,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var arView: ARView!
     var frameSize: CGSize
     var recorder: ARRecorder!
+    private var tcpServerManager: TCPServerManager?
     
     private var lastUpdateTime: CFTimeInterval = 0
         private var displayLink: CADisplayLink?
@@ -93,6 +96,8 @@ class ARViewController: UIViewController, ARSessionDelegate {
         self.view.addSubview(arView)
         arView.setupARView()
         arView.session.delegate = self
+        // 启动TCP服务器
+               tcpServerManager = TCPServerManager(port: 8080)
         
         // Setup CADisplayLink to track frame rate
                 displayLink = CADisplayLink(target: self, selector: #selector(updateFrameRate))
@@ -136,9 +141,17 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         // Update camera transform and other data
-        DispatchQueue.main.async {
-            // Update camera transform if needed
-        }
+//        let transformString = frame.camera.transform.description
+//        tcpServerManager?.broadcastMessage(transformString)
+        
+            let cameraTransform = frame.camera.transform
+            
+            // 将 transform 转换为 JSON 字符串
+            if let jsonString = cameraTransform.toJSONString() {
+                // 通过 TCP 服务器发送 JSON 数据
+                tcpServerManager?.broadcastMessage(jsonString)
+            }
+       
         recorder.recordFrame(frame)
     }
 }
@@ -174,16 +187,3 @@ extension ARView {
         
     }
 }
-
-extension simd_float4x4 {
-    var description: String {
-        return """
-        [\(columns.0.x), \(columns.0.y), \(columns.0.z), \(columns.0.w)]
-        [\(columns.1.x), \(columns.1.y), \(columns.1.z), \(columns.1.w)]
-        [\(columns.2.x), \(columns.2.y), \(columns.2.z), \(columns.2.w)]
-        [\(columns.3.x), \(columns.3.y), \(columns.3.z), \(columns.3.w)]
-        """
-    }
-}
-
-
