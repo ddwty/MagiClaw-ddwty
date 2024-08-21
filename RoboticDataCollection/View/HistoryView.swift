@@ -10,71 +10,41 @@ import UniformTypeIdentifiers
 import SwiftData
 
 struct HistoryView: View {
-    //    @Query private var dataRecordings: [ARStorgeData]
     @Query private var allStorgeData: [AllStorgeData]
     @Environment(\.modelContext) private var modelContext
-    //    @State private var navigationPath: [ARStorgeData] = []
+    @State private var sortOrder = SortDescriptor(\AllStorgeData.createTime)
     
     var body: some View {
         NavigationStack {
-            List {
-                // 创建时间倒序
-                ForEach(allStorgeData.sorted(by: { $0.createTime > $1.createTime })) { recording in
-                    NavigationLink(destination: RecordingDetailView(recording: recording)) {
-                        HStack(alignment: .historyAlignment) {
-                            VStack(alignment: .leading) {
-                                Text(recording.scenario.rawValue)
-                                    .font(.caption)
-                                    .foregroundColor(recording.scenario.color)
-                                    .padding(.horizontal, 5)
-                                    .padding(.vertical, 3)
-                                    .background(
-                                        Capsule()
-                                            .strokeBorder(recording.scenario.color, lineWidth: 1) 
-                                    )
-                                    .offset(y: 2)
-                                    
-                                Text("\(recording.createTime, formatter: dateFormatter)")
-                                    .foregroundColor(.primary)
-                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
-                                        dim[VerticalAlignment.center]
-                                        
-                                    }
-                                    
-                                Text(recording.notes.isEmpty ? "No description" : recording.notes)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .offset(y: 2)
-                                
-                            }
-                            Spacer()
-                            VStack {
-                                Spacer()
-                                Text("\(recording.timeDuration, specifier: "%.1f") seconds")
-                                    .font(.body)
-                                    .foregroundStyle(.gray)
-                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
-                                        dim[VerticalAlignment.center]
-                                        
-                                }
-                                Spacer()
-                            }
-                              
-                        }
-                    }
-                }
-                .onDelete(perform: deleteRecordings)
-            }
+            HistoryListView(sort: sortOrder)
             .navigationTitle("History")
+            .toolbar {
+                Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                    Picker("Sort", selection: $sortOrder) {
+                        Text("Create time ascending")
+                            .tag(SortDescriptor(\AllStorgeData.createTime,  order: .forward))
+                        Text("Create time descending")
+                            .tag(SortDescriptor(\AllStorgeData.createTime, order: .reverse))
+                    }
+                    .pickerStyle(.inline)
+                }
+            }
         }
     }
     
     private func deleteRecordings(at indexSet: IndexSet) {
+        let sortedData = allStorgeData.sorted(by: { $0.createTime > $1.createTime })
         for index in indexSet {
-            modelContext.delete(allStorgeData[index])
+            let itemToDelete = sortedData[index]
+            if let originalIndex = allStorgeData.firstIndex(of: itemToDelete) {
+                modelContext.delete(allStorgeData[originalIndex])
+            }
         }
     }
+
 }
+
+
 
 
 private let dateFormatter: DateFormatter = {
@@ -94,9 +64,72 @@ private let dateFormatter: DateFormatter = {
 //        .modelContainer(previewContainer)
 //}
 
+struct HistoryListView: View {
+    @Query private var allStorgeData: [AllStorgeData]
+    @Environment(\.modelContext) private var modelContext
+    var body : some View {
+        List {
+            ForEach(allStorgeData) { recording in
+                NavigationLink(destination: RecordingDetailView(recording: recording)) {
+                    HStack(alignment: .historyAlignment) {
+                        VStack(alignment: .leading) {
+                            Text(recording.scenario.rawValue.capitalized)
+                                .font(.caption)
+                                .foregroundColor(recording.scenario.color)
+                                .padding(.horizontal, 5)
+                                .padding(.vertical, 3)
+                                .background(
+                                    Capsule()
+                                        .strokeBorder(recording.scenario.color, lineWidth: 1)
+                                )
+                                .offset(y: 2)
+                                
+                            Text("\(recording.createTime, formatter: dateFormatter)")
+                                .foregroundColor(.primary)
+                                .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                    dim[VerticalAlignment.center]
+                                    
+                                }
+                                
+                            Text(recording.notes.isEmpty ? "No description" : recording.notes)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .offset(y: 2)
+                            
+                        }
+                        Spacer()
+                        VStack {
+                            Spacer()
+                            Text("\(recording.timeDuration, specifier: "%.1f") seconds")
+                                .font(.body)
+                                .foregroundStyle(.gray)
+                                .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                    dim[VerticalAlignment.center]
+                            }
+                            Spacer()
+                        }
+                          
+                    }
+                }
+                .swipeActions(edge: .trailing) {
+                    Button(role: .destructive) {
+                        modelContext.delete(recording)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
+            }
+//                .onDelete(perform: deleteRecordings)
+            
+        }
+    }
+    init(sort: SortDescriptor<AllStorgeData>) {
+        _allStorgeData = Query(sort: [sort])
+    }
+}
+
 
 struct RecordingDetailView: View {
-    //    @Bindable var recording: ARStorgeData
     @Bindable var recording: AllStorgeData
     @State private var isFileExporterPresented = false
     @State private var isProcessing = false
@@ -111,8 +144,23 @@ struct RecordingDetailView: View {
             Form {
                 Section {
                     HStack {
+                        Text("Scenario:")
+                        Text(recording.scenario.rawValue.capitalized)
+                            .font(.caption)
+                            .foregroundColor(recording.scenario.color)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 3)
+                            .background(
+                                Capsule()
+                                    .strokeBorder(recording.scenario.color, lineWidth: 1)
+                            )
+                        
+                    }
+                    HStack {
+                        
                         Text("Task description: ")
                             .font(.headline)
+                        
                         
                         Text(recording.notes == "" ? "No description " : recording.notes)
                             .font(.body)
@@ -121,71 +169,55 @@ struct RecordingDetailView: View {
                 }
                 
                 Section {
-                    if isProcessing {
-                        HStack {
-                            Spacer()
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                            Spacer()
-                        }
-                    } else if csvOutputURLs.isEmpty{
-                        Button(action: {
-                            generateCSV()
-                        }) {
+                        if isProcessing {
                             HStack {
                                 Spacer()
-                                Label("Generate CSV file", systemImage: "arrow.up.doc")
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
                                 Spacer()
                             }
-                        }
-                    } else if !csvOutputURLs.isEmpty {
-                        ShareLink(items: csvOutputURLs) {
-                            HStack {
-                                Spacer()
-                                Label("Ready to share", systemImage: "square.and.arrow.up")
-                                    .foregroundColor(.green)
-                                Spacer()
+                        } else if csvOutputURLs.isEmpty{
+                            Button(action: {
+                                generateCSV()
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Label("Generate CSV file", systemImage: "arrow.up.doc")
+                                    Spacer()
+                                }
+                            }
+                        } else if !csvOutputURLs.isEmpty {
+                            ShareLink(items: csvOutputURLs) {
+                                HStack {
+                                    Spacer()
+                                    Label("Ready to share", systemImage: "square.and.arrow.up")
+                                        .foregroundColor(.green)
+                                    Spacer()
+                                }
                             }
                         }
-                    }
-                }
-                Section {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            Text("Duration:")
-                                .font(.headline)
-                            Spacer()
-                            Text("\(recording.timeDuration, specifier: "%.3f") seconds")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Data length:")
-                                .font(.headline)
-                            Spacer()
-                            
-                            Text("ARData: \(recording.unsortedARData.count)\nL_Force: \(recording.unsortedForceData.count)\nR_Force: \(recording.unsortedRightForceData.count)\nAngleData: \(recording.unsortedAngleData.count)")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Create date:")
-                                .font(.headline)
-                            Spacer()
-                            Text("\(recording.createTime, formatter: dateFormatter)")
-                                .font(.body)
-                                .foregroundColor(.secondary)
-                        }
-                    }
                     
                 }
                 Section {
+                    HStack {
+                        Text("Duration")
+                            .font(.headline)
+                        Spacer()
+                        Text("\(recording.timeDuration, specifier: "%.3f") seconds")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Text("Create time")
+                            .font(.headline)
+                        Spacer()
+                        Text("\(recording.createTime, formatter: dateFormatter)")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                Section(header: Text("Details")) {
                     NavigationLink(destination: ARDataView(arData: recording.unsortedARData)) {
                         HStack(alignment: .center) {
                             Text("Pose Data")
@@ -213,7 +245,6 @@ struct RecordingDetailView: View {
                             
                         }
                     }
-                    
                     
                     NavigationLink(destination: AngleDataView(angleData: recording.unsortedAngleData)) {
                         HStack(alignment: .center) {

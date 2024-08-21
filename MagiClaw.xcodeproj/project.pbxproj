@@ -32,6 +32,7 @@
 		602103862C75DB4E0025E247 /* StoreTempDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037B2C75DB4D0025E247 /* StoreTempDataModel.swift */; };
 		602103872C75DB4E0025E247 /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */; };
 		602103882C75DB4E0025E247 /* TCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037D2C75DB4E0025E247 /* TCPServer.swift */; };
+		602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */; };
 		607B2DEC2C6D15340010D914 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 607B2DEB2C6D15340010D914 /* README.md */; };
 		609395232C55473700E98950 /* MagiClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* MagiClawApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
@@ -70,6 +71,7 @@
 		6021037B2C75DB4D0025E247 /* StoreTempDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoreTempDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/StoreTempDataModel.swift; sourceTree = "<group>"; };
 		6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/SwiftDataModel.swift; sourceTree = "<group>"; };
 		6021037D2C75DB4E0025E247 /* TCPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPServer.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/TCPServer.swift; sourceTree = "<group>"; };
+		602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaspberryPiStatusView.swift; sourceTree = "<group>"; };
 		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* MagiClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagiClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* MagiClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagiClawApp.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				6021035A2C75DB2E0025E247 /* IPView.swift */,
 				6021035C2C75DB2F0025E247 /* PanelView.swift */,
 				6021035B2C75DB2E0025E247 /* RaspberryPiView.swift */,
+				602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */,
 				602103612C75DB2F0025E247 /* SettingView.swift */,
 				602103572C75DB2E0025E247 /* StopWach.swift */,
 				3D117EEE2C63E854006A7871 /* Unused */,
@@ -304,6 +307,7 @@
 				602103832C75DB4E0025E247 /* ARRecorder.swift in Sources */,
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
 				6021037E2C75DB4E0025E247 /* ScenarioCase.swift in Sources */,
+				602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */,
 				602103812C75DB4E0025E247 /* RecordAllDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,9 +449,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Use camera";
-				INFOPLIST_KEY_NSMotionUsageDescription = "Collecting data";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save video";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires access to motion data to record sensor information for robot.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -486,9 +490,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Use camera";
-				INFOPLIST_KEY_NSMotionUsageDescription = "Collecting data";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save video";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires access to motion data to record sensor information for robot.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

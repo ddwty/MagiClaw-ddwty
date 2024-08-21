@@ -1,12 +1,12 @@
 # MagiClaw App
 
-[![Swift](https://img.shields.io/badge/Swift-5.7-orange.svg)](https://swift.org) ![iOS](https://img.shields.io/badge/iOS-15.0%2B-blue.svg) 
+[![Swift](https://img.shields.io/badge/Swift-5.7-orange.svg)](https://swift.org) ![iOS](https://img.shields.io/badge/iOS-17.0%2B-blue.svg) 
 
 A SwiftUI-based iOS application designed for collecting various types of data using ARKit and external sensors. This app allows for recording RGB video, LiDAR depth data, and 4x4 transform matrices from the iPhone's sensor. Additionally, it interfaces with a Raspberry Pi via WebSocket to capture many other types data in real-time.
 
 ## Features
 
-- **RGB Video Recording**: Capture RGB vidoes from the iPhone's rear camera.
+- **RGB Video Recording**: Capture RGB videos from the iPhone's rear camera.
 - **LiDAR Depth Data**: Record depth data using the iPhone's LiDAR sensor, if available. Depth frames are saved in `.bin` format.
 - **Transform Matrix Collection**: Store 4x4 homogeneous transform matrices that represent the device's pose during recording.
 - **WebSocket Integration**: Connect to a Raspberry Pi on the same local network to receive and record force and angle data from external sensors.

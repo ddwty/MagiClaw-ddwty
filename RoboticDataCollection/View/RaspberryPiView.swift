@@ -8,44 +8,74 @@
 import SwiftUI
 import Combine
 import Starscream
+import TipKit
 
 struct RaspberryPiView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var message: String = ""
-        var body: some View {
-            HStack {
-               
-                
-                if webSocketManager.isConnected {
+    @State private var showPopover: Bool = false
+    var body: some View {
+        HStack {
+            if webSocketManager.isConnected {
+                HStack {
+                    Spacer()
                     Label("Connected", systemImage: "checkmark.circle")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.green)
-                    
                         .symbolEffect(.bounce, value: webSocketManager.isConnected)
-                } else {
-                    HStack {
-                        Label("Disconnected", systemImage: "wifi.router")
-                            .foregroundColor(.red)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .symbolEffect(.variableColor.iterative.reversing)
-                        Button(action: {
-                                webSocketManager.reConnectToServer()
-                        }) {
-                            Image(systemName: "arrow.clockwise.circle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                        }
+                    Spacer()
+                    Button(action: {
+                        self.showPopover.toggle()
+                    }) {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.blue)
+                            .frame(width: 25, height: 25)
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    .popover(isPresented: $showPopover,
+                             attachmentAnchor: .point(.center),
+                             content: {
+                        RaspberryPiStatusView()
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                    })
                 }
-               
+            } else {
+                HStack {
+                    Spacer()
+                    Label("Offline", systemImage: "wifi.router")
+                        .foregroundColor(.red)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .symbolEffect(.variableColor.iterative.reversing)
+                    Spacer()
                    
-                
+                    Button(action: {
+                        self.showPopover.toggle()
+                    }) {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.blue)
+                            .frame(width: 25, height: 25)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .popover(isPresented: $showPopover,
+                             attachmentAnchor: .point(.center),
+                             content: {
+                        RaspberryPiStatusView()
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                    })
+                }
             }
         }
+    }
+    
 }
 
 struct FilledButtonStyle: ButtonStyle {
@@ -65,3 +95,5 @@ struct ViaWifiView_Previews: PreviewProvider {
             .environment(WebSocketManager.shared)
     }
 }
+
+

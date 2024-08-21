@@ -33,25 +33,25 @@ struct SettingView: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
-                }
-                Section() {
                     HStack {
-                                            Text("Hostname:")
-                                            TextField("Enter hostname", text: $hostname)
-                                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                                .padding(5)
-                                        }
-                    NavigationLink(destination: IPView()) {
-//                            Label("Show IP Address", systemImage: "network")
-                        Text("iPhone's IP Address")
-                        
+                        Text("Hostname")
+                        TextField("Enter hostname", text: $hostname)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(5)
                     }
                 }
-//                    .textFieldStyle(RoundedBorderTextFieldStyle())
-//                    .focused($arRecorder.isFocused)
-                Section(header: Text("Frame Rate:")) {
+                Section(header: Text("Device info")) {
+                    HStack {
+                        Text("iPhone's IP Address")
+                        Spacer()
+                        IPView()
+                           
+                    }
                    
                 }
+                //                Section(header: Text("Frame Rate:")) {
+                //
+                //                }
             }
             .navigationTitle("Settings")
         }

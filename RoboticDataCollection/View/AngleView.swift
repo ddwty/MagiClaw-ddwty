@@ -13,7 +13,7 @@ struct AngleView: View {
     
     @State private var displayedAngle: Int = 0
     @State private var timer: Timer?
-    private var updateInterval: TimeInterval = 1/10
+    private var updateInterval: TimeInterval = 1/20
     
     var body: some View {
         VStack(alignment: .leading) {

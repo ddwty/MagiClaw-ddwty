@@ -12,15 +12,8 @@ struct IPView: View {
     @State private var ipAddress: String = "Fetching IP address..."
 
     var body: some View {
-        VStack {
-            Text("Device IP Address")
-                .font(.title)
-                .padding()
-            
             Text(ipAddress)
-                .font(.body)
-                .padding()
-        }
+            .foregroundStyle(.gray)
         .onAppear {
             ipAddress = getWiFiIPAddress()
         }
