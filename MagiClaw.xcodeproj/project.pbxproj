@@ -71,7 +71,7 @@
 		6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/SwiftDataModel.swift; sourceTree = "<group>"; };
 		6021037D2C75DB4E0025E247 /* TCPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPServer.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/TCPServer.swift; sourceTree = "<group>"; };
 		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		6093951F2C55473700E98950 /* RoboticDataCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoboticDataCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6093951F2C55473700E98950 /* MagiClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagiClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* MagiClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagiClawApp.swift; sourceTree = "<group>"; };
 		609395262C55473A00E98950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		609395292C55473A00E98950 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		609395202C55473700E98950 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6093951F2C55473700E98950 /* RoboticDataCollection.app */,
+				6093951F2C55473700E98950 /* MagiClaw.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,9 +201,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6093951E2C55473700E98950 /* RoboticDataCollection */ = {
+		6093951E2C55473700E98950 /* MagiClaw */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6093952D2C55473A00E98950 /* Build configuration list for PBXNativeTarget "RoboticDataCollection" */;
+			buildConfigurationList = 6093952D2C55473A00E98950 /* Build configuration list for PBXNativeTarget "MagiClaw" */;
 			buildPhases = (
 				6093951B2C55473700E98950 /* Sources */,
 				6093951C2C55473700E98950 /* Frameworks */,
@@ -213,12 +213,12 @@
 			);
 			dependencies = (
 			);
-			name = RoboticDataCollection;
+			name = MagiClaw;
 			packageProductDependencies = (
 				60C3A76F2C651774005AE3D1 /* Starscream */,
 			);
 			productName = RoboticDataCollection;
-			productReference = 6093951F2C55473700E98950 /* RoboticDataCollection.app */;
+			productReference = 6093951F2C55473700E98950 /* MagiClaw.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -236,7 +236,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6093951A2C55473700E98950 /* Build configuration list for PBXProject "RoboticDataCollection" */;
+			buildConfigurationList = 6093951A2C55473700E98950 /* Build configuration list for PBXProject "MagiClaw" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -252,7 +252,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6093951E2C55473700E98950 /* RoboticDataCollection */,
+				6093951E2C55473700E98950 /* MagiClaw */,
 			);
 		};
 /* End PBXProject section */
@@ -515,7 +515,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6093951A2C55473700E98950 /* Build configuration list for PBXProject "RoboticDataCollection" */ = {
+		6093951A2C55473700E98950 /* Build configuration list for PBXProject "MagiClaw" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6093952B2C55473A00E98950 /* Debug */,
@@ -524,7 +524,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6093952D2C55473A00E98950 /* Build configuration list for PBXNativeTarget "RoboticDataCollection" */ = {
+		6093952D2C55473A00E98950 /* Build configuration list for PBXNativeTarget "MagiClaw" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6093952E2C55473A00E98950 /* Debug */,

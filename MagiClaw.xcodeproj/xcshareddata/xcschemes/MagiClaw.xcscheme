@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6093951E2C55473700E98950"
-               BuildableName = "RoboticDataCollection.app"
-               BlueprintName = "RoboticDataCollection"
-               ReferencedContainer = "container:RoboticDataCollection.xcodeproj">
+               BuildableName = "MagiClaw.app"
+               BlueprintName = "MagiClaw"
+               ReferencedContainer = "container:MagiClaw.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6093951E2C55473700E98950"
-            BuildableName = "RoboticDataCollection.app"
-            BlueprintName = "RoboticDataCollection"
-            ReferencedContainer = "container:RoboticDataCollection.xcodeproj">
+            BuildableName = "MagiClaw.app"
+            BlueprintName = "MagiClaw"
+            ReferencedContainer = "container:MagiClaw.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6093951E2C55473700E98950"
-            BuildableName = "RoboticDataCollection.app"
-            BlueprintName = "RoboticDataCollection"
-            ReferencedContainer = "container:RoboticDataCollection.xcodeproj">
+            BuildableName = "MagiClaw.app"
+            BlueprintName = "MagiClaw"
+            ReferencedContainer = "container:MagiClaw.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
