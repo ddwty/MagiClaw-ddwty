@@ -7,76 +7,78 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D117EEB2C63E02D006A7871 /* ScenarioCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D117EEA2C63E02D006A7871 /* ScenarioCase.swift */; };
-		3D117EED2C63E6B8006A7871 /* AngleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D117EEC2C63E6B8006A7871 /* AngleView.swift */; };
-		3D625B6A2C622CEF00180FCB /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D625B692C622CEF00180FCB /* extension.swift */; };
+		602103632C75DB2F0025E247 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103572C75DB2E0025E247 /* StopWach.swift */; };
+		602103642C75DB2F0025E247 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103582C75DB2E0025E247 /* HistoryView.swift */; };
+		602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103592C75DB2E0025E247 /* ControlButtonView.swift */; };
+		602103662C75DB2F0025E247 /* IPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035A2C75DB2E0025E247 /* IPView.swift */; };
+		602103672C75DB2F0025E247 /* RaspberryPiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035B2C75DB2E0025E247 /* RaspberryPiView.swift */; };
+		602103682C75DB2F0025E247 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035C2C75DB2F0025E247 /* PanelView.swift */; };
+		602103692C75DB2F0025E247 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035D2C75DB2F0025E247 /* ContentView.swift */; };
+		6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035E2C75DB2F0025E247 /* ForceView.swift */; };
+		6021036B2C75DB2F0025E247 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035F2C75DB2F0025E247 /* extension.swift */; };
+		6021036C2C75DB2F0025E247 /* ARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103602C75DB2F0025E247 /* ARView.swift */; };
+		6021036D2C75DB2F0025E247 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103612C75DB2F0025E247 /* SettingView.swift */; };
+		6021036E2C75DB2F0025E247 /* AngleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103622C75DB2F0025E247 /* AngleView.swift */; };
+		602103712C75DB3A0025E247 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */; };
+		602103722C75DB3A0025E247 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103702C75DB3A0025E247 /* CameraView.swift */; };
+		6021037E2C75DB4E0025E247 /* ScenarioCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103732C75DB4D0025E247 /* ScenarioCase.swift */; };
+		6021037F2C75DB4E0025E247 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103742C75DB4D0025E247 /* WebSocketManager.swift */; };
+		602103802C75DB4E0025E247 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103752C75DB4D0025E247 /* DataModel.swift */; };
+		602103812C75DB4E0025E247 /* RecordAllDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103762C75DB4D0025E247 /* RecordAllDataModel.swift */; };
+		602103822C75DB4E0025E247 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103772C75DB4D0025E247 /* Extensions.swift */; };
+		602103832C75DB4E0025E247 /* ARRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103782C75DB4D0025E247 /* ARRecorder.swift */; };
+		602103842C75DB4E0025E247 /* MotionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103792C75DB4D0025E247 /* MotionDataModel.swift */; };
+		602103852C75DB4E0025E247 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037A2C75DB4D0025E247 /* CameraManager.swift */; };
+		602103862C75DB4E0025E247 /* StoreTempDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037B2C75DB4D0025E247 /* StoreTempDataModel.swift */; };
+		602103872C75DB4E0025E247 /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */; };
+		602103882C75DB4E0025E247 /* TCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021037D2C75DB4E0025E247 /* TCPServer.swift */; };
 		607B2DEC2C6D15340010D914 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 607B2DEB2C6D15340010D914 /* README.md */; };
-		609395232C55473700E98950 /* RoboticDataCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* RoboticDataCollectionApp.swift */; };
+		609395232C55473700E98950 /* MagiClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* MagiClawApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
 		6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395292C55473A00E98950 /* Preview Assets.xcassets */; };
-		6093956C2C554A7200E98950 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395402C554A7200E98950 /* CameraPreviewView.swift */; };
-		6093956D2C554A7200E98950 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395412C554A7200E98950 /* CameraView.swift */; };
-		609395782C554A7200E98950 /* ARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093954E2C554A7200E98950 /* ARView.swift */; };
 		609395792C554A7200E98950 /* AttitudeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093954F2C554A7200E98950 /* AttitudeIndicatorView.swift */; };
 		6093957A2C554A7200E98950 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395502C554A7200E98950 /* ChartView.swift */; };
-		6093957B2C554A7200E98950 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395512C554A7200E98950 /* ContentView.swift */; };
-		6093957C2C554A7200E98950 /* ControlButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395522C554A7200E98950 /* ControlButtonView.swift */; };
 		6093957D2C554A7200E98950 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395532C554A7200E98950 /* ExportView.swift */; };
-		6093957E2C554A7200E98950 /* ForceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395542C554A7200E98950 /* ForceView.swift */; };
-		6093957F2C554A7200E98950 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395552C554A7200E98950 /* HistoryView.swift */; };
-		609395802C554A7200E98950 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395562C554A7200E98950 /* PanelView.swift */; };
-		609395812C554A7200E98950 /* RaspberryPiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395572C554A7200E98950 /* RaspberryPiView.swift */; };
-		609395822C554A7200E98950 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395582C554A7200E98950 /* SettingView.swift */; };
-		609395832C554A7200E98950 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395592C554A7200E98950 /* StopWach.swift */; };
 		609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093955C2C554A7200E98950 /* PreviewSampleData.swift */; };
-		6093958A2C554A7200E98950 /* ARRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395632C554A7200E98950 /* ARRecorder.swift */; };
-		6093958B2C554A7200E98950 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395642C554A7200E98950 /* CameraManager.swift */; };
-		6093958C2C554A7200E98950 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395652C554A7200E98950 /* DataModel.swift */; };
-		6093958D2C554A7200E98950 /* MotionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395662C554A7200E98950 /* MotionDataModel.swift */; };
-		6093958E2C554A7200E98950 /* RecordAllDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395672C554A7200E98950 /* RecordAllDataModel.swift */; };
-		6093958F2C554A7200E98950 /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395682C554A7200E98950 /* SwiftDataModel.swift */; };
-		609395902C554A7200E98950 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395692C554A7200E98950 /* WebSocketManager.swift */; };
-		60A5CD1E2C6F3019001AD5E3 /* StoreTempDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5CD1D2C6F3018001AD5E3 /* StoreTempDataModel.swift */; };
 		60C3A7702C651774005AE3D1 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 60C3A76F2C651774005AE3D1 /* Starscream */; };
-		60CBC7DF2C72F0ED0014959E /* TCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CBC7DE2C72F0ED0014959E /* TCPServer.swift */; };
-		60CBC7E12C72F5430014959E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CBC7E02C72F5430014959E /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3D117EEA2C63E02D006A7871 /* ScenarioCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioCase.swift; sourceTree = "<group>"; };
-		3D117EEC2C63E6B8006A7871 /* AngleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleView.swift; sourceTree = "<group>"; };
 		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		3D625B692C622CEF00180FCB /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		602103572C75DB2E0025E247 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
+		602103582C75DB2E0025E247 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		602103592C75DB2E0025E247 /* ControlButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlButtonView.swift; sourceTree = "<group>"; };
+		6021035A2C75DB2E0025E247 /* IPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPView.swift; sourceTree = "<group>"; };
+		6021035B2C75DB2E0025E247 /* RaspberryPiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaspberryPiView.swift; sourceTree = "<group>"; };
+		6021035C2C75DB2F0025E247 /* PanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
+		6021035D2C75DB2F0025E247 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6021035E2C75DB2F0025E247 /* ForceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForceView.swift; sourceTree = "<group>"; };
+		6021035F2C75DB2F0025E247 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		602103602C75DB2F0025E247 /* ARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARView.swift; sourceTree = "<group>"; };
+		602103612C75DB2F0025E247 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		602103622C75DB2F0025E247 /* AngleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngleView.swift; sourceTree = "<group>"; };
+		6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		602103702C75DB3A0025E247 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		602103732C75DB4D0025E247 /* ScenarioCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScenarioCase.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/ScenarioCase.swift; sourceTree = "<group>"; };
+		602103742C75DB4D0025E247 /* WebSocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebSocketManager.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/WebSocketManager.swift; sourceTree = "<group>"; };
+		602103752C75DB4D0025E247 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/DataModel.swift; sourceTree = "<group>"; };
+		602103762C75DB4D0025E247 /* RecordAllDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecordAllDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/RecordAllDataModel.swift; sourceTree = "<group>"; };
+		602103772C75DB4D0025E247 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/Extensions.swift; sourceTree = "<group>"; };
+		602103782C75DB4D0025E247 /* ARRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ARRecorder.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/ARRecorder.swift; sourceTree = "<group>"; };
+		602103792C75DB4D0025E247 /* MotionDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MotionDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/MotionDataModel.swift; sourceTree = "<group>"; };
+		6021037A2C75DB4D0025E247 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/CameraManager.swift; sourceTree = "<group>"; };
+		6021037B2C75DB4D0025E247 /* StoreTempDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoreTempDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/StoreTempDataModel.swift; sourceTree = "<group>"; };
+		6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftDataModel.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/SwiftDataModel.swift; sourceTree = "<group>"; };
+		6021037D2C75DB4E0025E247 /* TCPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPServer.swift; path = ../../../../Developer/RoboticDataCollection/RoboticDataCollection/Model/TCPServer.swift; sourceTree = "<group>"; };
 		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* RoboticDataCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoboticDataCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		609395222C55473700E98950 /* RoboticDataCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoboticDataCollectionApp.swift; sourceTree = "<group>"; };
+		609395222C55473700E98950 /* MagiClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagiClawApp.swift; sourceTree = "<group>"; };
 		609395262C55473A00E98950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		609395292C55473A00E98950 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		609395402C554A7200E98950 /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
-		609395412C554A7200E98950 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		6093954E2C554A7200E98950 /* ARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARView.swift; sourceTree = "<group>"; };
 		6093954F2C554A7200E98950 /* AttitudeIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttitudeIndicatorView.swift; sourceTree = "<group>"; };
 		609395502C554A7200E98950 /* ChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
-		609395512C554A7200E98950 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		609395522C554A7200E98950 /* ControlButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlButtonView.swift; sourceTree = "<group>"; };
 		609395532C554A7200E98950 /* ExportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
-		609395542C554A7200E98950 /* ForceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForceView.swift; sourceTree = "<group>"; };
-		609395552C554A7200E98950 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		609395562C554A7200E98950 /* PanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
-		609395572C554A7200E98950 /* RaspberryPiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaspberryPiView.swift; sourceTree = "<group>"; };
-		609395582C554A7200E98950 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		609395592C554A7200E98950 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
 		6093955C2C554A7200E98950 /* PreviewSampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
-		609395632C554A7200E98950 /* ARRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARRecorder.swift; sourceTree = "<group>"; };
-		609395642C554A7200E98950 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
-		609395652C554A7200E98950 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		609395662C554A7200E98950 /* MotionDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionDataModel.swift; sourceTree = "<group>"; };
-		609395672C554A7200E98950 /* RecordAllDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordAllDataModel.swift; sourceTree = "<group>"; };
-		609395682C554A7200E98950 /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataModel.swift; sourceTree = "<group>"; };
-		609395692C554A7200E98950 /* WebSocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
-		60A5CD1D2C6F3018001AD5E3 /* StoreTempDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTempDataModel.swift; sourceTree = "<group>"; };
-		60CBC7DE2C72F0ED0014959E /* TCPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCPServer.swift; sourceTree = "<group>"; };
-		60CBC7E02C72F5430014959E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3D625B682C5F560600180FCB /* Info.plist */,
-				609395222C55473700E98950 /* RoboticDataCollectionApp.swift */,
+				609395222C55473700E98950 /* MagiClawApp.swift */,
 				6093956A2C554A7200E98950 /* Model */,
 				6093955D2C554A7200E98950 /* support */,
 				6093955B2C554A7200E98950 /* View */,
@@ -143,8 +145,8 @@
 		609395422C554A7200E98950 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				609395402C554A7200E98950 /* CameraPreviewView.swift */,
-				609395412C554A7200E98950 /* CameraView.swift */,
+				6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */,
+				602103702C75DB3A0025E247 /* CameraView.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -152,19 +154,20 @@
 		6093955B2C554A7200E98950 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				602103622C75DB2F0025E247 /* AngleView.swift */,
+				602103602C75DB2F0025E247 /* ARView.swift */,
+				6021035D2C75DB2F0025E247 /* ContentView.swift */,
+				602103592C75DB2E0025E247 /* ControlButtonView.swift */,
+				6021035F2C75DB2F0025E247 /* extension.swift */,
+				6021035E2C75DB2F0025E247 /* ForceView.swift */,
+				602103582C75DB2E0025E247 /* HistoryView.swift */,
+				6021035A2C75DB2E0025E247 /* IPView.swift */,
+				6021035C2C75DB2F0025E247 /* PanelView.swift */,
+				6021035B2C75DB2E0025E247 /* RaspberryPiView.swift */,
+				602103612C75DB2F0025E247 /* SettingView.swift */,
+				602103572C75DB2E0025E247 /* StopWach.swift */,
 				3D117EEE2C63E854006A7871 /* Unused */,
 				609395422C554A7200E98950 /* Camera */,
-				6093954E2C554A7200E98950 /* ARView.swift */,
-				609395512C554A7200E98950 /* ContentView.swift */,
-				609395522C554A7200E98950 /* ControlButtonView.swift */,
-				609395542C554A7200E98950 /* ForceView.swift */,
-				609395552C554A7200E98950 /* HistoryView.swift */,
-				609395562C554A7200E98950 /* PanelView.swift */,
-				3D117EEC2C63E6B8006A7871 /* AngleView.swift */,
-				3D625B692C622CEF00180FCB /* extension.swift */,
-				609395572C554A7200E98950 /* RaspberryPiView.swift */,
-				609395582C554A7200E98950 /* SettingView.swift */,
-				609395592C554A7200E98950 /* StopWach.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,17 +183,17 @@
 		6093956A2C554A7200E98950 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				609395632C554A7200E98950 /* ARRecorder.swift */,
-				609395642C554A7200E98950 /* CameraManager.swift */,
-				60CBC7DE2C72F0ED0014959E /* TCPServer.swift */,
-				609395652C554A7200E98950 /* DataModel.swift */,
-				609395662C554A7200E98950 /* MotionDataModel.swift */,
-				609395672C554A7200E98950 /* RecordAllDataModel.swift */,
-				3D117EEA2C63E02D006A7871 /* ScenarioCase.swift */,
-				60CBC7E02C72F5430014959E /* Extensions.swift */,
-				609395682C554A7200E98950 /* SwiftDataModel.swift */,
-				609395692C554A7200E98950 /* WebSocketManager.swift */,
-				60A5CD1D2C6F3018001AD5E3 /* StoreTempDataModel.swift */,
+				602103782C75DB4D0025E247 /* ARRecorder.swift */,
+				6021037A2C75DB4D0025E247 /* CameraManager.swift */,
+				602103752C75DB4D0025E247 /* DataModel.swift */,
+				602103772C75DB4D0025E247 /* Extensions.swift */,
+				602103792C75DB4D0025E247 /* MotionDataModel.swift */,
+				602103762C75DB4D0025E247 /* RecordAllDataModel.swift */,
+				602103732C75DB4D0025E247 /* ScenarioCase.swift */,
+				6021037B2C75DB4D0025E247 /* StoreTempDataModel.swift */,
+				6021037C2C75DB4D0025E247 /* SwiftDataModel.swift */,
+				6021037D2C75DB4E0025E247 /* TCPServer.swift */,
+				602103742C75DB4D0025E247 /* WebSocketManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -272,35 +275,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6093958C2C554A7200E98950 /* DataModel.swift in Sources */,
-				609395802C554A7200E98950 /* PanelView.swift in Sources */,
-				6093958A2C554A7200E98950 /* ARRecorder.swift in Sources */,
+				6021036C2C75DB2F0025E247 /* ARView.swift in Sources */,
+				602103802C75DB4E0025E247 /* DataModel.swift in Sources */,
+				602103722C75DB3A0025E247 /* CameraView.swift in Sources */,
 				609395792C554A7200E98950 /* AttitudeIndicatorView.swift in Sources */,
+				602103882C75DB4E0025E247 /* TCPServer.swift in Sources */,
+				602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */,
+				6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */,
+				602103852C75DB4E0025E247 /* CameraManager.swift in Sources */,
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
-				6093957C2C554A7200E98950 /* ControlButtonView.swift in Sources */,
-				609395822C554A7200E98950 /* SettingView.swift in Sources */,
-				60CBC7E12C72F5430014959E /* Extensions.swift in Sources */,
-				6093957F2C554A7200E98950 /* HistoryView.swift in Sources */,
-				609395832C554A7200E98950 /* StopWach.swift in Sources */,
-				609395232C55473700E98950 /* RoboticDataCollectionApp.swift in Sources */,
-				6093958D2C554A7200E98950 /* MotionDataModel.swift in Sources */,
-				6093958B2C554A7200E98950 /* CameraManager.swift in Sources */,
-				60CBC7DF2C72F0ED0014959E /* TCPServer.swift in Sources */,
-				609395782C554A7200E98950 /* ARView.swift in Sources */,
-				3D117EEB2C63E02D006A7871 /* ScenarioCase.swift in Sources */,
+				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
+				6021036B2C75DB2F0025E247 /* extension.swift in Sources */,
+				602103642C75DB2F0025E247 /* HistoryView.swift in Sources */,
+				602103632C75DB2F0025E247 /* StopWach.swift in Sources */,
+				602103672C75DB2F0025E247 /* RaspberryPiView.swift in Sources */,
+				602103662C75DB2F0025E247 /* IPView.swift in Sources */,
+				6021036E2C75DB2F0025E247 /* AngleView.swift in Sources */,
+				602103712C75DB3A0025E247 /* CameraPreviewView.swift in Sources */,
+				602103822C75DB4E0025E247 /* Extensions.swift in Sources */,
+				6021037F2C75DB4E0025E247 /* WebSocketManager.swift in Sources */,
+				602103842C75DB4E0025E247 /* MotionDataModel.swift in Sources */,
+				602103682C75DB2F0025E247 /* PanelView.swift in Sources */,
 				6093957D2C554A7200E98950 /* ExportView.swift in Sources */,
-				6093956C2C554A7200E98950 /* CameraPreviewView.swift in Sources */,
-				3D625B6A2C622CEF00180FCB /* extension.swift in Sources */,
-				609395812C554A7200E98950 /* RaspberryPiView.swift in Sources */,
-				6093958F2C554A7200E98950 /* SwiftDataModel.swift in Sources */,
+				602103692C75DB2F0025E247 /* ContentView.swift in Sources */,
+				602103862C75DB4E0025E247 /* StoreTempDataModel.swift in Sources */,
+				6021036D2C75DB2F0025E247 /* SettingView.swift in Sources */,
+				602103872C75DB4E0025E247 /* SwiftDataModel.swift in Sources */,
+				602103832C75DB4E0025E247 /* ARRecorder.swift in Sources */,
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
-				60A5CD1E2C6F3019001AD5E3 /* StoreTempDataModel.swift in Sources */,
-				6093957E2C554A7200E98950 /* ForceView.swift in Sources */,
-				6093957B2C554A7200E98950 /* ContentView.swift in Sources */,
-				3D117EED2C63E6B8006A7871 /* AngleView.swift in Sources */,
-				6093956D2C554A7200E98950 /* CameraView.swift in Sources */,
-				609395902C554A7200E98950 /* WebSocketManager.swift in Sources */,
-				6093958E2C554A7200E98950 /* RecordAllDataModel.swift in Sources */,
+				6021037E2C75DB4E0025E247 /* ScenarioCase.swift in Sources */,
+				602103812C75DB4E0025E247 /* RecordAllDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

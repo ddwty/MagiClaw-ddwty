@@ -47,6 +47,8 @@ struct ControlButtonView: View {
                     TextField("Enter description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
+                        .keyboardType(.URL)
+                           .textContentType(.URL)
                         .onChange(of: description) {oldValue, newValue in
                             recordAllDataModel.description = newValue
                         }
@@ -64,11 +66,14 @@ struct ControlButtonView: View {
                 isPresented: $isSaved
             ) {
                 Button("OK") {
-                    // Handle the acknowledgement.
                 }
             } message: {
-                Text("You have successfully recorded an action😁")
-                //TODO: - 显示数据长度
+//                Text("You have successfully recorded an action😁")
+                Text("You have successfully recorded an action😁\n" +
+                     "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
+                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+                     "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
+                     "AR Data: \(self.recordAllDataModel.recordedARData.count)")
             }
         } else {
                 GroupBox {
@@ -89,6 +94,8 @@ struct ControlButtonView: View {
                                     }
                                     .disableAutocorrection(true)
                                     .frame(minWidth: 100, minHeight: 50)
+                                    .keyboardType(.URL)
+                                    .textContentType(.URL)
                             }
                             Spacer()
                             VStack(alignment: .leading) {
@@ -129,8 +136,13 @@ struct ControlButtonView: View {
                     // Handle the acknowledgement.
                 }
             } message: {
-                Text("You have successfully recorded an action😁")
-                //TODO: - 显示数据长度
+//                Text("You have successfully recorded an action😁")
+                Text("You have successfully recorded an action😁\n" +
+                     "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
+                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+                     "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
+                     "AR Data: \(self.recordAllDataModel.recordedARData.count)")
+                
             }
         }
     }

@@ -28,6 +28,13 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings",systemImage: "gear")
                 }
+                .onTapGesture {
+                hideKeyboard()
+            }
+            IPView()
+                .tabItem {
+                    Label("IP",systemImage: "gear")
+                }
             
         }
     }

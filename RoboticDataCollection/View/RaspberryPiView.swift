@@ -10,15 +10,19 @@ import Combine
 import Starscream
 
 struct RaspberryPiView: View {
-//    @ObservedObject var webSocketManager = WebSocketManager.shared
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var message: String = ""
         var body: some View {
-            VStack {
+            HStack {
+               
+                
                 if webSocketManager.isConnected {
                     Label("Connected", systemImage: "checkmark.circle")
                         .font(.title3)
+                        .fontWeight(.bold)
                         .foregroundColor(.green)
+                    
                         .symbolEffect(.bounce, value: webSocketManager.isConnected)
                 } else {
                     HStack {
@@ -37,6 +41,9 @@ struct RaspberryPiView: View {
                         }
                     }
                 }
+               
+                   
+                
             }
         }
 }

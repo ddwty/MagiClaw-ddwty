@@ -43,9 +43,11 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
+    @EnvironmentObject var tcpServerManager: TCPServerManager
+  
     
     func makeUIViewController(context: Context) -> ARViewController {
-        let arViewController = ARViewController(frameSize: frameSize)
+        let arViewController = ARViewController(frameSize: frameSize, tcpServerManager: tcpServerManager)
                 arViewController.recorder = recorder
                 arViewController.updateFrameRateBinding($frameRate)
                 return arViewController
@@ -75,14 +77,16 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var arView: ARView!
     var frameSize: CGSize
     var recorder: ARRecorder!
-    private var tcpServerManager: TCPServerManager?
+    var tcpServerManager: TCPServerManager
+    
     
     private var lastUpdateTime: CFTimeInterval = 0
         private var displayLink: CADisplayLink?
         private var frameRateBinding: Binding<Double>?
     
-    init(frameSize: CGSize) {
+    init(frameSize: CGSize, tcpServerManager: TCPServerManager) {
             self.frameSize = frameSize
+        self.tcpServerManager = tcpServerManager
             super.init(nibName: nil, bundle: nil)
         }
 
@@ -96,12 +100,10 @@ class ARViewController: UIViewController, ARSessionDelegate {
         self.view.addSubview(arView)
         arView.setupARView()
         arView.session.delegate = self
-        // 启动TCP服务器
-        tcpServerManager = TCPServerManager(port: 8080)
+//        // 启动TCP服务器
+//        tcpServerManager = TCPServerManager(port: 8080)
         
-        // Setup CADisplayLink to track frame rate
-                displayLink = CADisplayLink(target: self, selector: #selector(updateFrameRate))
-                displayLink?.add(to: .main, forMode: .default)
+       
     }
     
     func updateFrameRateBinding(_ binding: Binding<Double>) {
@@ -125,12 +127,12 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
             super.viewWillTransition(to: size, with: coordinator)
+       
             // 在屏幕旋转时更新框架大小
-            coordinator.animate(alongsideTransition: { _ in
+        coordinator.animate(alongsideTransition: { _ in
+                // 只更新 ARView 的 frame，而不重启 ARSession
                 self.frameSize = size
                 self.arView.frame = CGRect(origin: .zero, size: size)
-            }, completion: { _ in
-                self.arView.runARSession() // 重新确保 ARSession 继续运行
             })
         }
     
@@ -154,13 +156,14 @@ class ARViewController: UIViewController, ARSessionDelegate {
         // Update camera transform and other data
 //        let transformString = frame.camera.transform.description
 //        tcpServerManager?.broadcastMessage(transformString)
+//        print("session\(Date.now)")
         
             let cameraTransform = frame.camera.transform
             // 将 transform 转换为 JSON 字符串
-        if let jsonString = cameraTransform.toJSONString() {
-                // 发送网络请求在后台线程
+            if let jsonString = cameraTransform.toJSONString() {
+               
                 DispatchQueue.global(qos: .background).async {
-                    self.tcpServerManager?.broadcastMessage(jsonString)
+                    self.tcpServerManager.broadcastMessage(jsonString)
                 }
             }
        
