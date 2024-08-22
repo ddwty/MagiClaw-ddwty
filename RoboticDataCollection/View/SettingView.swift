@@ -38,6 +38,10 @@ struct SettingView: View {
                         TextField("Enter hostname", text: $hostname)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(5)
+                            .onChange(of: hostname) { oldValue, newValue in
+                                webSocketManager.setHostname(hostname: newValue)
+                                webSocketManager.reConnectToServer()
+                            }
                     }
                 }
                 Section(header: Text("Device info")) {
