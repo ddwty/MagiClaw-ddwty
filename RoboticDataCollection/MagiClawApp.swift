@@ -15,6 +15,7 @@ struct MagiClawApp: App {
 //    @State var selectedScenario = SelectedScenario()
     @StateObject var tcpServerManager = TCPServerManager(port: 8080)
     @Environment(\.scenePhase) private var scenePhase // 用于监控应用的生命周期阶段
+    @AppStorage("hostname") private var hostname = "raspberrypi.local"
        var body: some Scene {
            WindowGroup {
                ContentView()

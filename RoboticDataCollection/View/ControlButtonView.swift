@@ -187,17 +187,19 @@ struct StartRecordingButton: View {
                         timeDuration: recordAllDataModel.recordingDuration,
                         notes: self.description,
                         scenario: self.scenario,
-                        forceData: recordAllDataModel.recordedForceData, rightForceData: recordAllDataModel.recordedRightForceData,
+                        forceData: recordAllDataModel.recordedForceData, 
+                        rightForceData: recordAllDataModel.recordedRightForceData,
                         angleData: recordAllDataModel.recordedAngleData,
                         aRData: recordAllDataModel.recordedARData
                     )
+                  
                     modelContext.insert(newAllData)
                     
                     do {
                         try modelContext.save()
                         isSaved = true
                     } catch {
-                        print("Failed to save AR data: \(error.localizedDescription)")
+                        print("Failed to save data: \(error.localizedDescription)")
                     }
                     
                 } else {
