@@ -19,6 +19,9 @@ let previewContainer: ModelContainer = {
         for data in SampleDeck.contents{
             container.mainContext.insert(data)
         }
+//        for data in Scenario2.sampleScenario {
+//            container.mainContext.insert(data)
+//        }
        
         return container
     } catch {
@@ -28,8 +31,8 @@ let previewContainer: ModelContainer = {
 
 struct SampleDeck {
     static var contents: [AllStorgeData] = [
-        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bathroom,forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
-        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bedroom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
-        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .livingRoom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: [])
+//        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bathroom,forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
+//        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bedroom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
+//        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .livingRoom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: [])
     ]
 }

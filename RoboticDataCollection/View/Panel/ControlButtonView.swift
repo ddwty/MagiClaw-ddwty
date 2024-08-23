@@ -13,11 +13,16 @@ struct ControlButtonView: View {
     @Environment(RecordAllDataModel.self) var recordAllDataModel
     @Environment(WebSocketManager.self) private var webSocketManager
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    
+    // 让UnSpecified排在最前面，剩下的按字母顺序排
+    @Query private var storedScenarios: [Scenario2]
    
     @State var isSaved = false
     @State private var description = ""
-    @State private var scenario: Scenario = .unspecified
-//    @State var scenarioModel = SelectedScenario()
+//    @State private var scenario: Scenario = .unspecified
+    
+    @State private var newScenario: Scenario2?
+  
    
     @FocusState private var isFocused: Bool
     
@@ -31,16 +36,36 @@ struct ControlButtonView: View {
                     Divider()
                     HStack {
                         Text("Select a scenario: ")
-                        Picker("Scenario", selection: $scenario) {
-                            ForEach(Scenario.allCases) { scenario in
-                                Text(scenario.rawValue.capitalized)
-                                    .tag(scenario)
+                        
+                        // TODO: - 检查是否为空
+                        Picker("Scenario", selection: $newScenario) {
+//                            Text("")
+//                                .tag(Optional<Scenario2>(nil))
+                            
+                            ForEach (storedScenarios.sorted {
+                                if $0.name == "Unspecified" {
+                                    return true
+                                } else if $1.name == "Unspecified" {
+                                    return false
+                                } else {
+                                    return $0.name.localizedCompare($1.name) == .orderedAscending
+                                }
+                            }, id: \.self) { scenario in
+                                
+                                Text(scenario.name.capitalized)
+//
+                                    .tag(Optional(scenario))
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
                         // 传递给class，以用作文件名
-                        .onChange(of: scenario) { oldValue, newValue in
-                            recordAllDataModel.scenarioName = newValue
+                        .onChange(of: self.newScenario) { oldValue, newValue in
+                            if let scenario = newValue {
+                                recordAllDataModel.scenarioName = scenario.name
+                            } else {
+                                // 处理 newValue 为 nil 的情况
+                                recordAllDataModel.scenarioName = ""
+                            }
                         }
                     }
                     
@@ -56,7 +81,7 @@ struct ControlButtonView: View {
                        
                     HStack {
                         Spacer()
-                        StartRecordingButton(isSaved: self.$isSaved, description: self.$description, scenario: self.$scenario)
+                        StartRecordingButton(isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
                         Spacer()
                     }
                 }
@@ -71,7 +96,7 @@ struct ControlButtonView: View {
 //                Text("You have successfully recorded an action😁")
                 Text("You have successfully recorded an action😁\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
-                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+//                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
                      "AR Data: \(self.recordAllDataModel.recordedARData.count)")
             }
@@ -102,25 +127,39 @@ struct ControlButtonView: View {
                                 HStack {
                                     Text("Scenario:")
                                         .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
-                                    Picker("Scenario", selection: $scenario) {
-                                        ForEach(Scenario.allCases) { scenario in
-                                            Text(scenario.rawValue.capitalized)
-                                                        .lineLimit(1)
-                                                        .truncationMode(.tail)
-                                                        .tag(scenario)
-                                                
+
+                                    // TODO: - 检查是否为空
+                                    Picker("Scenario", selection: $newScenario) {
+                                        ForEach (storedScenarios.sorted {
+                                            if $0.name == "Unspecified" {
+                                                return true
+                                            } else if $1.name == "Unspecified" {
+                                                return false
+                                            } else {
+                                                return $0.name.localizedCompare($1.name) == .orderedAscending
+                                            }
+                                        }, id: \.self) { scenario in
+                                            Text(scenario.name.capitalized)
+//                                                .tag(Optional<Scenario2>(nil))
+//                                                .tag(scenario as Scenario2?)
+                                                .tag(Optional(scenario))
                                         }
                                     }
                                     .pickerStyle(MenuPickerStyle())
                                     // 传递给class，以用作文件名
-                                    .onChange(of: scenario) {oldValue,  newValue in
-                                        recordAllDataModel.scenarioName = newValue
+                                    .onChange(of: self.newScenario) { oldValue, newValue in
+                                        if let scenario = newValue {
+                                            recordAllDataModel.scenarioName = scenario.name
+                                        } else {
+                                            // 处理 newValue 为 nil 的情况
+                                            recordAllDataModel.scenarioName = ""
+                                        }
                                     }
                                 }
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                    StartRecordingButton(isSaved: self.$isSaved, description: self.$description, scenario: self.$scenario)
+                                     StartRecordingButton(isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
                                     Spacer()
                                 }
                                 Spacer()
@@ -139,7 +178,7 @@ struct ControlButtonView: View {
 //                Text("You have successfully recorded an action😁")
                 Text("You have successfully recorded an action😁\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
-                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+//                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
                      "AR Data: \(self.recordAllDataModel.recordedARData.count)")
                 
@@ -166,7 +205,8 @@ struct StartRecordingButton: View {
     
     @Binding var isSaved: Bool
     @Binding var description: String
-    @Binding var scenario: Scenario
+//    @Binding var scenario: Scenario
+    @Binding var newScenario: Scenario2?
     
     @AppStorage("ignore websocket") private var ignoreWebsocket = false
     @State var isWaitingtoSave = false
@@ -186,21 +226,20 @@ struct StartRecordingButton: View {
                         createTime: Date(),
                         timeDuration: recordAllDataModel.recordingDuration,
                         notes: self.description,
-                        scenario: self.scenario,
                         forceData: recordAllDataModel.recordedForceData, 
                         rightForceData: recordAllDataModel.recordedRightForceData,
                         angleData: recordAllDataModel.recordedAngleData,
                         aRData: recordAllDataModel.recordedARData
                     )
-                  
+                    newAllData.scenario = self.newScenario
                     modelContext.insert(newAllData)
-                    
-                    do {
-                        try modelContext.save()
-                        isSaved = true
-                    } catch {
-                        print("Failed to save data: \(error.localizedDescription)")
-                    }
+                    isSaved = true
+//                    do {
+//                        try modelContext.save()
+//                        isSaved = true
+//                    } catch {
+//                        print("Failed to save data: \(error.localizedDescription)")
+//                    }
                     
                 } else {
                     recordAllDataModel.startRecordingData()

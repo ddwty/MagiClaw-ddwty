@@ -9,6 +9,9 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+
+
+
 @Observable class RecordAllDataModel {
     private var isRecording = false
     public var isWaitingSaveing = false
@@ -23,7 +26,8 @@ import SwiftData
     // 用于为文件夹命名场景
 //    private var scenarioName = SelectedScenario.shared.selectedScenario
     
-    var scenarioName = Scenario.unspecified
+//    var scenarioName = Scenario.unspecified
+    var scenarioName = ""
     var description = "" // 暂时还没保存
     private var timer: Timer?
     private var recordingStartTime: Date?
@@ -46,6 +50,7 @@ import SwiftData
         recordedForceData.removeAll()
         recordedARData.removeAll()
         recordedAngleData.removeAll()
+        recordedRightForceData.removeAll()
         //            cameraManager.startRecording()
         
         // MARK: - 创建父文件夹, 以时间开头命名
@@ -53,7 +58,7 @@ import SwiftData
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
         let dateString = dateFormatter.string(from: Date())
-        parentFolderURL = documentDirectory.appendingPathComponent(dateString + "_\(scenarioName.rawValue)")
+        parentFolderURL = documentDirectory.appendingPathComponent(dateString + "_\(scenarioName)")
         
         do {
             try FileManager.default.createDirectory(at: parentFolderURL!, withIntermediateDirectories: true, attributes: nil)
@@ -84,8 +89,6 @@ import SwiftData
         guard isRecording else { return }
         self.isWaitingSaveing = true
         
-        //            motionManager.stopUpdates()
-        //            cameraManager.stopRecording()
         webSocketManager.stopRecordingForceData()
         motionManager.stopRecording()
         arRecorder.stopRecording { videoURL in
@@ -105,7 +108,7 @@ import SwiftData
         recordedAngleData = webSocketManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
         
-        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
+//        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
         //        print("Force data:\(recordedForceData)")
         
         // 将其他数据保存为CSV

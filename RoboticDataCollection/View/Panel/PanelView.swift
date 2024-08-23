@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PanelView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    
+   
     //    @StateObject private var keyboardResponder = KeyboardResponder()
     @State var motionData: [MotionData] = []
     @State var showBigAr = false
@@ -150,6 +150,7 @@ struct PanelView: View {
         .environment(RecordAllDataModel())
         .environment(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)
-        .environmentObject(TCPServerManager(port: 8080))
+//        .environmentObject(TCPServerManager(port: 8080))
+        .environmentObject(WebSocketServerManager(port: 8080))
 }
 

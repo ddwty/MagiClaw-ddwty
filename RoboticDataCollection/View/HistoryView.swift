@@ -10,7 +10,6 @@ import UniformTypeIdentifiers
 import SwiftData
 
 struct HistoryView: View {
-    @Query private var allStorgeData: [AllStorgeData]
     @Environment(\.modelContext) private var modelContext
     @State private var sortOrder = SortDescriptor(\AllStorgeData.createTime)
     
@@ -32,15 +31,6 @@ struct HistoryView: View {
         }
     }
     
-    private func deleteRecordings(at indexSet: IndexSet) {
-        let sortedData = allStorgeData.sorted(by: { $0.createTime > $1.createTime })
-        for index in indexSet {
-            let itemToDelete = sortedData[index]
-            if let originalIndex = allStorgeData.firstIndex(of: itemToDelete) {
-                modelContext.delete(allStorgeData[originalIndex])
-            }
-        }
-    }
 
 }
 
@@ -63,6 +53,9 @@ private let dateFormatter: DateFormatter = {
 //    RecordingDetailView(recording: SampleDeck.contents[0])
 //        .modelContainer(previewContainer)
 //}
+//
+
+
 
 struct HistoryListView: View {
     @Query private var allStorgeData: [AllStorgeData]
@@ -73,14 +66,14 @@ struct HistoryListView: View {
                 NavigationLink(destination: RecordingDetailView(recording: recording)) {
                     HStack(alignment: .historyAlignment) {
                         VStack(alignment: .leading) {
-                            Text(recording.scenario.rawValue.capitalized)
+                            Text(recording.scenario?.name.capitalized ?? "Unspecified")
                                 .font(.caption)
-                                .foregroundColor(recording.scenario.color)
+                                .foregroundColor(recording.scenario?.hexColor ?? Color.gray)
                                 .padding(.horizontal, 5)
                                 .padding(.vertical, 3)
                                 .background(
                                     Capsule()
-                                        .strokeBorder(recording.scenario.color, lineWidth: 1)
+                                        .strokeBorder(recording.scenario?.hexColor ?? Color.gray, lineWidth: 1)
                                 )
                                 .offset(y: 2)
                                 
@@ -145,22 +138,22 @@ struct RecordingDetailView: View {
                 Section {
                     HStack {
                         Text("Scenario:")
-                        Text(recording.scenario.rawValue.capitalized)
+                            .font(.headline)
+                        Text(recording.scenario?.name.capitalized ?? "Unspecified")
                             .font(.caption)
-                            .foregroundColor(recording.scenario.color)
+                            .foregroundColor(recording.scenario?.hexColor ?? Color.gray)
                             .padding(.horizontal, 5)
                             .padding(.vertical, 3)
                             .background(
                                 Capsule()
-                                    .strokeBorder(recording.scenario.color, lineWidth: 1)
+                                    .strokeBorder(recording.scenario?.hexColor ?? Color.gray, lineWidth: 1)
                             )
+                       
                         
                     }
                     HStack {
                         
                         Text("Task description: ")
-                            .font(.headline)
-                        
                         
                         Text(recording.notes == "" ? "No description " : recording.notes)
                             .font(.body)
@@ -201,7 +194,6 @@ struct RecordingDetailView: View {
                 Section {
                     HStack {
                         Text("Duration")
-                            .font(.headline)
                         Spacer()
                         Text("\(recording.timeDuration, specifier: "%.3f") seconds")
                             .font(.body)
@@ -210,7 +202,6 @@ struct RecordingDetailView: View {
                     
                     HStack {
                         Text("Create time")
-                            .font(.headline)
                         Spacer()
                         Text("\(recording.createTime, formatter: dateFormatter)")
                             .font(.body)
@@ -252,7 +243,6 @@ struct RecordingDetailView: View {
                             Spacer()
                             Text("\(recording.unsortedAngleData.count)")
                                 .foregroundStyle(.gray)
-                            //
                         }
                     }
                 }
@@ -269,6 +259,7 @@ struct RecordingDetailView: View {
     private func generateCSV() {
         isProcessing = true
         
+        //TODO: - right force data
         DispatchQueue.global(qos: .userInitiated).async {
             let arCSVURL = exportToCSV(data: recording.arData, fileName: "PoseData")
             let forceCSVURL = exportToCSV(data: recording.forceData, fileName: "ForceData")

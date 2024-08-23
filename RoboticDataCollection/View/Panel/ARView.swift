@@ -43,11 +43,12 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
-    @EnvironmentObject var tcpServerManager: TCPServerManager
+//    @EnvironmentObject var tcpServerManager: TCPServerManager
+    @EnvironmentObject var websocketServer: WebSocketServerManager
   
     
     func makeUIViewController(context: Context) -> ARViewController {
-        let arViewController = ARViewController(frameSize: frameSize, tcpServerManager: tcpServerManager)
+        let arViewController = ARViewController(frameSize: frameSize, websocketServer: websocketServer)
                 arViewController.recorder = recorder
                 arViewController.updateFrameRateBinding($frameRate)
                 return arViewController
@@ -77,18 +78,19 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var arView: ARView!
     var frameSize: CGSize
     var recorder: ARRecorder!
-    var tcpServerManager: TCPServerManager
+//    var tcpServerManager: TCPServerManager
+    var websocketServer: WebSocketServerManager
     
     
     private var lastUpdateTime: CFTimeInterval = 0
         private var displayLink: CADisplayLink?
         private var frameRateBinding: Binding<Double>?
     
-    init(frameSize: CGSize, tcpServerManager: TCPServerManager) {
-            self.frameSize = frameSize
-        self.tcpServerManager = tcpServerManager
+    init(frameSize: CGSize, websocketServer: WebSocketServerManager) {
+        self.frameSize = frameSize
+        self.websocketServer = websocketServer
             super.init(nibName: nil, bundle: nil)
-        }
+    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -98,7 +100,6 @@ class ARViewController: UIViewController, ARSessionDelegate {
         super.viewDidLoad()
         arView = ARView(frame: CGRect(origin: .zero, size: frameSize))
         self.view.addSubview(arView)
-        arView.setupARView()
         arView.session.delegate = self
 //        // 启动TCP服务器
 //        tcpServerManager = TCPServerManager(port: 8080)
@@ -163,7 +164,9 @@ class ARViewController: UIViewController, ARSessionDelegate {
             if let jsonString = cameraTransform.toJSONString() {
                
                 DispatchQueue.global(qos: .background).async {
-                    self.tcpServerManager.broadcastMessage(jsonString)
+//                    self.tcpServerManager.broadcastMessage(jsonString)
+//                    self.websocketServer.broadcastMessage(jsonString)
+                    self.sendToClients(message: jsonString)
                 }
             }
        
@@ -171,11 +174,17 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
 }
 
-extension ARView {
-    func setupARView() {
-//        runARSession()
-//        debugOptions = [.showWorldOrigin]
+extension ARViewController {
+    private func sendToClients(message: String) {
+        // 发送文本数据到所有连接的客户端
+        websocketServer.connectionsByID.values.forEach { connection in
+            connection.send(text: message)
+        }
     }
+}
+
+extension ARView {
+
     
     func runARSession() {
         let config = ARWorldTrackingConfiguration()

@@ -45,8 +45,14 @@ struct FingerAngle: Codable {
     
     public var isConnected = false
     
-//    @ObservationIgnored @AppStorage("hostname") private var hostname = "raspberrypi.local"
-    var hostname = "raspberrypi.local"
+    private var hostname: String = "raspberrypi.local" {
+        didSet {
+            // 防止被设置为空
+                if hostname.isEmpty {
+                    hostname = "raspberrypi.local" // 设置为默认值
+                }
+            }
+    }
     public var receivedMessage: String = ""
     
     private var angelSocket: WebSocket?
@@ -58,6 +64,10 @@ struct FingerAngle: Codable {
     
     private var firstTimestampOfForce = 0.0
     private var isFirstFrameOfForce = false
+    
+    private var firstTimestampOfRightForce = 0.0
+    private var isFirstFrameOfRightForce = false
+    
     private var firstTimestampOfAngle = 0.0
     private var isFirstFrameOfAngle = false
     
@@ -81,7 +91,6 @@ struct FingerAngle: Codable {
     }
     
     
-//    public var isRightFingerConnected = false
     
     private var throttleTimer: Timer?
     private let throttleInterval: TimeInterval = 1 // 更新UI时间
@@ -97,23 +106,27 @@ struct FingerAngle: Codable {
     }
     
     private init() {
-        //        connectToServer()
         self.hostname = getHostname()
         self.recordedForceData.reserveCapacity(10000)
         self.recordedRightFingerForceData.reserveCapacity(10000)
         self.recordedAngleData.reserveCapacity(100000)
         connectLeftFinger()
         connectRightFinger()
-        
         connectAngel()
         
     }
     
     func getHostname() -> String {
-           return UserDefaults.standard.string(forKey: "hostname") ?? "raspberrypi.local"
+          let hostname = UserDefaults.standard.string(forKey: "hostname") ?? "raspberrypi.local"
+        if hostname.isEmpty {
+            return "raspberrypi.local"
+        } else {
+            return hostname
+        }
        }
 
     func setHostname(hostname: String) {
+        guard !hostname.isEmpty else { return }
         self.hostname = hostname
     }
     
@@ -291,10 +304,12 @@ struct FingerAngle: Codable {
     func startRecordingData() {
         self.recordedForceData.removeAll()
         self.recordedAngleData.removeAll()
+        self.recordedRightFingerForceData.removeAll()
         
         isRecording = true
         self.isFirstFrameOfAngle = true
         self.isFirstFrameOfForce = true
+        self.isFirstFrameOfRightForce = true
         print("start recording data")
     }
     
@@ -352,12 +367,14 @@ extension WebSocketManager {
             if let fingerForce = try? JSONDecoder().decode(FingerForce.self, from: data) {
                 
                 let timestamp = Double(fingerForce.time_stamp.secs) + Double(fingerForce.time_stamp.nanos) * 1e-9
-                if isFirstFrameOfForce {
-                    self.firstTimestampOfForce = timestamp
+               
+                // 记录第一帧数据的时间戳
+                if isFirstFrameOfRightForce {
+                    self.firstTimestampOfRightForce = timestamp
                     self.isFirstFrameOfForce = false
                 }
                 let forceData = ForceData(
-                    timeStamp: timestamp - firstTimestampOfForce,
+                    timeStamp: timestamp - firstTimestampOfRightForce,
                     forceData: fingerForce.force?.value)
                 
                 let xForce = forceData.forceData?[0] ?? 0
@@ -365,7 +382,7 @@ extension WebSocketManager {
                 let zForce = forceData.forceData?[2] ?? 0
                 self.totalRightForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
                 //                print("\(totalForce)")
-               
+//               
                 if self.isRecording {
                   
                     self.recordedRightFingerForceData.append(forceData)

@@ -19,7 +19,7 @@ extension simd_float4x4 {
         """
     }
     
-    // 提取平移量
+        // 提取平移量
         var translation: simd_float3 {
             return simd_float3(columns.3.x, columns.3.y, columns.3.z)
         }
@@ -28,19 +28,18 @@ extension simd_float4x4 {
         var quaternion: simd_quatf {
             // 从4x4矩阵中提取3x3旋转矩阵
             let rotationMatrix = simd_float3x3(
-                columns.0.xyz,  // 提取第一列的前三个元素
-                columns.1.xyz,  // 提取第二列的前三个元素
-                columns.2.xyz   // 提取第三列的前三个元素
+                columns.0.xyz,
+                columns.1.xyz,
+                columns.2.xyz
             )
             return simd_quatf(rotationMatrix)
         }
         
-        // 转换为JSON字符串
         func toJSONString() -> String? {
             let quaternion = self.quaternion
             let translation = self.translation
             
-            let dict: [String: Any] = [
+            let poseDict: [String: Any] = [
                 "quaternion": [
                     "x": quaternion.vector.x,
                     "y": quaternion.vector.y,
@@ -54,8 +53,10 @@ extension simd_float4x4 {
                 ]
             ]
             
-            if let jsonData = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) {
-                return String(data: jsonData, encoding: .utf8)
+            if let jsonData = try? JSONSerialization.data(withJSONObject: poseDict, options: .prettyPrinted) {
+                var jsonString = String(data: jsonData, encoding: .utf8)
+                    jsonString?.append("\n")
+                return jsonString
             }
             
             return nil

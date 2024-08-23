@@ -21,6 +21,17 @@ class ForceData {
     }
 }
 
+//@Model
+//class RightForceData {
+//    let timeStamp: Double
+//    let forceData:[Double]?
+//    
+//    init(timeStamp: Double, forceData: [Double]?) {
+//        self.timeStamp = timeStamp
+//        self.forceData = forceData
+//    }
+//}
+
 @Model
 //TODO: - 这里的时间戳应该是Double or Date
 class AngleData {
@@ -101,3 +112,14 @@ extension AngleData: CSVConvertible {
         return "\(timeStamp),\(angle)"
     }
 }
+//
+//extension RightForceData: CSVConvertible {
+//    func csvHeader() -> String {
+//        return "Timestamp,ForceData\n"
+//    }
+//    
+//    func csvRow() -> String {
+//        let forceDataString = forceData?.map { String($0) }.joined(separator: ",") ?? ""
+//        return "\(timeStamp),\(forceDataString)"
+//    }
+//}

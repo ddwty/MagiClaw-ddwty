@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
-  
+    @Environment(\.modelContext) private var modelContext
+    @AppStorage("firstLaunch") private var isFirstLaunch = true
     var body: some View {
         TabView {
             PanelView()
@@ -18,7 +19,7 @@ struct ContentView: View {
             }
                
             .tabItem {
-                Label("Panel", systemImage: "record.circle" )
+                Label("Panel", systemImage: "camera" )
             }
             HistoryView()
                 .tabItem {
@@ -28,15 +29,19 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings",systemImage: "gear")
                 }
-                .onTapGesture {
-                hideKeyboard()
-            }
-            IPView()
-                .tabItem {
-                    Label("IP",systemImage: "gear")
-                }
-            
         }
+        // 首次进入创建scenario例子
+        .onAppear {
+            if isFirstLaunch {
+                modelContext.insert(Scenario2.unspecifiedScenario)
+                let array = Scenario2.sampleScenario
+                    array.forEach { example in
+                        modelContext.insert(example)
+                    }
+                self.isFirstLaunch = false
+            }
+        }
+        
     }
 }
 

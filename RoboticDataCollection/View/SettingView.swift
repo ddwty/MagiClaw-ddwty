@@ -39,9 +39,15 @@ struct SettingView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(5)
                             .onChange(of: hostname) { oldValue, newValue in
+                                // 防止hostname被设置为空
+                                guard !newValue.isEmpty else { return }
                                 webSocketManager.setHostname(hostname: newValue)
                                 webSocketManager.reConnectToServer()
                             }
+                    }
+                    
+                    NavigationLink(destination: NewScenarioView()) {
+                        Text("Scenario")
                     }
                 }
                 Section(header: Text("Device info")) {
