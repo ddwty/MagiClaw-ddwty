@@ -13,7 +13,7 @@ struct NewScenarioView: View {
     @State private var color = Color.red
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @Query private var scenarios: [Scenario2]
+    @Query private var scenarios: [Scenario]
     @Environment(\.modelContext) private var modelContext
     
     var body: some View {
@@ -26,7 +26,11 @@ struct NewScenarioView: View {
                         Spacer()
                         Button("Create") {
                             withAnimation {
-                                let newScenario = Scenario2(name: name, color: color.toHexString()!)
+                               // 触发震动
+                                let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+                                impactFeedbackGenerator.impactOccurred()
+                                
+                                let newScenario = Scenario(name: name, color: color.toHexString()!)
                                 context.insert(newScenario)
                                 self.name = ""
                             }

@@ -14,7 +14,7 @@ struct RaspberryPiView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var message: String = ""
-    @State private var showPopover: Bool = false
+    @Binding var showPopover: Bool
     var body: some View {
         HStack {
             if webSocketManager.isConnected {
@@ -91,7 +91,7 @@ struct FilledButtonStyle: ButtonStyle {
 
 struct ViaWifiView_Previews: PreviewProvider {
     static var previews: some View {
-        RaspberryPiView()
+        RaspberryPiView(showPopover: .constant(false))
             .environment(WebSocketManager.shared)
     }
 }

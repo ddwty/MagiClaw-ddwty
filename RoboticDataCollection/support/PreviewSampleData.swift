@@ -19,7 +19,7 @@ let previewContainer: ModelContainer = {
         for data in SampleDeck.contents{
             container.mainContext.insert(data)
         }
-//        for data in Scenario2.sampleScenario {
+//        for data in Scenario.sampleScenario {
 //            container.mainContext.insert(data)
 //        }
        

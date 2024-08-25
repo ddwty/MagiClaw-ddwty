@@ -37,6 +37,10 @@
 		603E5EA72C77167D00ABF2FE /* NewScenarioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5EA62C77167D00ABF2FE /* NewScenarioView.swift */; };
 		603E5EAA2C78CADF00ABF2FE /* SwiftWebSocketServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5EA92C78CADF00ABF2FE /* SwiftWebSocketServer.swift */; };
 		603E5EAC2C78D5D200ABF2FE /* TestServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5EAB2C78D5D200ABF2FE /* TestServerView.swift */; };
+		605DA4FC2C79D45C00034F67 /* SchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FB2C79D45C00034F67 /* SchemaV1.swift */; };
+		605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FD2C79D52300034F67 /* SchemaLatest.swift */; };
+		605DA5002C7A150E00034F67 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FF2C7A150E00034F67 /* Email.swift */; };
+		605DA5022C7A20F800034F67 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA5012C7A20F800034F67 /* InfoView.swift */; };
 		607B2DEC2C6D15340010D914 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 607B2DEB2C6D15340010D914 /* README.md */; };
 		609395232C55473700E98950 /* MagiClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* MagiClawApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
@@ -80,6 +84,10 @@
 		603E5EA62C77167D00ABF2FE /* NewScenarioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewScenarioView.swift; sourceTree = "<group>"; };
 		603E5EA92C78CADF00ABF2FE /* SwiftWebSocketServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebSocketServer.swift; sourceTree = "<group>"; };
 		603E5EAB2C78D5D200ABF2FE /* TestServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestServerView.swift; sourceTree = "<group>"; };
+		605DA4FB2C79D45C00034F67 /* SchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaV1.swift; sourceTree = "<group>"; };
+		605DA4FD2C79D52300034F67 /* SchemaLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaLatest.swift; sourceTree = "<group>"; };
+		605DA4FF2C7A150E00034F67 /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
+		605DA5012C7A20F800034F67 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* MagiClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagiClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* MagiClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagiClawApp.swift; sourceTree = "<group>"; };
@@ -151,6 +159,8 @@
 				603E5E8F2C766B6B00ABF2FE /* DataModel.swift */,
 				603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */,
 				603E5E902C766B6B00ABF2FE /* ScenarioModel.swift */,
+				605DA4FB2C79D45C00034F67 /* SchemaV1.swift */,
+				605DA4FD2C79D52300034F67 /* SchemaLatest.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -213,6 +223,8 @@
 				6021035F2C75DB2F0025E247 /* extension.swift */,
 				603E5EA62C77167D00ABF2FE /* NewScenarioView.swift */,
 				603E5EAB2C78D5D200ABF2FE /* TestServerView.swift */,
+				605DA5012C7A20F800034F67 /* InfoView.swift */,
+				605DA4FF2C7A150E00034F67 /* Email.swift */,
 				602103582C75DB2E0025E247 /* HistoryView.swift */,
 				6021035A2C75DB2E0025E247 /* IPView.swift */,
 				602103612C75DB2F0025E247 /* SettingView.swift */,
@@ -328,10 +340,12 @@
 				603E5EA72C77167D00ABF2FE /* NewScenarioView.swift in Sources */,
 				602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */,
 				6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */,
+				605DA5002C7A150E00034F67 /* Email.swift in Sources */,
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
 				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
 				603E5EAA2C78CADF00ABF2FE /* SwiftWebSocketServer.swift in Sources */,
 				6021036B2C75DB2F0025E247 /* extension.swift in Sources */,
+				605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */,
 				603E5E9C2C766B6B00ABF2FE /* WebSocketManager.swift in Sources */,
 				602103642C75DB2F0025E247 /* HistoryView.swift in Sources */,
 				602103632C75DB2F0025E247 /* StopWach.swift in Sources */,
@@ -350,6 +364,8 @@
 				602103692C75DB2F0025E247 /* ContentView.swift in Sources */,
 				603E5EA12C7708CC00ABF2FE /* UIColor+Extension.swift in Sources */,
 				6021036D2C75DB2F0025E247 /* SettingView.swift in Sources */,
+				605DA4FC2C79D45C00034F67 /* SchemaV1.swift in Sources */,
+				605DA5022C7A20F800034F67 /* InfoView.swift in Sources */,
 				603E5E9B2C766B6B00ABF2FE /* ScenarioModel.swift in Sources */,
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
 				603E5E9A2C766B6B00ABF2FE /* DataModel.swift in Sources */,
@@ -498,11 +514,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires access to motion data to record sensor information for robot.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -511,7 +525,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wty2358.RoboticDataCollection;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -519,7 +533,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -539,11 +553,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
-				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires access to motion data to record sensor information for robot.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -552,7 +564,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wty2358.RoboticDataCollection;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -560,7 +572,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -18,7 +18,7 @@ import SwiftData
     
     let arRecorder = ARRecorder.shared
     
-    private let motionManager = MotionManager.shared
+//    private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
    
@@ -27,7 +27,7 @@ import SwiftData
 //    private var scenarioName = SelectedScenario.shared.selectedScenario
     
 //    var scenarioName = Scenario.unspecified
-    var scenarioName = ""
+    var scenarioName = "Unspecified"
     var description = "" // 暂时还没保存
     private var timer: Timer?
     private var recordingStartTime: Date?
@@ -36,7 +36,7 @@ import SwiftData
     // 用于记录这个数据录制时长
     var recordingDuration: TimeInterval = 0
     
-    var recordedMotionData: [MotionData] = []
+//    var recordedMotionData: [MotionData] = []
     var recordedForceData: [ForceData] = []
     var recordedRightForceData: [ForceData] = []
     var recordedARData: [ARData] = []
@@ -90,7 +90,7 @@ import SwiftData
         self.isWaitingSaveing = true
         
         webSocketManager.stopRecordingForceData()
-        motionManager.stopRecording()
+//        motionManager.stopRecording()
         arRecorder.stopRecording { videoURL in
                 DispatchQueue.main.async {
                     guard let videoURL = videoURL, let parentFolderURL = self.parentFolderURL else {

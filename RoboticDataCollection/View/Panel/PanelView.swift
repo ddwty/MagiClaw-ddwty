@@ -11,7 +11,7 @@ struct PanelView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
    
     //    @StateObject private var keyboardResponder = KeyboardResponder()
-    @State var motionData: [MotionData] = []
+//    @State var motionData: [MotionData] = []
     @State var showBigAr = false
     
     let screenWidth = UIScreen.main.bounds.size.width
@@ -20,6 +20,7 @@ struct PanelView: View {
     @State var initGeoWidth: CGFloat = .zero
     @State var initGeoHeight: CGFloat = .zero
     @State var value: CGFloat = .zero
+    @State private var showPopover: Bool = false // 指示树莓派各个组件连接情况
     var body: some View {
         //#if DEBUG
         //        let _ = Self._printChanges()
@@ -42,7 +43,7 @@ struct PanelView: View {
                                         .font(.title3)
                                         .fontWeight(.bold)
                                     Spacer()
-                                    RaspberryPiView()
+                                    RaspberryPiView(showPopover: $showPopover)
                                     Spacer()
                                 }
                                 
@@ -59,7 +60,7 @@ struct PanelView: View {
                             }
                         }
                         .padding(.horizontal)
-                        ControlButtonView()
+                        ControlButtonView(showPopover: $showPopover)
                             .padding(.horizontal)
                         
                     }
@@ -74,7 +75,7 @@ struct PanelView: View {
                                     Text("Status:")
                                         .font(.title3)
                                         .fontWeight(.bold)
-                                    RaspberryPiView()
+                                    RaspberryPiView(showPopover: $showPopover)
                                     Spacer()
                                 }
                                 Divider()
@@ -102,7 +103,7 @@ struct PanelView: View {
                                     .aspectRatio(4/3, contentMode: .fit)
                                     .padding(.bottom)
                             }
-                            ControlButtonView()
+                            ControlButtonView(showPopover: $showPopover)
                                 .padding(.bottom)
                             
                             

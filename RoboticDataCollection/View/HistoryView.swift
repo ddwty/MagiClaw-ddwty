@@ -11,7 +11,7 @@ import SwiftData
 
 struct HistoryView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var sortOrder = SortDescriptor(\AllStorgeData.createTime)
+    @State private var sortOrder = SortDescriptor(\AllStorgeData.createTime, order: .reverse)
     
     var body: some View {
         NavigationStack {
@@ -20,9 +20,10 @@ struct HistoryView: View {
             .toolbar {
                 Menu("Sort", systemImage: "arrow.up.arrow.down") {
                     Picker("Sort", selection: $sortOrder) {
-                        Text("Create time ascending")
+                        Label("Time ascending", systemImage: "arrow.up.circle")
                             .tag(SortDescriptor(\AllStorgeData.createTime,  order: .forward))
-                        Text("Create time descending")
+                       
+                        Label("Time ascending", systemImage: "arrow.down.circle")
                             .tag(SortDescriptor(\AllStorgeData.createTime, order: .reverse))
                     }
                     .pickerStyle(.inline)

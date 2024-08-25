@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct SettingView: View {
     @AppStorage("ignore websocket") private var ignorWebsocket = false
@@ -15,6 +16,13 @@ struct SettingView: View {
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     
     let availableFrameRates = [30, 60] // 可以选择的帧率选项
+    
+    @State private var showMailComposer = false
+    @State private var showMailErrorAlert = false
+    @State private var isShowingMailView = false
+    @State private var showInfo = false
+   
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -36,6 +44,8 @@ struct SettingView: View {
                     HStack {
                         Text("Hostname")
                         TextField("Enter hostname", text: $hostname)
+                            .keyboardType(.URL) // 设置键盘类型为URL
+                            .textContentType(.URL)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(5)
                             .onChange(of: hostname) { oldValue, newValue in
@@ -55,23 +65,46 @@ struct SettingView: View {
                         Text("iPhone's IP Address")
                         Spacer()
                         IPView()
-                           
+                        
                     }
-                   
+                    
                 }
-                //                Section(header: Text("Frame Rate:")) {
-                //
-                //                }
+                Section() {
+                    Button(action: {
+                        self.showInfo.toggle()
+                    }, label: {
+                        Label("About", systemImage: "info.circle")
+                            .foregroundColor(.blue)
+                            
+                    })
+//                    HStack {
+//                        
+//                        
+//                            
+//                        Spacer()
+//                    }
+//                    .contentShape(Rectangle()) // 扩展点击区域
+//                    .onTapGesture {
+//                        self.showInfo.toggle()
+//                    }
+                }
+                
             }
+            
             .navigationTitle("Settings")
+            .sheet(isPresented: self.$showInfo) {
+                InfoView(isShowingMailView: self.$isShowingMailView)
+            }
         }
     }
 }
+
 
 
 #Preview {
     SettingView()
         .environmentObject(ARRecorder.shared)
         .environment(WebSocketManager.shared)
+    
 }
 

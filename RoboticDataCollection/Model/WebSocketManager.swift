@@ -153,7 +153,11 @@ struct FingerAngle: Codable {
     
     
     private func connectLeftFinger() {
-        let leftFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/left_finger/force")!)
+        guard let url = URL(string: "ws://\(self.hostname):8080/left_finger/force") else {
+            print("Invalid URL: ws://\(self.hostname):8080/left_finger/force")
+            return
+        }
+        let leftFingerRequest = URLRequest(url: url)
         leftFingerSocket = WebSocket(request: leftFingerRequest)
         leftFingerSocket?.connect()
 //                leftFingerRequest.timeoutInterval = 1
@@ -203,7 +207,11 @@ struct FingerAngle: Codable {
     }
     
     private func connectRightFinger() {
-        let rightFingerRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/right_finger/force")!)
+        guard let url = URL(string: "ws://\(self.hostname):8080/right_finger/force") else {
+            print("Invalid URL: ws://\(self.hostname):8080/right_finger/force")
+            return
+        }
+        let rightFingerRequest = URLRequest(url: url)
         rightFingerSocket = WebSocket(request: rightFingerRequest)
         rightFingerSocket?.connect()
         //        leftFingerRequest.timeoutInterval = 1
@@ -252,7 +260,11 @@ struct FingerAngle: Codable {
     }
     
     private func connectAngel() {
-        let angelRequest = URLRequest(url: URL(string: "ws://\(self.hostname):8080/angle")!)
+        guard let url = URL(string: "ws://\(self.hostname):8080/angle") else {
+            print("Invalid URL: ws://\(self.hostname):8080/angle")
+            return
+        }
+        let angelRequest = URLRequest(url: url)
         angelSocket = WebSocket(request: angelRequest)
         angelSocket?.connect()
         //        angelRequest.timeoutInterval = 1

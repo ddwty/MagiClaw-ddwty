@@ -33,8 +33,8 @@ struct ContentView: View {
         // 首次进入创建scenario例子
         .onAppear {
             if isFirstLaunch {
-                modelContext.insert(Scenario2.unspecifiedScenario)
-                let array = Scenario2.sampleScenario
+                modelContext.insert(Scenario.unspecifiedScenario)
+                let array = Scenario.sampleScenario
                     array.forEach { example in
                         modelContext.insert(example)
                     }

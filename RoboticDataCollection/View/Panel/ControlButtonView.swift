@@ -15,15 +15,15 @@ struct ControlButtonView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     // 让UnSpecified排在最前面，剩下的按字母顺序排
-    @Query private var storedScenarios: [Scenario2]
+    @Query private var storedScenarios: [Scenario]
    
     @State var isSaved = false
     @State private var description = ""
 //    @State private var scenario: Scenario = .unspecified
     
-    @State private var newScenario: Scenario2?
+    @State private var newScenario: Scenario?
   
-   
+    @Binding var showPopover: Bool
     @FocusState private var isFocused: Bool
     
     var body: some View {
@@ -39,23 +39,17 @@ struct ControlButtonView: View {
                         
                         // TODO: - 检查是否为空
                         Picker("Scenario", selection: $newScenario) {
-//                            Text("")
-//                                .tag(Optional<Scenario2>(nil))
+                            Text("Unspecified")
+                                .tag(Optional<Scenario>(nil))
                             
-                            ForEach (storedScenarios.sorted {
-                                if $0.name == "Unspecified" {
-                                    return true
-                                } else if $1.name == "Unspecified" {
-                                    return false
-                                } else {
-                                    return $0.name.localizedCompare($1.name) == .orderedAscending
-                                }
-                            }, id: \.self) { scenario in
-                                
-                                Text(scenario.name.capitalized)
-//
-                                    .tag(Optional(scenario))
-                            }
+                            ForEach(storedScenarios
+                                            .filter { $0.name != "Unspecified" } // 过滤掉 "Unspecified"
+                                            .sorted { $0.name.localizedCompare($1.name) == .orderedAscending } // 按首字母排序
+                                            , id: \.self) { scenario in
+                                            
+                                            Text(scenario.name.capitalized)
+                                                .tag(Optional(scenario))
+                                        }
                         }
                         .pickerStyle(MenuPickerStyle())
                         // 传递给class，以用作文件名
@@ -72,8 +66,8 @@ struct ControlButtonView: View {
                     TextField("Enter description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
-                        .keyboardType(.URL)
-                           .textContentType(.URL)
+                        
+//                           .textContentType(.URL)
                         .onChange(of: description) {oldValue, newValue in
                             recordAllDataModel.description = newValue
                         }
@@ -81,7 +75,7 @@ struct ControlButtonView: View {
                        
                     HStack {
                         Spacer()
-                        StartRecordingButton(isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
+                        StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
                         Spacer()
                     }
                 }
@@ -96,7 +90,7 @@ struct ControlButtonView: View {
 //                Text("You have successfully recorded an action😁")
                 Text("You have successfully recorded an action😁\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
-//                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
                      "AR Data: \(self.recordAllDataModel.recordedARData.count)")
             }
@@ -119,8 +113,8 @@ struct ControlButtonView: View {
                                     }
                                     .disableAutocorrection(true)
                                     .frame(minWidth: 100, minHeight: 50)
-                                    .keyboardType(.URL)
-                                    .textContentType(.URL)
+                                   
+                                    
                             }
                             Spacer()
                             VStack(alignment: .leading) {
@@ -128,22 +122,18 @@ struct ControlButtonView: View {
                                     Text("Scenario:")
                                         .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
 
-                                    // TODO: - 检查是否为空
                                     Picker("Scenario", selection: $newScenario) {
-                                        ForEach (storedScenarios.sorted {
-                                            if $0.name == "Unspecified" {
-                                                return true
-                                            } else if $1.name == "Unspecified" {
-                                                return false
-                                            } else {
-                                                return $0.name.localizedCompare($1.name) == .orderedAscending
-                                            }
-                                        }, id: \.self) { scenario in
-                                            Text(scenario.name.capitalized)
-//                                                .tag(Optional<Scenario2>(nil))
-//                                                .tag(scenario as Scenario2?)
-                                                .tag(Optional(scenario))
-                                        }
+                                        Text("Unspecified")
+                                            .tag(Optional<Scenario>(nil))
+                                        
+                                        ForEach(storedScenarios
+                                                        .filter { $0.name != "Unspecified" } // 过滤掉 "Unspecified"
+                                                        .sorted { $0.name.localizedCompare($1.name) == .orderedAscending } // 按首字母排序
+                                                        , id: \.self) { scenario in
+                                                        
+                                                        Text(scenario.name.capitalized)
+                                                            .tag(Optional(scenario))
+                                                    }
                                     }
                                     .pickerStyle(MenuPickerStyle())
                                     // 传递给class，以用作文件名
@@ -159,7 +149,7 @@ struct ControlButtonView: View {
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                     StartRecordingButton(isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
+                                    StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
                                     Spacer()
                                 }
                                 Spacer()
@@ -178,7 +168,7 @@ struct ControlButtonView: View {
 //                Text("You have successfully recorded an action😁")
                 Text("You have successfully recorded an action😁\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
-//                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
+                     "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
                      "AR Data: \(self.recordAllDataModel.recordedARData.count)")
                 
@@ -190,13 +180,14 @@ struct ControlButtonView: View {
 
 
 #Preview(traits: .landscapeRight) {
-    ControlButtonView()
+    ControlButtonView(showPopover: .constant(false))
         .environment(RecordAllDataModel())
         .environment(WebSocketManager.shared)
 }
 
 struct StartRecordingButton: View {
-    @State var isRunningTimer = false
+    @State var isRunningTimer = false // 在展示popover时，禁用按钮
+    @Binding var showPopover: Bool
     @Environment(RecordAllDataModel.self) var recordAllDataModel
     @Environment(WebSocketManager.self) private var webSocketManager
     @State private var startTime = Date()
@@ -206,7 +197,7 @@ struct StartRecordingButton: View {
     @Binding var isSaved: Bool
     @Binding var description: String
 //    @Binding var scenario: Scenario
-    @Binding var newScenario: Scenario2?
+    @Binding var newScenario: Scenario?
     
     @AppStorage("ignore websocket") private var ignoreWebsocket = false
     @State var isWaitingtoSave = false
@@ -216,6 +207,10 @@ struct StartRecordingButton: View {
         Button(action: {
             withAnimation {
                 if isRunningTimer { //结束录制
+                    // 触发震动
+                   let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                   impactFeedbackGenerator.impactOccurred()
+                    
                     recordAllDataModel.stopRecordingData()
                     timer.upstream.connect().cancel()
                     self.isRunningTimer = false
@@ -242,6 +237,10 @@ struct StartRecordingButton: View {
 //                    }
                     
                 } else {
+                    // 触发震动
+                   let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                   impactFeedbackGenerator.impactOccurred()
+                    
                     recordAllDataModel.startRecordingData()
                     display = "00:00:00"
                     startTime = Date()
@@ -274,8 +273,8 @@ struct StartRecordingButton: View {
             .clipShape(Capsule())
         }
         
-        // 当ignorewebsocket为true时，按钮就可以用
-        .disabled(!(ignoreWebsocket || webSocketManager.isConnected))
+        // 当ignorewebsocket为true时，按钮就可以用,只要showPopover，就禁用
+        .disabled((!(ignoreWebsocket || webSocketManager.isConnected)) || showPopover)
         .onReceive(timer) { _ in
             if isRunningTimer {
                 let duration = Date().timeIntervalSince(startTime)
