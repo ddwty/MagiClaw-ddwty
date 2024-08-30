@@ -10,15 +10,25 @@ import Network
 
 struct IPView: View {
     @State private var ipAddress: String = "Fetching IP address..."
-
+    
     var body: some View {
-            Text(ipAddress)
+        Text(ipAddress)
             .foregroundStyle(.gray)
-        .onAppear {
-            ipAddress = getWiFiIPAddress()
-        }
+            .onAppear {
+                ipAddress = getWiFiIPAddress()
+            }
+            .contextMenu {
+                Button {
+                    UIPasteboard.general.string = ipAddress
+                } label: {
+                    Label("Copy", systemImage: "doc.on.doc")
+                }
+            }
+            .onTapGesture {
+                UIPasteboard.general.string = ipAddress
+            }
     }
-
+    
     func getWiFiIPAddress() -> String {
         return NWInterface.InterfaceType.wifi.address(family: AF_INET) ?? "Unknown"
     }
@@ -37,7 +47,7 @@ extension NWInterface.InterfaceType {
         default: return nil
         }
     }
-
+    
     func address(family: Int32) -> String? {
         guard let names = names else { return nil }
         var address: String?
@@ -48,18 +58,18 @@ extension NWInterface.InterfaceType {
         }
         return address
     }
-
+    
     func address(family: Int32, name: String) -> String? {
         var address: String?
-
+        
         // Get list of all interfaces on the local machine:
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0, let firstAddr = ifaddr else { return nil }
-
+        
         // For each interface ...
         for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
             let interface = ifptr.pointee
-
+            
             let addrFamily = interface.ifa_addr.pointee.sa_family
             if addrFamily == UInt8(family) {
                 // Check interface name:
@@ -74,10 +84,10 @@ extension NWInterface.InterfaceType {
             }
         }
         freeifaddrs(ifaddr)
-
+        
         return address
     }
-
+    
     var ipv4: String? { self.address(family: AF_INET) }
     var ipv6: String? { self.address(family: AF_INET6) }
 }

@@ -62,59 +62,72 @@ struct HistoryListView: View {
     @Query private var allStorgeData: [AllStorgeData]
     @Environment(\.modelContext) private var modelContext
     var body : some View {
-        List {
-            ForEach(allStorgeData) { recording in
-                NavigationLink(destination: RecordingDetailView(recording: recording)) {
-                    HStack(alignment: .historyAlignment) {
-                        VStack(alignment: .leading) {
-                            Text(recording.scenario?.name.capitalized ?? "Unspecified")
-                                .font(.caption)
-                                .foregroundColor(recording.scenario?.hexColor ?? Color.gray)
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 3)
-                                .background(
-                                    Capsule()
-                                        .strokeBorder(recording.scenario?.hexColor ?? Color.gray, lineWidth: 1)
-                                )
-                                .offset(y: 2)
+        if allStorgeData.isEmpty {
+            VStack {
+                Spacer()
+                Text("Empty")
+                    .padding()
+                    .font(.title)
+                    .foregroundStyle(.secondary)
+                Text("Start recording your first data entry")
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+        } else {
+            List {
+                ForEach(allStorgeData) { recording in
+                    NavigationLink(destination: RecordingDetailView(recording: recording)) {
+                        HStack(alignment: .historyAlignment) {
+                            VStack(alignment: .leading) {
+                                Text(recording.scenario?.name.capitalized ?? "Unspecified")
+                                    .font(.caption)
+                                    .foregroundColor(recording.scenario?.hexColor ?? Color.gray)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 3)
+                                    .background(
+                                        Capsule()
+                                            .strokeBorder(recording.scenario?.hexColor ?? Color.gray, lineWidth: 1)
+                                    )
+                                    .offset(y: 2)
                                 
-                            Text("\(recording.createTime, formatter: dateFormatter)")
-                                .foregroundColor(.primary)
-                                .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
-                                    dim[VerticalAlignment.center]
-                                    
-                                }
+                                Text("\(recording.createTime, formatter: dateFormatter)")
+                                    .foregroundColor(.primary)
+                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                        dim[VerticalAlignment.center]
+                                        
+                                    }
                                 
-                            Text(recording.notes.isEmpty ? "No description" : recording.notes)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .offset(y: 2)
-                            
-                        }
-                        Spacer()
-                        VStack {
-                            Spacer()
-                            Text("\(recording.timeDuration, specifier: "%.1f") seconds")
-                                .font(.body)
-                                .foregroundStyle(.gray)
-                                .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
-                                    dim[VerticalAlignment.center]
+                                Text(recording.notes.isEmpty ? "No description" : recording.notes)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .offset(y: 2)
+                                
                             }
                             Spacer()
+                            VStack {
+                                Spacer()
+                                Text("\(recording.timeDuration, specifier: "%.1f") seconds")
+                                    .font(.body)
+                                    .foregroundStyle(.gray)
+                                    .alignmentGuide(.historyAlignment) { (dim) -> CGFloat in
+                                        dim[VerticalAlignment.center]
+                                    }
+                                Spacer()
+                            }
+                            
                         }
-                          
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            modelContext.delete(recording)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
-                .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) {
-                        modelContext.delete(recording)
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
-                }
+                //                .onDelete(perform: deleteRecordings)
+                
             }
-//                .onDelete(perform: deleteRecordings)
-            
         }
     }
     init(sort: SortDescriptor<AllStorgeData>) {

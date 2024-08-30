@@ -49,7 +49,6 @@
 		6093957A2C554A7200E98950 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395502C554A7200E98950 /* ChartView.swift */; };
 		6093957D2C554A7200E98950 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395532C554A7200E98950 /* ExportView.swift */; };
 		609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6093955C2C554A7200E98950 /* PreviewSampleData.swift */; };
-		60C3A7702C651774005AE3D1 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 60C3A76F2C651774005AE3D1 /* Starscream */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,7 +103,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60C3A7702C651774005AE3D1 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,9 +183,9 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				609395222C55473700E98950 /* MagiClawApp.swift */,
 				603E5E9F2C7708B800ABF2FE /* Extension */,
 				3D625B682C5F560600180FCB /* Info.plist */,
-				609395222C55473700E98950 /* MagiClawApp.swift */,
 				6093956A2C554A7200E98950 /* Model */,
 				6093955D2C554A7200E98950 /* support */,
 				6093955B2C554A7200E98950 /* View */,
@@ -274,7 +272,6 @@
 			);
 			name = MagiClaw;
 			packageProductDependencies = (
-				60C3A76F2C651774005AE3D1 /* Starscream */,
 			);
 			productName = RoboticDataCollection;
 			productReference = 6093951F2C55473700E98950 /* MagiClaw.app */;
@@ -305,7 +302,6 @@
 			);
 			mainGroup = 609395162C55473700E98950;
 			packageReferences = (
-				609395912C554C2500E98950 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = 609395202C55473700E98950 /* Products */;
 			projectDirPath = "";
@@ -513,7 +509,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -552,7 +548,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to use ARKit.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -598,25 +594,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		609395912C554C2500E98950 /* XCRemoteSwiftPackageReference "Starscream" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/daltoniam/Starscream.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.8;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		60C3A76F2C651774005AE3D1 /* Starscream */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 609395912C554C2500E98950 /* XCRemoteSwiftPackageReference "Starscream" */;
-			productName = Starscream;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 609395172C55473700E98950 /* Project object */;
 }

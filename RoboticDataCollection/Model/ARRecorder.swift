@@ -11,6 +11,7 @@ import Photos
 import ARKit
 import CoreImage
 import SwiftUI
+import Accelerate
 
 class ARRecorder: NSObject, ObservableObject {
     static let shared = ARRecorder()
@@ -23,7 +24,8 @@ class ARRecorder: NSObject, ObservableObject {
     var videoOutputURL: URL?
     var depthDataURL: URL?
     var frameDataArray: [ARData] = []
-    @AppStorage("selectedFrameRate") var frameRate: Int = 60 // 默认帧率
+    @AppStorage("selectedFrameRate") var frameRate: Int = 30 // 默认帧率
+    @AppStorage("smoothDepth") var smoothDepth = true
     private var firstTimestamp = 0.0
     private var isFirstFrame = true
     
@@ -64,6 +66,7 @@ class ARRecorder: NSObject, ObservableObject {
         }
     }
     
+    
     private func saveDepthBuffer(_ depthBuffer: CVPixelBuffer, at timestamp: Double) {
         DispatchQueue.global(qos: .userInitiated).async {
             CVPixelBufferLockBaseAddress(depthBuffer, .readOnly)
@@ -71,10 +74,33 @@ class ARRecorder: NSObject, ObservableObject {
             //
             let width = CVPixelBufferGetWidth(depthBuffer)
             let height = CVPixelBufferGetHeight(depthBuffer)
-            let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer)
+            let rowBytes = CVPixelBufferGetBytesPerRow(depthBuffer)
+            guard let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer) else {
+                print("Error: Unable to get base address of depth buffer")
+                return
+            }
             
-            let buffer = UnsafeBufferPointer(start: baseAddress!.assumingMemoryBound(to: Float32.self), count: width * height)
-            let data = Data(buffer: buffer)
+            let float32Pointer = baseAddress.assumingMemoryBound(to: Float32.self)
+            
+        //  转为UInt16
+            var UInt16Buffer = [UInt16](repeating: 0, count: width * height)
+            
+            for y in 0..<height {
+                for x in 0..<width {
+                    let depthValue = float32Pointer[y * width + x]
+                    let processedValue = UInt16((depthValue * 10000))
+                    UInt16Buffer[y * width + x] = processedValue
+                }
+            }
+            
+           
+            let data = UInt16Buffer.withUnsafeBufferPointer { buffer in
+                Data(buffer: buffer)
+            }
+            
+           
+//            let buffer = UnsafeBufferPointer(start: baseAddress!.assumingMemoryBound(to: Float32.self), count: width * height)
+//            let data = Data(buffer: buffer)
             
             let fileName = String(format: "depth_%.3f.bin", timestamp)
             

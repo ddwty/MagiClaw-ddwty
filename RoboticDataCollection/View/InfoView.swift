@@ -16,7 +16,7 @@ struct InfoView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 20.0) {
                 HStack {
                     Spacer()
                     Button(action: {
@@ -69,25 +69,28 @@ struct InfoView: View {
 
                 Divider()
               
-
-                Button(action: {
-                    self.isShowingMailView.toggle()
-                }) {
-                    Label("Contact author by e-mail", systemImage: "envelope")
-//                        .font(.headline)
-//                        .foregroundColor(.blue)
-//                        .padding()
-//                        .background(Color.blue.opacity(0.1))
-//                        .cornerRadius(8)
+                if MFMailComposeViewController.canSendMail() {
+                    Button(action: {
+                        self.isShowingMailView.toggle()
+                    }) {
+                        Label("Contact author by e-mail", systemImage: "envelope")
+                        //
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.blue)
+                    .controlSize(.large)
+                    .disabled(!MFMailComposeViewController.canSendMail())
+                    .sheet(isPresented: $isShowingMailView) {
+                        MailView(result: self.$result)
+                    }
+                    .padding()
                 }
-                .buttonStyle(.bordered)
-                .tint(.blue)
-                .controlSize(.large)
-                .disabled(!MFMailComposeViewController.canSendMail())
-                .sheet(isPresented: $isShowingMailView) {
-                    MailView(result: self.$result)
+                else {
+                    Text("Mail services are not available.")
+                        .foregroundColor(.secondary)
+                        .padding()
+                    
                 }
-                .padding()
 
                 Spacer()
                 Spacer()

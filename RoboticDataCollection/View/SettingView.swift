@@ -14,6 +14,7 @@ struct SettingView: View {
     @Environment(WebSocketManager.self) private var webSocketManager
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
+    @AppStorage("smoothDepth") private var smoothDepth = true
     
     let availableFrameRates = [30, 60] // 可以选择的帧率选项
     
@@ -28,7 +29,24 @@ struct SettingView: View {
             Form {
                 Section(header: Text("General")) {
                     Toggle(isOn: $ignorWebsocket) {
-                        Text("Ignore Raspberry Pi connection")
+                        VStack(alignment: .leading) {
+                            Text("Ignore Raspberry Pi connection")
+                            Text("Record without a Raspberry PI connected")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    HStack {
+                        Toggle(isOn: $smoothDepth) {
+                            VStack(alignment: .leading) {
+                                Text("Smooth depth")
+                                Text("Minimize the difference in LiDAR readings across frames")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                           
+                        }
                     }
                     
                     HStack {
@@ -41,6 +59,8 @@ struct SettingView: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
+                   
+                    
                     HStack {
                         Text("Hostname")
                         TextField("Enter hostname", text: $hostname)
@@ -67,7 +87,6 @@ struct SettingView: View {
                         IPView()
                         
                     }
-                    
                 }
                 Section() {
                     Button(action: {
@@ -77,16 +96,6 @@ struct SettingView: View {
                             .foregroundColor(.blue)
                             
                     })
-//                    HStack {
-//                        
-//                        
-//                            
-//                        Spacer()
-//                    }
-//                    .contentShape(Rectangle()) // 扩展点击区域
-//                    .onTapGesture {
-//                        self.showInfo.toggle()
-//                    }
                 }
                 
             }

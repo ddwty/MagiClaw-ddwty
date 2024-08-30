@@ -80,6 +80,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var recorder: ARRecorder!
 //    var tcpServerManager: TCPServerManager
     var websocketServer: WebSocketServerManager
+   
     
     
     private var lastUpdateTime: CFTimeInterval = 0
@@ -184,7 +185,6 @@ extension ARViewController {
 }
 
 extension ARView {
-
     
     func runARSession() {
         let config = ARWorldTrackingConfiguration()
@@ -199,11 +199,16 @@ extension ARView {
         } else {
             print("No video format with \(desiredFrameRate) FPS found")
         }
-        if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
-            config.frameSemantics = .sceneDepth
-        }
-        if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
-            config.frameSemantics.insert(.smoothedSceneDepth)
+        if ARRecorder.shared.smoothDepth {
+            if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
+                config.frameSemantics.insert(.smoothedSceneDepth)
+                print("Using smoothed scene depth")
+            }
+        } else {
+            if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
+                config.frameSemantics = .sceneDepth
+                print("Using scene depth without smoothing")
+            }
         }
         
         

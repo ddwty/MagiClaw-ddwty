@@ -34,7 +34,6 @@ struct MagiClawApp: App {
         .onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .background, .inactive:
-                // 应用进入后台或变为非活动状态时
                 webSocketManager.disconnect()
                 print("WebSocket disconnected.")
             case .active:

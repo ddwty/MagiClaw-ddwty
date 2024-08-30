@@ -72,6 +72,7 @@ struct ControlButtonView: View {
                             recordAllDataModel.description = newValue
                         }
                         .disableAutocorrection(true)
+                        .onTapGesture {  } // outer tap gesture has no effect on field
                        
                     HStack {
                         Spacer()
@@ -113,6 +114,7 @@ struct ControlButtonView: View {
                                     }
                                     .disableAutocorrection(true)
                                     .frame(minWidth: 100, minHeight: 50)
+                                    .onTapGesture {  } // outer tap gesture has no effect on field
                                    
                                     
                             }
