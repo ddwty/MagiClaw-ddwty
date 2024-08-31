@@ -232,7 +232,7 @@ struct FingerAngle: Codable {
             case .text(let string):
                 //                if self.isRecording {
                 self.handleRightFingerMessage(string: string)
-                //                            print("Receive text from left finger message, is recording: \(self.isRecording)")
+                                           
                 //                }
 //                print("\(string)")
             case .binary(let data):
@@ -383,8 +383,9 @@ extension WebSocketManager {
                 // 记录第一帧数据的时间戳
                 if isFirstFrameOfRightForce {
                     self.firstTimestampOfRightForce = timestamp
-                    self.isFirstFrameOfForce = false
+                    self.isFirstFrameOfRightForce = false
                 }
+               
                 let forceData = ForceData(
                     timeStamp: timestamp - firstTimestampOfRightForce,
                     forceData: fingerForce.force?.value)

@@ -32,7 +32,7 @@ struct MagiClawApp: App {
 //                .modelContainer(container)
         }
        
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { old, newPhase in
             switch newPhase {
             case .background, .inactive:
                 webSocketManager.disconnect()

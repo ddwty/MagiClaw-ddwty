@@ -24,9 +24,6 @@ struct IPView: View {
                     Label("Copy", systemImage: "doc.on.doc")
                 }
             }
-            .onTapGesture {
-                UIPasteboard.general.string = ipAddress
-            }
     }
     
     func getWiFiIPAddress() -> String {

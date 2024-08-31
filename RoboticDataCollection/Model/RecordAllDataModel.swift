@@ -10,8 +10,6 @@ import SwiftUI
 import SwiftData
 import Zip
 
-
-
 @Observable class RecordAllDataModel {
     private var isRecording = false
     public var isWaitingSaveing = false
@@ -21,7 +19,9 @@ import Zip
 //    private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
-   
+    private let settingModel = SettingModel.shared
+    // TODO: - 保存进度
+    private var savingProgress = SavingProgress.shared
     
     // 用于为文件夹命名场景
 //    private var scenarioName = SelectedScenario.shared.selectedScenario
@@ -151,7 +151,9 @@ extension RecordAllDataModel {
             print("CSV files saved: \(arCSVURL!.absoluteString), \(forceCSVURL!.absoluteString), \(rightForceCSVURL!.absoluteString), \(angleCSVURL!.absoluteString)")
             
             // 生成CSV文件后，压缩文件夹
-            self.zipFolder(at: parentFolderURL)
+            if self.settingModel.saveZipFile {
+                self.zipFolder(at: parentFolderURL)
+            }
         }
     }
 
@@ -174,7 +176,7 @@ extension RecordAllDataModel {
     
     // MARK: - 压缩文件夹
     private func zipFolder(at folderURL: URL) {
-        let zipURL = folderURL.appendingPathExtension("zip")
+        let zipURL = folderURL.appendingPathExtension("magiclaw")
         
         do {
 //            try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: nil)

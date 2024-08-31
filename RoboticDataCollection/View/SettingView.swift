@@ -18,6 +18,7 @@ struct SettingView: View {
 //    @State var enableSendingData = false
     @ObservedObject var settingModel = SettingModel.shared
     
+    
     let availableFrameRates = [30, 60] // 可以选择的帧率选项
     
     @State private var showMailComposer = false
@@ -38,18 +39,17 @@ struct SettingView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
-                    HStack {
-                        Toggle(isOn: $smoothDepth) {
-                            VStack(alignment: .leading) {
-                                Text("Smooth depth")
-                                Text("Minimize the difference in LiDAR readings across frames")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                           
+                
+                    Toggle(isOn: $smoothDepth) {
+                        VStack(alignment: .leading) {
+                            Text("Smooth depth")
+                            Text("Minimize the difference in LiDAR readings across frames")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
+                       
                     }
+                    
                     
                     HStack {
                         Text("Frame Rate")
@@ -61,8 +61,15 @@ struct SettingView: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
                     }
-                   
                     
+                    Toggle(isOn: $settingModel.saveZipFile) {
+                        VStack(alignment: .leading) {
+                            Text("Zip data files")
+                            Text("Reduce storage space usage")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                    
                     
                     NavigationLink(destination: NewScenarioView()) {
@@ -75,8 +82,11 @@ struct SettingView: View {
                         TextField("Enter hostname", text: $hostname)
                             .keyboardType(.URL) // 设置键盘类型为URL
                             .textContentType(.URL)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(5)
+                            
                             .onChange(of: hostname) { oldValue, newValue in
                                 // 防止hostname被设置为空
                                 guard !newValue.isEmpty else { return }
@@ -97,7 +107,7 @@ struct SettingView: View {
                     
                     
                     HStack {
-                        Text("iPhone's IP Address")
+                        Text("IP Address")
                         Spacer()
                         IPView()
                         
@@ -141,4 +151,5 @@ class SettingModel: ObservableObject {
     private init() {}
     
     @Published var enableSendingData = false
+    @AppStorage("saveZipFile") var saveZipFile = false
 }
