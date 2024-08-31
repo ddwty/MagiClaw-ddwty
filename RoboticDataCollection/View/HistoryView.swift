@@ -23,7 +23,7 @@ struct HistoryView: View {
                         Label("Time ascending", systemImage: "arrow.up.circle")
                             .tag(SortDescriptor(\AllStorgeData.createTime,  order: .forward))
                        
-                        Label("Time ascending", systemImage: "arrow.down.circle")
+                        Label("Time descending", systemImage: "arrow.down.circle")
                             .tag(SortDescriptor(\AllStorgeData.createTime, order: .reverse))
                     }
                     .pickerStyle(.inline)
@@ -119,7 +119,19 @@ struct HistoryListView: View {
                     }
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            modelContext.delete(recording)
+                            withAnimation {
+                                modelContext.delete(recording)
+                            }
+                           
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                modelContext.delete(recording)
+                            }
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -152,7 +164,8 @@ struct RecordingDetailView: View {
                 Section {
                     HStack {
                         Text("Scenario:")
-                            .font(.headline)
+                            
+                        // TODO: - EDIT
                         Text(recording.scenario?.name.capitalized ?? "Unspecified")
                             .font(.caption)
                             .foregroundColor(recording.scenario?.hexColor ?? Color.gray)

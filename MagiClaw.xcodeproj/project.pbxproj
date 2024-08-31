@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 3D29AE6C2C820A4000EE7A42 /* Starscream */; };
+		3D94E7AE2C820C49002CD850 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3D94E7AD2C820C49002CD850 /* Zip */; };
+		3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D94E7C92C82D155002CD850 /* AppDelegate.swift */; };
 		602103632C75DB2F0025E247 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103572C75DB2E0025E247 /* StopWach.swift */; };
 		602103642C75DB2F0025E247 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103582C75DB2E0025E247 /* HistoryView.swift */; };
 		602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103592C75DB2E0025E247 /* ControlButtonView.swift */; };
@@ -15,7 +18,7 @@
 		602103682C75DB2F0025E247 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035C2C75DB2F0025E247 /* PanelView.swift */; };
 		602103692C75DB2F0025E247 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035D2C75DB2F0025E247 /* ContentView.swift */; };
 		6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035E2C75DB2F0025E247 /* ForceView.swift */; };
-		6021036B2C75DB2F0025E247 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035F2C75DB2F0025E247 /* extension.swift */; };
+		6021036B2C75DB2F0025E247 /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021035F2C75DB2F0025E247 /* ExtensionView.swift */; };
 		6021036C2C75DB2F0025E247 /* ARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103602C75DB2F0025E247 /* ARView.swift */; };
 		6021036D2C75DB2F0025E247 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103612C75DB2F0025E247 /* SettingView.swift */; };
 		6021036E2C75DB2F0025E247 /* AngleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103622C75DB2F0025E247 /* AngleView.swift */; };
@@ -53,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3D94E7C92C82D155002CD850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		602103572C75DB2E0025E247 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
 		602103582C75DB2E0025E247 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		602103592C75DB2E0025E247 /* ControlButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlButtonView.swift; sourceTree = "<group>"; };
@@ -61,7 +65,7 @@
 		6021035C2C75DB2F0025E247 /* PanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
 		6021035D2C75DB2F0025E247 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6021035E2C75DB2F0025E247 /* ForceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForceView.swift; sourceTree = "<group>"; };
-		6021035F2C75DB2F0025E247 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		6021035F2C75DB2F0025E247 /* ExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
 		602103602C75DB2F0025E247 /* ARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARView.swift; sourceTree = "<group>"; };
 		602103612C75DB2F0025E247 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		602103622C75DB2F0025E247 /* AngleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngleView.swift; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D94E7AE2C820C49002CD850 /* Zip in Frameworks */,
+				3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				609395222C55473700E98950 /* MagiClawApp.swift */,
+				3D94E7C92C82D155002CD850 /* AppDelegate.swift */,
 				603E5E9F2C7708B800ABF2FE /* Extension */,
 				3D625B682C5F560600180FCB /* Info.plist */,
 				6093956A2C554A7200E98950 /* Model */,
@@ -218,7 +225,7 @@
 				603E5EA52C770FE800ABF2FE /* Panel */,
 				603E5EA42C770F8200ABF2FE /* RaspberryPi */,
 				6021035D2C75DB2F0025E247 /* ContentView.swift */,
-				6021035F2C75DB2F0025E247 /* extension.swift */,
+				6021035F2C75DB2F0025E247 /* ExtensionView.swift */,
 				603E5EA62C77167D00ABF2FE /* NewScenarioView.swift */,
 				603E5EAB2C78D5D200ABF2FE /* TestServerView.swift */,
 				605DA5012C7A20F800034F67 /* InfoView.swift */,
@@ -272,6 +279,8 @@
 			);
 			name = MagiClaw;
 			packageProductDependencies = (
+				3D29AE6C2C820A4000EE7A42 /* Starscream */,
+				3D94E7AD2C820C49002CD850 /* Zip */,
 			);
 			productName = RoboticDataCollection;
 			productReference = 6093951F2C55473700E98950 /* MagiClaw.app */;
@@ -302,6 +311,8 @@
 			);
 			mainGroup = 609395162C55473700E98950;
 			packageReferences = (
+				3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */,
+				3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 609395202C55473700E98950 /* Products */;
 			projectDirPath = "";
@@ -338,9 +349,10 @@
 				6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */,
 				605DA5002C7A150E00034F67 /* Email.swift in Sources */,
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
+				3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */,
 				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
 				603E5EAA2C78CADF00ABF2FE /* SwiftWebSocketServer.swift in Sources */,
-				6021036B2C75DB2F0025E247 /* extension.swift in Sources */,
+				6021036B2C75DB2F0025E247 /* ExtensionView.swift in Sources */,
 				605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */,
 				603E5E9C2C766B6B00ABF2FE /* WebSocketManager.swift in Sources */,
 				602103642C75DB2F0025E247 /* HistoryView.swift in Sources */,
@@ -594,6 +606,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.8;
+			};
+		};
+		3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3D29AE6C2C820A4000EE7A42 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+		3D94E7AD2C820C49002CD850 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 609395172C55473700E98950 /* Project object */;
 }

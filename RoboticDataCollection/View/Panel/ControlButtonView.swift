@@ -82,14 +82,14 @@ struct ControlButtonView: View {
                 }
             }
             .alert(
-                "Recording completed.",
+                "Recording completed",
                 isPresented: $isSaved
             ) {
                 Button("OK") {
                 }
             } message: {
 //                Text("You have successfully recorded an action😁")
-                Text("You have successfully recorded an action😁\n" +
+                Text("You have successfully recorded an action😁\n\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
                      "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
@@ -160,7 +160,7 @@ struct ControlButtonView: View {
                     }
                 }
             .alert(
-                "Recording completed.",
+                "Recording completed",
                 isPresented: $isSaved
             ) {
                 Button("OK") {
@@ -168,7 +168,7 @@ struct ControlButtonView: View {
                 }
             } message: {
 //                Text("You have successfully recorded an action😁")
-                Text("You have successfully recorded an action😁\n" +
+                Text("You have successfully recorded an action😁\n\n" +
                      "Left Force Data: \(self.recordAllDataModel.recordedForceData.count)\n" +
                      "Right Force Data: \(self.recordAllDataModel.recordedRightForceData.count)\n" +
                      "Angle Data: \(self.recordAllDataModel.recordedAngleData.count)\n" +
@@ -188,7 +188,8 @@ struct ControlButtonView: View {
 }
 
 struct StartRecordingButton: View {
-    @State var isRunningTimer = false // 在展示popover时，禁用按钮
+    @State var isRunningTimer = false // 在展示popover时，禁用录制按钮
+    @State private var isLocked = false // Lock screen oirtation when recording
     @Binding var showPopover: Bool
     @Environment(RecordAllDataModel.self) var recordAllDataModel
     @Environment(WebSocketManager.self) private var webSocketManager
@@ -198,15 +199,16 @@ struct StartRecordingButton: View {
     
     @Binding var isSaved: Bool
     @Binding var description: String
-//    @Binding var scenario: Scenario
     @Binding var newScenario: Scenario?
     
     @AppStorage("ignore websocket") private var ignoreWebsocket = false
     @State var isWaitingtoSave = false
     @Environment(\.modelContext) private var modelContext
     
+    
     var body: some View {
         Button(action: {
+            toggleLock() // 屏幕方向锁定
             withAnimation {
                 if isRunningTimer { //结束录制
                     // 触发震动
@@ -238,10 +240,11 @@ struct StartRecordingButton: View {
 //                        print("Failed to save data: \(error.localizedDescription)")
 //                    }
                     
-                } else {
+                } else { // start recording
                     // 触发震动
                    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
                    impactFeedbackGenerator.impactOccurred()
+                   
                     
                     recordAllDataModel.startRecordingData()
                     display = "00:00:00"
@@ -273,6 +276,10 @@ struct StartRecordingButton: View {
             .padding()
             .background((ignoreWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
             .clipShape(Capsule())
+            .onAppear {
+                // 当视图出现时，重置为默认方向
+                AppDelegate.orientationLock = .all
+            }
         }
         
         // 当ignorewebsocket为true时，按钮就可以用,只要showPopover，就禁用
@@ -289,5 +296,28 @@ struct StartRecordingButton: View {
         .onAppear {
             timer.upstream.connect().cancel()
         }
+    }
+    
+    private func toggleLock() {
+        let currentOrientation = UIDevice.current.orientation
+
+        if isLocked {
+            // 解除锁定
+            AppDelegate.orientationLock = .all
+        } else {
+            // 锁定当前方向
+            switch currentOrientation {
+            case .portrait, .portraitUpsideDown:
+                AppDelegate.orientationLock = .portrait
+            case .landscapeLeft, .landscapeRight:
+                AppDelegate.orientationLock = .landscape
+            default:
+                AppDelegate.orientationLock = .all
+            }
+        }
+
+        // 触发屏幕旋转
+        UIViewController.attemptRotationToDeviceOrientation()
+        isLocked.toggle()
     }
 }

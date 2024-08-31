@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import SwiftData
-
+import Zip
 
 
 
@@ -142,10 +142,16 @@ extension RecordAllDataModel {
             let rightForceCSVURL = self.exportToCSV(data: self.recordedRightForceData, fileName: "R_ForceData", folderURL: parentFolderURL)
             let angleCSVURL = self.exportToCSV(data: self.recordedAngleData, fileName: "AngleData", folderURL: parentFolderURL)
             
-            DispatchQueue.main.async {
-                print("CSV files saved: \(arCSVURL?.absoluteString ?? ""), \(forceCSVURL?.absoluteString ?? ""), \(angleCSVURL?.absoluteString ?? "")")
-                // Update UI or notify the user if needed
+            // 检查是否所有文件都成功生成
+            guard arCSVURL != nil, forceCSVURL != nil, rightForceCSVURL != nil, angleCSVURL != nil else {
+                print("Failed to save one or more CSV files.")
+                return
             }
+            
+            print("CSV files saved: \(arCSVURL!.absoluteString), \(forceCSVURL!.absoluteString), \(rightForceCSVURL!.absoluteString), \(angleCSVURL!.absoluteString)")
+            
+            // 生成CSV文件后，压缩文件夹
+            self.zipFolder(at: parentFolderURL)
         }
     }
 
@@ -163,6 +169,25 @@ extension RecordAllDataModel {
         } catch {
             print("Error saving CSV: \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    // MARK: - 压缩文件夹
+    private func zipFolder(at folderURL: URL) {
+        let zipURL = folderURL.appendingPathExtension("zip")
+        
+        do {
+//            try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: nil)
+            try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: {(progress) -> () in
+                print(progress)
+            })
+            print("Folder successfully zipped at \(zipURL.absoluteString)")
+            
+            // 删除原来的文件夹
+            try FileManager.default.removeItem(at: folderURL)
+            print("Original folder successfully deleted at \(folderURL.absoluteString)")
+        } catch {
+            print("Error zipping folder: \(error.localizedDescription)")
         }
     }
     

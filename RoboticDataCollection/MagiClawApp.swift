@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct MagiClawApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var recordAllDataModel = RecordAllDataModel()
     @State var webSocketManager = WebSocketManager.shared
 //    @StateObject var tcpServerManager = TCPServerManager(port: 8080)
@@ -47,10 +48,5 @@ struct MagiClawApp: App {
     }
 }
 
-extension View {
-    func hideKeyboard() {
-        let resign = #selector(UIResponder.resignFirstResponder)
-        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
-    }
-}
+
 

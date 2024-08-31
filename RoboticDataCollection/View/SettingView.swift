@@ -15,6 +15,8 @@ struct SettingView: View {
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     @AppStorage("smoothDepth") private var smoothDepth = true
+//    @State var enableSendingData = false
+    @ObservedObject var settingModel = SettingModel.shared
     
     let availableFrameRates = [30, 60] // 可以选择的帧率选项
     
@@ -27,7 +29,7 @@ struct SettingView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("General")) {
+                Section(header: Text("Recording")) {
                     Toggle(isOn: $ignorWebsocket) {
                         VStack(alignment: .leading) {
                             Text("Ignore Raspberry Pi connection")
@@ -61,6 +63,13 @@ struct SettingView: View {
                     }
                    
                     
+                   
+                    
+                    NavigationLink(destination: NewScenarioView()) {
+                        Text("Scenario")
+                    }
+                }
+                Section(header: Text("Connection")) {
                     HStack {
                         Text("Hostname")
                         TextField("Enter hostname", text: $hostname)
@@ -76,11 +85,17 @@ struct SettingView: View {
                             }
                     }
                     
-                    NavigationLink(destination: NewScenarioView()) {
-                        Text("Scenario")
+                    Toggle(isOn: $settingModel.enableSendingData) {
+                        VStack(alignment: .leading) {
+                            Text("Enable sending data")
+                            Text("Send data via websocket on port 8080")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                     }
-                }
-                Section(header: Text("Device info")) {
+                    
+                    
+                    
                     HStack {
                         Text("iPhone's IP Address")
                         Spacer()
@@ -111,9 +126,19 @@ struct SettingView: View {
 
 
 #Preview {
-    SettingView()
+    SettingView(settingModel: SettingModel.shared)
         .environmentObject(ARRecorder.shared)
         .environment(WebSocketManager.shared)
     
 }
 
+class SettingModel: ObservableObject {
+//    @Published var ignoreWebsocket = false
+//    @Published var hostname = "raspberrypi.local"
+//    @Published var selectedFrameRate: Int = 30
+//    @Published var smoothDepth = true
+    static let shared = SettingModel()
+    private init() {}
+    
+    @Published var enableSendingData = false
+}

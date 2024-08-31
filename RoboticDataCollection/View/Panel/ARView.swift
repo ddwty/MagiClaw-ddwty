@@ -80,6 +80,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var recorder: ARRecorder!
 //    var tcpServerManager: TCPServerManager
     var websocketServer: WebSocketServerManager
+    var settingModel = SettingModel.shared
    
     
     
@@ -160,16 +161,19 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //        tcpServerManager?.broadcastMessage(transformString)
 //        print("session\(Date.now)")
         
+        // 设置页面控制是否发送数据
+        if settingModel.enableSendingData {
             let cameraTransform = frame.camera.transform
             // 将 transform 转换为 JSON 字符串
             if let jsonString = cameraTransform.toJSONString() {
-               
+                
                 DispatchQueue.global(qos: .background).async {
-//                    self.tcpServerManager.broadcastMessage(jsonString)
-//                    self.websocketServer.broadcastMessage(jsonString)
+                    //                    self.tcpServerManager.broadcastMessage(jsonString)
+                    //                    self.websocketServer.broadcastMessage(jsonString)
                     self.sendToClients(message: jsonString)
                 }
             }
+        }
        
         recorder.recordFrame(frame)
     }

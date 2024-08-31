@@ -88,7 +88,7 @@ class ARRecorder: NSObject, ObservableObject {
             for y in 0..<height {
                 for x in 0..<width {
                     let depthValue = float32Pointer[y * width + x]
-                    let processedValue = UInt16((depthValue * 10000))
+                    let processedValue = UInt16(max(0, min(65535, depthValue * 10000))) // 防止溢出
                     UInt16Buffer[y * width + x] = processedValue
                 }
             }

@@ -50,7 +50,7 @@ struct InfoView: View {
                 }
                 .padding()
                 Divider()
-                VStack(alignment: .leading) {
+                VStack() {
                     Text("Developed by the Design and Learning Research Group at Southern University of Science and Technology.")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -58,7 +58,6 @@ struct InfoView: View {
                     HStack(alignment: .firstTextBaseline) {
                         Text("Our website:")
                             .foregroundColor(.secondary)
-                            .padding(.horizontal)
                            
                         
                         Link("ancorasir.com", destination: URL(string: "https://ancorasir.com")!)
@@ -86,7 +85,7 @@ struct InfoView: View {
                     .padding()
                 }
                 else {
-                    Text("Mail services are not available.")
+                    Text("Author Email: ddwty@163.com")
                         .foregroundColor(.secondary)
                         .padding()
                     
