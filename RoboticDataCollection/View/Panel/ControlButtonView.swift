@@ -10,6 +10,7 @@ import SwiftData
 import UIKit
 
 struct ControlButtonView: View {
+//    let container: ModelContainer
     @Environment(RecordAllDataModel.self) var recordAllDataModel
     @Environment(WebSocketManager.self) private var webSocketManager
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -22,17 +23,46 @@ struct ControlButtonView: View {
     //    @State private var scenario: Scenario = .unspecified
     
     @State private var newScenario: Scenario?
+    @ObservedObject var settingModel = SettingModel.shared
     
     @Binding var showPopover: Bool
     @FocusState private var isFocused: Bool
+    @State private var isLocked = false
     
     var body: some View {
         if verticalSizeClass == .regular {
             GroupBox {
                 VStack(alignment: .leading) {
-                    Text("Control Panel")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                    HStack {
+                        Text("Control Panel")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Button {
+                            toggleLock()
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                settingModel.enableSendingData.toggle()
+                            }
+                        } label: {
+                            if settingModel.enableSendingData {
+                                Label("Stop sending", systemImage: "wave.3.forward")
+                                    .if(settingModel.enableSendingData) {
+                                        $0.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing)
+                                    }
+                                    .labelStyle(ReverseLabelStyle())
+                            } else {
+                                Text("Send data")
+                            }
+                               
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(settingModel.enableSendingData ? .green : .blue)
+                        .onAppear {
+                            // 当视图出现时，重置为默认方向
+                            AppDelegate.orientationLock = .all
+                        }
+//                        .controlSize(.small)
+                    }
                     Divider()
                             HStack {
                                 Text("Select a scenario: ")
@@ -82,7 +112,7 @@ struct ControlButtonView: View {
                     
                     HStack {
                         Spacer()
-                            StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
+                        StartRecordingButton( showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
                         Spacer()
                     }
                 }
@@ -106,9 +136,36 @@ struct ControlButtonView: View {
         } else {
             GroupBox {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Control Panel")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                    HStack {
+                        Text("Control Panel")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Button {
+                            toggleLock()
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                settingModel.enableSendingData.toggle()
+                            }
+                        } label: {
+                            if settingModel.enableSendingData {
+                                Label("Stop sending", systemImage: "wave.3.forward")
+                                    .if(settingModel.enableSendingData) {
+                                        $0.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing)
+                                    }
+                                    .labelStyle(ReverseLabelStyle())
+                            } else {
+                                Text("Send data")
+                            } 
+                        }
+                        .buttonStyle(.bordered)
+//                        .controlSize(.mini)
+                        .tint(settingModel.enableSendingData ? .green : .blue)
+                        .padding(.bottom, 3)
+                        .onAppear {
+                            // 当视图出现时，重置为默认方向
+                            AppDelegate.orientationLock = .all
+                        }
+                    }
                     Divider()
                     
                     HStack(alignment: .firstTextBaseline) {
@@ -193,138 +250,7 @@ struct ControlButtonView: View {
     }
 }
 
-
-
-#Preview(traits: .landscapeRight) {
-    ControlButtonView(showPopover: .constant(false))
-        .environment(RecordAllDataModel())
-        .environment(WebSocketManager.shared)
-}
-
-struct StartRecordingButton: View {
-    @State var isRunningTimer = false // 在展示popover时，禁用录制按钮
-    @State private var isLocked = false // Lock screen oirtation when recording
-    @Binding var showPopover: Bool
-    @Environment(RecordAllDataModel.self) var recordAllDataModel
-    @Environment(WebSocketManager.self) private var webSocketManager
-    @State private var startTime = Date()
-    @State private var display = "00:00:00"
-    @State private var timer = Timer.publish(every: 1/60, on: .main, in: .common).autoconnect()
-    
-
-    @Binding var isSaved: Bool
-    @Binding var description: String
-    @Binding var newScenario: Scenario?
-
-    @AppStorage("ignore websocket") private var ignoreWebsocket = false
-    @State var isWaitingtoSave = false
-    @Environment(\.modelContext) private var modelContext
-    @StateObject var savingProgress = SavingProgress.shared
-
-    var body: some View {
-        ZStack {
-            Button(action: {
-                toggleLock() // 屏幕方向锁定
-                withAnimation {
-                    if isRunningTimer { //结束录制
-                        // 触发震动
-                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-                        impactFeedbackGenerator.impactOccurred()
-                        
-                        recordAllDataModel.stopRecordingData()
-                        timer.upstream.connect().cancel()
-                        self.isRunningTimer = false
-                        self.isWaitingtoSave = true
-                        
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            // MARK: - Save All Data to SwiftData Here
-                            let newAllData = AllStorgeData(
-                                createTime: Date(),
-                                timeDuration: recordAllDataModel.recordingDuration,
-                                notes: self.description,
-                                forceData: recordAllDataModel.recordedForceData,
-                                rightForceData: recordAllDataModel.recordedRightForceData,
-                                angleData: recordAllDataModel.recordedAngleData,
-                                aRData: recordAllDataModel.recordedARData
-                            )
-                            newAllData.scenario = self.newScenario
-                            modelContext.insert(newAllData)
-                            
-                        }
-                        isSaved = true
-                        
-                    } else { // start recording
-                        // 触发震动
-                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-                        impactFeedbackGenerator.impactOccurred()
-                        recordAllDataModel.startRecordingData()
-                        display = "00:00:00"
-                        startTime = Date()
-                        timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-                        self.isRunningTimer = true
-                        self.isWaitingtoSave = false
-                    }
-                }
-            }) {
-                HStack {
-                    if isRunningTimer {
-                        Image(systemName: "stop.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.white)
-                            .symbolEffect(.pulse.wholeSymbol)
-                        
-                        Text(display)
-                            .font(.system(.headline, design: .monospaced))
-                            .foregroundColor(.white)
-                    } else {
-                        Text("Start Recording")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                }
-                .frame(height: 25)
-                .padding()
-                .background((ignoreWebsocket || webSocketManager.isConnected) ? (isRunningTimer ? Color.red : Color.green) : Color.gray)
-                .clipShape(Capsule())
-                .onAppear {
-                    // 当视图出现时，重置为默认方向
-                    AppDelegate.orientationLock = .all
-                }
-            }
-            
-            // 当ignorewebsocket为true时，按钮就可以用,只要showPopover，就禁用
-            .disabled((!(ignoreWebsocket || webSocketManager.isConnected)) || showPopover)
-            .onReceive(timer) { _ in
-                if isRunningTimer {
-                    let duration = Date().timeIntervalSince(startTime)
-                    let minutes = Int(duration) / 60
-                    let seconds = Int(duration) % 60
-                    let milliseconds = Int((duration - Double(minutes * 60 + seconds)) * 100) % 100
-                    display = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
-                }
-            }
-            .onAppear {
-                timer.upstream.connect().cancel()
-            }
-//            HStack {
-//                Spacer()
-//                ProgressView(value: savingProgress.progress, total: 1.0)
-//                            .progressViewStyle(GaugeProgressStyle())
-//                            .frame(width: 30, height: 30)
-//                            .padding(.trailing)
-//                            .contentShape(Rectangle())
-//                            .onTapGesture {
-//                                if savingProgress.progress < 1.0 {
-//                                    withAnimation {
-//                                        savingProgress.progress += 0.2
-//                                    }
-//                                }
-//                            }
-//            }
-        }
-    }
-
+extension ControlButtonView {
     private func toggleLock() {
         let currentOrientation = UIDevice.current.orientation
 
@@ -352,6 +278,19 @@ struct StartRecordingButton: View {
         isLocked.toggle()
     }
 }
+
+
+#Preview(traits: .landscapeRight) {
+    ControlButtonView(showPopover: .constant(false))
+            .environment(RecordAllDataModel())
+            .environment(WebSocketManager.shared)
+            
+}
+
+
+
+
+
 
 
 struct GaugeProgressStyle: ProgressViewStyle {

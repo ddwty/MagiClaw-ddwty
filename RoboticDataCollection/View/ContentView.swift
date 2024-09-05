@@ -7,8 +7,10 @@
 
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+   
     @Environment(\.modelContext) private var modelContext
     @AppStorage("firstLaunch") private var isFirstLaunch = true
     var body: some View {
@@ -47,9 +49,9 @@ struct ContentView: View {
 
 #Preview() {
     ContentView()
-//        .environmentObject(MotionManager.shared)
-        .environment(RecordAllDataModel())
-        .environment(WebSocketManager.shared)
-        .environmentObject(ARRecorder.shared)
-        .modelContainer(previewContainer)
+            .environment(RecordAllDataModel())
+            .environment(WebSocketManager.shared)
+            .environmentObject(ARRecorder.shared)
+            .modelContainer(previewContainer)
+    
 }

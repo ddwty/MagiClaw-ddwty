@@ -170,3 +170,12 @@ extension View {
         }
     }
 }
+
+struct ReverseLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            configuration.title
+            configuration.icon
+        }
+    }
+}

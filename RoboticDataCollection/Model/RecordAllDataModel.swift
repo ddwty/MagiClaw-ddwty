@@ -112,7 +112,9 @@ import Zip
         //        print("Force data:\(recordedForceData)")
         
         // 将其他数据保存为CSV
-        self.generateCSV(in: parentFolderURL!)
+       
+            self.generateCSV(in: parentFolderURL!)
+        
         self.isRecording = false
         stopTimer()
 

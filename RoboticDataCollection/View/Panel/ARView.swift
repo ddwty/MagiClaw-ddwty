@@ -4,7 +4,6 @@
 //
 //  Created by Tianyu on 7/25/24.
 //
-
 import SwiftUI
 import RealityKit
 import ARKit
@@ -75,6 +74,10 @@ struct ARViewContainer: UIViewControllerRepresentable {
     }
 }
 
+
+
+
+
 class ARViewController: UIViewController, ARSessionDelegate {
     var arView: ARView!
     var frameSize: CGSize
@@ -82,6 +85,8 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //    var tcpServerManager: TCPServerManager
     var websocketServer: WebSocketServerManager
     var settingModel = SettingModel.shared
+    
+    var distance = 0.0
    
     
     
@@ -166,28 +171,33 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //            let cameraTransform = frame.camera.transform
 //            // 将 transform 转换为 JSON 字符串
 //            if let jsonString = cameraTransform.toJSONString() {
-//                
+//
 //                DispatchQueue.global(qos: .background).async {
 //                    //                    self.tcpServerManager.broadcastMessage(jsonString)
 //                    //                    self.websocketServer.broadcastMessage(jsonString)
 //                    self.sendToClients(message: jsonString)
 //                }
 //            }
-//            
+//
 //            let pixelBuffer = frame.capturedImage
 //            if let imageData = pixelBufferToData(pixelBuffer: pixelBuffer) {
 //                DispatchQueue.global(qos: .background).async {
 //                    self.sendToClients(data: imageData)
 //                }
 //            }
+            DispatchQueue.global(qos: .background).async {
             let cameraTransform = frame.camera.transform
             let pose = cameraTransform.getPoseMatrix()
             let pixelBuffer = frame.capturedImage
-            if let combinedData = prepareSentData(pixelBuffer: pixelBuffer, pose: pose) {
-                DispatchQueue.global(qos: .background).async {
+            
+                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose) {
+               
                     self.sendToClients(data: combinedData)
                 }
             }
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
         }
        
         recorder.recordFrame(frame)
@@ -220,7 +230,7 @@ extension ARViewController {
 //
 //        if let cgImage = context.createCGImage(scaledCIImage, from: CGRect(origin: .zero, size: targetSize)) {
 //            let uiImage = UIImage(cgImage: cgImage)
-//            
+//
 //            // 编码为 JPEG Data
 //            if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
 //                return imageData

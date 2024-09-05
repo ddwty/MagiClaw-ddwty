@@ -11,6 +11,10 @@
 		3D94E7AE2C820C49002CD850 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3D94E7AD2C820C49002CD850 /* Zip */; };
 		3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D94E7C92C82D155002CD850 /* AppDelegate.swift */; };
 		3D94E7CE2C833E14002CD850 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */; };
+		3DA34C7E2C8877CA005D918C /* StartRecordingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA34C7D2C8877CA005D918C /* StartRecordingButton.swift */; };
+		3DA34C8A2C887AF2005D918C /* ArucoProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA34C882C887AF2005D918C /* ArucoProperty.swift */; };
+		3DA34C8B2C887AF2005D918C /* CalculateAruco.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DA34C892C887AF2005D918C /* CalculateAruco.mm */; };
+		3DA4C5FB2C8874A400E542CA /* MyModelActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA4C5FA2C8874A400E542CA /* MyModelActor.swift */; };
 		602103632C75DB2F0025E247 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103572C75DB2E0025E247 /* StopWach.swift */; };
 		602103642C75DB2F0025E247 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103582C75DB2E0025E247 /* HistoryView.swift */; };
 		602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103592C75DB2E0025E247 /* ControlButtonView.swift */; };
@@ -26,6 +30,8 @@
 		602103712C75DB3A0025E247 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */; };
 		602103722C75DB3A0025E247 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103702C75DB3A0025E247 /* CameraView.swift */; };
 		602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */; };
+		603C91742C88ADDB00CEA4C5 /* opencv2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 603C91732C88ADDA00CEA4C5 /* opencv2.xcframework */; };
+		603C91762C89367E00CEA4C5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 603C91752C89367E00CEA4C5 /* .gitignore */; };
 		603E5E942C766B6B00ABF2FE /* MotionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E892C766B6B00ABF2FE /* MotionDataModel.swift */; };
 		603E5E952C766B6B00ABF2FE /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */; };
 		603E5E962C766B6B00ABF2FE /* ARRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E8B2C766B6B00ABF2FE /* ARRecorder.swift */; };
@@ -59,6 +65,12 @@
 		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3D94E7C92C82D155002CD850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		3DA34C7D2C8877CA005D918C /* StartRecordingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRecordingButton.swift; sourceTree = "<group>"; };
+		3DA34C842C887AD1005D918C /* MagiClaw-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MagiClaw-Bridging-Header.h"; sourceTree = "<group>"; };
+		3DA34C872C887AF2005D918C /* ArucoCV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArucoCV.h; sourceTree = "<group>"; };
+		3DA34C882C887AF2005D918C /* ArucoProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArucoProperty.swift; sourceTree = "<group>"; };
+		3DA34C892C887AF2005D918C /* CalculateAruco.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalculateAruco.mm; sourceTree = "<group>"; };
+		3DA4C5FA2C8874A400E542CA /* MyModelActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyModelActor.swift; sourceTree = "<group>"; };
 		602103572C75DB2E0025E247 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
 		602103582C75DB2E0025E247 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		602103592C75DB2E0025E247 /* ControlButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlButtonView.swift; sourceTree = "<group>"; };
@@ -74,6 +86,8 @@
 		6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		602103702C75DB3A0025E247 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaspberryPiStatusView.swift; sourceTree = "<group>"; };
+		603C91732C88ADDA00CEA4C5 /* opencv2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = opencv2.xcframework; sourceTree = SOURCE_ROOT; };
+		603C91752C89367E00CEA4C5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		603E5E892C766B6B00ABF2FE /* MotionDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionDataModel.swift; sourceTree = "<group>"; };
 		603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataModel.swift; sourceTree = "<group>"; };
 		603E5E8B2C766B6B00ABF2FE /* ARRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARRecorder.swift; sourceTree = "<group>"; };
@@ -109,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603C91742C88ADDB00CEA4C5 /* opencv2.xcframework in Frameworks */,
 				3D94E7AE2C820C49002CD850 /* Zip in Frameworks */,
 				3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */,
 			);
@@ -125,6 +140,25 @@
 				609395532C554A7200E98950 /* ExportView.swift */,
 			);
 			path = Unused;
+			sourceTree = "<group>";
+		};
+		3DA34C7F2C887814005D918C /* FrameWork */ = {
+			isa = PBXGroup;
+			children = (
+				603C91732C88ADDA00CEA4C5 /* opencv2.xcframework */,
+			);
+			path = FrameWork;
+			sourceTree = "<group>";
+		};
+		3DA4C5F72C88728200E542CA /* ArUco */ = {
+			isa = PBXGroup;
+			children = (
+				3DA34C872C887AF2005D918C /* ArucoCV.h */,
+				3DA34C882C887AF2005D918C /* ArucoProperty.swift */,
+				3DA34C892C887AF2005D918C /* CalculateAruco.mm */,
+				3DA34C842C887AD1005D918C /* MagiClaw-Bridging-Header.h */,
+			);
+			path = ArUco;
 			sourceTree = "<group>";
 		};
 		603E5E9F2C7708B800ABF2FE /* Extension */ = {
@@ -154,6 +188,7 @@
 			children = (
 				602103602C75DB2F0025E247 /* ARView.swift */,
 				602103592C75DB2E0025E247 /* ControlButtonView.swift */,
+				3DA34C7D2C8877CA005D918C /* StartRecordingButton.swift */,
 				6021035C2C75DB2F0025E247 /* PanelView.swift */,
 				602103572C75DB2E0025E247 /* StopWach.swift */,
 			);
@@ -163,6 +198,7 @@
 		603E5EA82C771C1A00ABF2FE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3DA4C5FA2C8874A400E542CA /* MyModelActor.swift */,
 				603E5E8F2C766B6B00ABF2FE /* DataModel.swift */,
 				603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */,
 				603E5E902C766B6B00ABF2FE /* ScenarioModel.swift */,
@@ -175,6 +211,7 @@
 		609395162C55473700E98950 = {
 			isa = PBXGroup;
 			children = (
+				603C91752C89367E00CEA4C5 /* .gitignore */,
 				607B2DEB2C6D15340010D914 /* README.md */,
 				609395212C55473700E98950 /* RoboticDataCollection */,
 				609395202C55473700E98950 /* Products */,
@@ -192,6 +229,8 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				3DA34C7F2C887814005D918C /* FrameWork */,
+				3DA4C5F72C88728200E542CA /* ArUco */,
 				609395222C55473700E98950 /* MagiClawApp.swift */,
 				3D94E7C92C82D155002CD850 /* AppDelegate.swift */,
 				603E5E9F2C7708B800ABF2FE /* Extension */,
@@ -301,6 +340,7 @@
 				TargetAttributes = {
 					6093951E2C55473700E98950 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -331,6 +371,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603C91762C89367E00CEA4C5 /* .gitignore in Resources */,
 				607B2DEC2C6D15340010D914 /* README.md in Resources */,
 				6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */,
 				3D94E7CE2C833E14002CD850 /* Launch Screen.storyboard in Resources */,
@@ -354,6 +395,8 @@
 				605DA5002C7A150E00034F67 /* Email.swift in Sources */,
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
 				3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */,
+				3DA34C8A2C887AF2005D918C /* ArucoProperty.swift in Sources */,
+				3DA34C8B2C887AF2005D918C /* CalculateAruco.mm in Sources */,
 				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
 				603E5EAA2C78CADF00ABF2FE /* SwiftWebSocketServer.swift in Sources */,
 				6021036B2C75DB2F0025E247 /* ExtensionView.swift in Sources */,
@@ -371,6 +414,7 @@
 				603E5E972C766B6B00ABF2FE /* ExtensionSimd.swift in Sources */,
 				603E5EAC2C78D5D200ABF2FE /* TestServerView.swift in Sources */,
 				602103682C75DB2F0025E247 /* PanelView.swift in Sources */,
+				3DA4C5FB2C8874A400E542CA /* MyModelActor.swift in Sources */,
 				6093957D2C554A7200E98950 /* ExportView.swift in Sources */,
 				603E5E952C766B6B00ABF2FE /* SwiftDataModel.swift in Sources */,
 				602103692C75DB2F0025E247 /* ContentView.swift in Sources */,
@@ -382,6 +426,7 @@
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
 				603E5E9A2C766B6B00ABF2FE /* DataModel.swift in Sources */,
 				603E5E9E2C766B6B00ABF2FE /* RecordAllDataModel.swift in Sources */,
+				3DA34C7E2C8877CA005D918C /* StartRecordingButton.swift in Sources */,
 				602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */,
 				603E5EA32C7708DD00ABF2FE /* Color+Extension.swift in Sources */,
 				603E5E982C766B6B00ABF2FE /* CameraManager.swift in Sources */,
@@ -515,11 +560,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RoboticDataCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = 7DTG838RB6;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					$PROJECT_DIR/RoboticDataCollection/Framework,
+					"$(inherited)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RoboticDataCollection/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
@@ -543,8 +593,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "RoboticDataCollection/ArUco/MagiClaw-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -555,6 +607,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RoboticDataCollection/Preview Content\"";
@@ -583,8 +636,9 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "RoboticDataCollection/ArUco/MagiClaw-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

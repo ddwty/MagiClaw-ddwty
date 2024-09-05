@@ -6,6 +6,11 @@
 //
 
 import Foundation
+import SwiftData
+
 typealias SchemaLatest = SchemaV1
 typealias AllStorgeData = SchemaLatest.AllStorgeData
 typealias Scenario = SchemaLatest.Scenario
+
+
+

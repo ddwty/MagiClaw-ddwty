@@ -395,7 +395,7 @@ extension WebSocketManager {
                 let zForce = forceData.forceData?[2] ?? 0
                 self.totalRightForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
                 //                print("\(totalForce)")
-//               
+//
                 if self.isRecording {
                   
                     self.recordedRightFingerForceData.append(forceData)

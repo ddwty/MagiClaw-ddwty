@@ -312,7 +312,7 @@ class ARRecorder: NSObject, ObservableObject {
 //            } else {
 //                print("Depth data folder does not exist")
 //            }
-//            
+//
 //            self.saveFilesToDocumentDirectory(sourceURL: self.videoOutputURL)
             completion(self.videoOutputURL)
         }
