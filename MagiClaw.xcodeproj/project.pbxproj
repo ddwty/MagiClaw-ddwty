@@ -51,6 +51,19 @@
 		605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FD2C79D52300034F67 /* SchemaLatest.swift */; };
 		605DA5002C7A150E00034F67 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FF2C7A150E00034F67 /* Email.swift */; };
 		605DA5022C7A20F800034F67 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA5012C7A20F800034F67 /* InfoView.swift */; };
+		605F723E2C8DD75A00D6F84F /* RemotePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F723D2C8DD75A00D6F84F /* RemotePanel.swift */; };
+		605F72402C8DD7DD00D6F84F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F723F2C8DD7DD00D6F84F /* HomeView.swift */; };
+		605F72422C8DF03000D6F84F /* RemoteControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72412C8DF03000D6F84F /* RemoteControlButton.swift */; };
+		605F72452C907A1500D6F84F /* OrientationEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72442C907A1500D6F84F /* OrientationEnum.swift */; };
+		605F72472C90808400D6F84F /* RemoteARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72462C90808400D6F84F /* RemoteARView.swift */; };
+		605F724B2C91799000D6F84F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72492C91799000D6F84F /* AudioRecorder.swift */; };
+		605F724C2C91799000D6F84F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F724A2C91799000D6F84F /* AudioPlayer.swift */; };
+		605F72512C91799B00D6F84F /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F724D2C91799B00D6F84F /* AudioView.swift */; };
+		605F72522C91799B00D6F84F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F724E2C91799B00D6F84F /* Extensions.swift */; };
+		605F72542C91799B00D6F84F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72502C91799B00D6F84F /* Helper.swift */; };
+		605F72572C9179A700D6F84F /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72552C9179A700D6F84F /* RecordingDataModel.swift */; };
+		605F72582C9179A700D6F84F /* RecordingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72562C9179A700D6F84F /* RecordingsList.swift */; };
+		605F725A2C918E2600D6F84F /* AudioStreaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72592C918E2600D6F84F /* AudioStreaming.swift */; };
 		607B2DEC2C6D15340010D914 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 607B2DEB2C6D15340010D914 /* README.md */; };
 		609395232C55473700E98950 /* MagiClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609395222C55473700E98950 /* MagiClawApp.swift */; };
 		609395272C55473A00E98950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 609395262C55473A00E98950 /* Assets.xcassets */; };
@@ -107,6 +120,19 @@
 		605DA4FD2C79D52300034F67 /* SchemaLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaLatest.swift; sourceTree = "<group>"; };
 		605DA4FF2C7A150E00034F67 /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		605DA5012C7A20F800034F67 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		605F723D2C8DD75A00D6F84F /* RemotePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePanel.swift; sourceTree = "<group>"; };
+		605F723F2C8DD7DD00D6F84F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		605F72412C8DF03000D6F84F /* RemoteControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlButton.swift; sourceTree = "<group>"; };
+		605F72442C907A1500D6F84F /* OrientationEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationEnum.swift; sourceTree = "<group>"; };
+		605F72462C90808400D6F84F /* RemoteARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteARView.swift; sourceTree = "<group>"; };
+		605F72492C91799000D6F84F /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		605F724A2C91799000D6F84F /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		605F724D2C91799B00D6F84F /* AudioView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
+		605F724E2C91799B00D6F84F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		605F72502C91799B00D6F84F /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		605F72552C9179A700D6F84F /* RecordingDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
+		605F72562C9179A700D6F84F /* RecordingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingsList.swift; sourceTree = "<group>"; };
+		605F72592C918E2600D6F84F /* AudioStreaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreaming.swift; sourceTree = "<group>"; };
 		607B2DEB2C6D15340010D914 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6093951F2C55473700E98950 /* MagiClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagiClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609395222C55473700E98950 /* MagiClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagiClawApp.swift; sourceTree = "<group>"; };
@@ -161,6 +187,13 @@
 			path = ArUco;
 			sourceTree = "<group>";
 		};
+		603C91772C8B5B1300CEA4C5 /* AR */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AR;
+			sourceTree = "<group>";
+		};
 		603E5E9F2C7708B800ABF2FE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,7 +216,7 @@
 			path = RaspberryPi;
 			sourceTree = "<group>";
 		};
-		603E5EA52C770FE800ABF2FE /* Panel */ = {
+		603E5EA52C770FE800ABF2FE /* RecordPanel */ = {
 			isa = PBXGroup;
 			children = (
 				602103602C75DB2F0025E247 /* ARView.swift */,
@@ -192,7 +225,7 @@
 				6021035C2C75DB2F0025E247 /* PanelView.swift */,
 				602103572C75DB2E0025E247 /* StopWach.swift */,
 			);
-			path = Panel;
+			path = RecordPanel;
 			sourceTree = "<group>";
 		};
 		603E5EA82C771C1A00ABF2FE /* Data */ = {
@@ -206,6 +239,39 @@
 				605DA4FD2C79D52300034F67 /* SchemaLatest.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		605F723C2C8DD4AA00D6F84F /* RemoteView */ = {
+			isa = PBXGroup;
+			children = (
+				605F723D2C8DD75A00D6F84F /* RemotePanel.swift */,
+				605F72412C8DF03000D6F84F /* RemoteControlButton.swift */,
+				605F72462C90808400D6F84F /* RemoteARView.swift */,
+			);
+			path = RemoteView;
+			sourceTree = "<group>";
+		};
+		605F72432C9079F100D6F84F /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				605F72442C907A1500D6F84F /* OrientationEnum.swift */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		605F72482C91754C00D6F84F /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				605F724A2C91799000D6F84F /* AudioPlayer.swift */,
+				605F72492C91799000D6F84F /* AudioRecorder.swift */,
+				605F72592C918E2600D6F84F /* AudioStreaming.swift */,
+				605F724D2C91799B00D6F84F /* AudioView.swift */,
+				605F724E2C91799B00D6F84F /* Extensions.swift */,
+				605F72502C91799B00D6F84F /* Helper.swift */,
+				605F72552C9179A700D6F84F /* RecordingDataModel.swift */,
+				605F72562C9179A700D6F84F /* RecordingsList.swift */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		609395162C55473700E98950 = {
@@ -229,6 +295,9 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				605F72482C91754C00D6F84F /* Audio */,
+				605F72432C9079F100D6F84F /* Public */,
+				603C91772C8B5B1300CEA4C5 /* AR */,
 				3DA34C7F2C887814005D918C /* FrameWork */,
 				3DA4C5F72C88728200E542CA /* ArUco */,
 				609395222C55473700E98950 /* MagiClawApp.swift */,
@@ -236,11 +305,11 @@
 				603E5E9F2C7708B800ABF2FE /* Extension */,
 				3D625B682C5F560600180FCB /* Info.plist */,
 				6093956A2C554A7200E98950 /* Model */,
-				6093955D2C554A7200E98950 /* support */,
 				6093955B2C554A7200E98950 /* View */,
-				609395262C55473A00E98950 /* Assets.xcassets */,
+				6093955D2C554A7200E98950 /* support */,
 				609395282C55473A00E98950 /* Preview Content */,
 				3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */,
+				609395262C55473A00E98950 /* Assets.xcassets */,
 			);
 			path = RoboticDataCollection;
 			sourceTree = "<group>";
@@ -265,9 +334,11 @@
 		6093955B2C554A7200E98950 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				603E5EA52C770FE800ABF2FE /* Panel */,
+				605F723C2C8DD4AA00D6F84F /* RemoteView */,
+				603E5EA52C770FE800ABF2FE /* RecordPanel */,
 				603E5EA42C770F8200ABF2FE /* RaspberryPi */,
 				6021035D2C75DB2F0025E247 /* ContentView.swift */,
+				605F723F2C8DD7DD00D6F84F /* HomeView.swift */,
 				603E5EA62C77167D00ABF2FE /* NewScenarioView.swift */,
 				603E5EAB2C78D5D200ABF2FE /* TestServerView.swift */,
 				605DA5012C7A20F800034F67 /* InfoView.swift */,
@@ -386,27 +457,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				605F72422C8DF03000D6F84F /* RemoteControlButton.swift in Sources */,
 				6021036C2C75DB2F0025E247 /* ARView.swift in Sources */,
 				602103722C75DB3A0025E247 /* CameraView.swift in Sources */,
 				609395792C554A7200E98950 /* AttitudeIndicatorView.swift in Sources */,
+				605F724B2C91799000D6F84F /* AudioRecorder.swift in Sources */,
 				603E5EA72C77167D00ABF2FE /* NewScenarioView.swift in Sources */,
 				602103652C75DB2F0025E247 /* ControlButtonView.swift in Sources */,
 				6021036A2C75DB2F0025E247 /* ForceView.swift in Sources */,
 				605DA5002C7A150E00034F67 /* Email.swift in Sources */,
+				605F72582C9179A700D6F84F /* RecordingsList.swift in Sources */,
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
+				605F72512C91799B00D6F84F /* AudioView.swift in Sources */,
 				3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */,
 				3DA34C8A2C887AF2005D918C /* ArucoProperty.swift in Sources */,
+				605F72472C90808400D6F84F /* RemoteARView.swift in Sources */,
 				3DA34C8B2C887AF2005D918C /* CalculateAruco.mm in Sources */,
 				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
 				603E5EAA2C78CADF00ABF2FE /* SwiftWebSocketServer.swift in Sources */,
 				6021036B2C75DB2F0025E247 /* ExtensionView.swift in Sources */,
 				605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */,
 				603E5E9C2C766B6B00ABF2FE /* WebSocketManager.swift in Sources */,
+				605F72452C907A1500D6F84F /* OrientationEnum.swift in Sources */,
+				605F72542C91799B00D6F84F /* Helper.swift in Sources */,
 				602103642C75DB2F0025E247 /* HistoryView.swift in Sources */,
 				602103632C75DB2F0025E247 /* StopWach.swift in Sources */,
 				602103672C75DB2F0025E247 /* RaspberryPiView.swift in Sources */,
 				603E5E992C766B6B00ABF2FE /* Server.swift in Sources */,
 				602103662C75DB2F0025E247 /* IPView.swift in Sources */,
+				605F72402C8DD7DD00D6F84F /* HomeView.swift in Sources */,
 				6021036E2C75DB2F0025E247 /* AngleView.swift in Sources */,
 				603E5E962C766B6B00ABF2FE /* ARRecorder.swift in Sources */,
 				602103712C75DB3A0025E247 /* CameraPreviewView.swift in Sources */,
@@ -424,11 +503,16 @@
 				605DA5022C7A20F800034F67 /* InfoView.swift in Sources */,
 				603E5E9B2C766B6B00ABF2FE /* ScenarioModel.swift in Sources */,
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
+				605F723E2C8DD75A00D6F84F /* RemotePanel.swift in Sources */,
+				605F724C2C91799000D6F84F /* AudioPlayer.swift in Sources */,
 				603E5E9A2C766B6B00ABF2FE /* DataModel.swift in Sources */,
 				603E5E9E2C766B6B00ABF2FE /* RecordAllDataModel.swift in Sources */,
 				3DA34C7E2C8877CA005D918C /* StartRecordingButton.swift in Sources */,
+				605F725A2C918E2600D6F84F /* AudioStreaming.swift in Sources */,
+				605F72572C9179A700D6F84F /* RecordingDataModel.swift in Sources */,
 				602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */,
 				603E5EA32C7708DD00ABF2FE /* Color+Extension.swift in Sources */,
+				605F72522C91799B00D6F84F /* Extensions.swift in Sources */,
 				603E5E982C766B6B00ABF2FE /* CameraManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +660,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to conduct recording sessions";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -619,6 +704,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to conduct recording sessions";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

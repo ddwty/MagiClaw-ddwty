@@ -14,24 +14,21 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @AppStorage("firstLaunch") private var isFirstLaunch = true
     var body: some View {
-        TabView {
-            PanelView()
-                .onTapGesture {
-                hideKeyboard()
+            TabView {
+                HomeView()
+                    .tabItem {
+                        Label("Panel", systemImage: "camera" )
+                    }
+                HistoryView()
+                    .tabItem {
+                        Label("Records",systemImage: "clock")
+                    }
+                SettingView()
+                    .tabItem {
+                        Label("Settings",systemImage: "gear")
+                    }
             }
-               
-            .tabItem {
-                Label("Panel", systemImage: "camera" )
-            }
-            HistoryView()
-                .tabItem {
-                    Label("History",systemImage: "clock")
-                }
-            SettingView()
-                .tabItem {
-                    Label("Settings",systemImage: "gear")
-                }
-        }
+        
         // 首次进入创建scenario例子
         .onAppear {
             if isFirstLaunch {
@@ -53,5 +50,6 @@ struct ContentView: View {
             .environment(WebSocketManager.shared)
             .environmentObject(ARRecorder.shared)
             .modelContainer(previewContainer)
+            .environmentObject(WebSocketServerManager(port: 8080))
     
 }

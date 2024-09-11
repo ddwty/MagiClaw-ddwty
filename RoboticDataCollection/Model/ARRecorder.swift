@@ -229,10 +229,11 @@ class ARRecorder: NSObject, ObservableObject {
             //            }
             
         }
-        
     }
     
-    func startRecording(parentFolderURL: URL, completion: @escaping (Bool) -> Void) {
+    func startRecording(parentFolderURL: URL, completion: @escaping (Bool) ->
+                        
+                        Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             // 这里日期先没用到
             let dateFormatter = DateFormatter()
@@ -240,8 +241,8 @@ class ARRecorder: NSObject, ObservableObject {
             let dateString = dateFormatter.string(from: Date())
             
             // 使用传入的父文件夹路径
-            self.videoOutputURL = parentFolderURL.appendingPathComponent("_RGB").appendingPathExtension("mp4")
-            self.depthDataURL = parentFolderURL.appendingPathComponent("_Depth")
+            self.videoOutputURL = parentFolderURL.appendingPathComponent("RGB").appendingPathExtension("mp4")
+            self.depthDataURL = parentFolderURL.appendingPathComponent("Depth")
             
             do {
                 try FileManager.default.createDirectory(at: self.depthDataURL!, withIntermediateDirectories: true, attributes: nil)

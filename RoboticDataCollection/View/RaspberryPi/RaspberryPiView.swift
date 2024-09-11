@@ -52,7 +52,7 @@ struct RaspberryPiView: View {
                         .font(.title3)
                         .fontWeight(.bold)
                         .symbolEffect(.variableColor.iterative.reversing)
-                    Spacer()
+                   
                    
                     Button(action: {
                         self.showPopover.toggle()
@@ -64,6 +64,7 @@ struct RaspberryPiView: View {
                             .frame(width: 25, height: 25)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal)
                     .popover(isPresented: $showPopover,
                              attachmentAnchor: .point(.center),
                              content: {
@@ -71,6 +72,7 @@ struct RaspberryPiView: View {
                             .padding()
                             .presentationCompactAdaptation(.popover)
                     })
+                    Spacer()
                 }
             }
         }

@@ -12,7 +12,7 @@ import MessageUI
 struct InfoView: View {
     @Binding var isShowingMailView: Bool
     @State var result: Result<MFMailComposeResult, Error>? = nil
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationStack {
@@ -20,15 +20,13 @@ struct InfoView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                       dismiss()
                     }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Circle().fill(Color.gray.opacity(0.6)))
+                        Text("")
                     }
                     .padding(.top, 10)
                     .padding(.trailing, 10)
+                    .buttonStyle(ExitButtonStyle())
                 }
                 
                 Spacer()

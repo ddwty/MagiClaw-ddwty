@@ -109,8 +109,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
         arView = ARView(frame: CGRect(origin: .zero, size: frameSize))
         self.view.addSubview(arView)
         arView.session.delegate = self
-//        // 启动TCP服务器
-//        tcpServerManager = TCPServerManager(port: 8080)
+        
         
        
     }
@@ -167,6 +166,11 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //        tcpServerManager?.broadcastMessage(transformString)
 //        print("session\(Date.now)")
         
+        
+//        if let exifData = frame.exifData as? [String: Any] {
+//                print(exifData)
+//        }
+        
         if settingModel.enableSendingData {
 //            let cameraTransform = frame.camera.transform
 //            // 将 transform 转换为 JSON 字符串
@@ -196,9 +200,9 @@ class ARViewController: UIViewController, ARSessionDelegate {
                 }
             }
         }
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
-        }
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
+//        }
        
         recorder.recordFrame(frame)
     }
@@ -275,8 +279,12 @@ extension ARView {
     
     func runARSession() {
         let config = ARWorldTrackingConfiguration()
-        config.isAutoFocusEnabled = true
-        print("run AR Session")
+//        config.isAutoFocusEnabled = true
+        
+        
+        
+        
+        
         // 设置用户选择的帧率
         let desiredFrameRate = ARRecorder.shared.frameRate
         print("desiredFrameRate: \(desiredFrameRate)")
@@ -286,6 +294,8 @@ extension ARView {
         } else {
             print("No video format with \(desiredFrameRate) FPS found")
         }
+        
+        // 设置是否使用smooth depth
         if ARRecorder.shared.smoothDepth {
             if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
                 config.frameSemantics.insert(.smoothedSceneDepth)
@@ -297,11 +307,40 @@ extension ARView {
                 print("Using scene depth without smoothing")
             }
         }
+
+//         配置相机的焦距等设置
+//            if let device = ARWorldTrackingConfiguration.configurableCaptureDeviceForPrimaryCamera {
+//                do {
+//                    try device.lockForConfiguration()
+//
+//                    // 配置焦点模式，例如：
+//                    device.focusMode = .locked
+//                    print("exposure duration: \(device.exposureDuration)")
+//                    device.exposureMode = .locked
+//                    let minDuration = CMTime(value: 1, timescale: 1000) // 1ms
+//                    let maxDuration = CMTime(value: 1, timescale: 3000)   // 1/30s
+//                    device.setExposureModeCustom(duration: maxDuration, iso: device.iso, completionHandler: nil)
+//
+////                    device.setExposureModeCustom(duration: device.activeFormat.minExposureDuration, iso: 100, completionHandler: nil)
+//                    device.setFocusModeLocked(lensPosition: 1.0, completionHandler: nil)
+//                    print("set focus!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+//                    
+//                    
+//
+//                    
+////                    config.isAutoFocusEnabled = true  // 或根据需要设置为 true
+//
+//                    device.unlockForConfiguration()
+//                } catch {
+//                    print("Failed to configure camera device: \(error.localizedDescription)")
+//                }
+//            }
         
-        
+
+        debugOptions = [.showWorldOrigin]
         session.run(config, options: [.resetTracking, .removeExistingAnchors])
-        
     }
+
 }
 
 

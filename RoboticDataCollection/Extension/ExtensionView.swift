@@ -98,7 +98,6 @@ class KeyboardResponder: ObservableObject {
 }
 
 
-import SwiftUI
 
 private struct KeyboardHeightEnvironmentKey: EnvironmentKey {
     static let defaultValue: CGFloat = 0
@@ -177,5 +176,54 @@ struct ReverseLabelStyle: LabelStyle {
             configuration.title
             configuration.icon
         }
+    }
+}
+
+extension View {
+    //强制改变某个视图方向
+    @ViewBuilder
+    func forceRotation(orientation: UIInterfaceOrientationMask) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            self.onAppear() {
+                AppDelegate.orientationLock = orientation
+            }
+            // Reset orientation to previous setting
+            let currentOrientation = AppDelegate.orientationLock
+            self.onDisappear() {
+                AppDelegate.orientationLock = currentOrientation
+            }
+        } else {
+            self
+        }
+    }
+}
+
+struct ExitButtonStyle: ButtonStyle {
+    @Environment(\.colorScheme) var colorScheme
+    
+    func makeBody(configuration: Configuration) -> some View {
+        let isPressed = configuration.isPressed
+        
+        return configuration.label
+        
+            .padding()
+            .background(
+                Circle()
+                    .fill(Color(white: colorScheme == .dark ? 0.19 : 0.93))
+                    //.brightness(isPressed ? 0.1 : 0) // Aclara el color cuando está presionado
+                    .frame(width: 40, height: 40)
+            )
+            .overlay(
+                Image(systemName: "xmark")
+                    .resizable()
+                    .scaledToFit()
+                    .font(Font.body.weight(.bold))
+                    .scaleEffect(0.416)
+                    .foregroundColor(Color(white: colorScheme == .dark ? 0.62 : 0.51))
+                    
+            )
+            .buttonStyle(PlainButtonStyle())
+            .opacity(isPressed ? 0.18 : 1)
+
     }
 }

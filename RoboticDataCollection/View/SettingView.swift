@@ -78,7 +78,12 @@ struct SettingView: View {
                 }
                 Section(header: Text("Connection")) {
                     HStack {
-                        Text("Hostname")
+                        VStack(alignment: .leading) {
+                            Text("Hostname")
+                            Text("Enter Raspberry Pi's hostname")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                         TextField("Enter hostname", text: $hostname)
                             .keyboardType(.URL) // 设置键盘类型为URL
                             .textContentType(.URL)

@@ -25,6 +25,8 @@ class WebSocketServerManager: ObservableObject {
         wsOptions.autoReplyPing = true
         parameters.defaultProtocolStack.applicationProtocols.insert(wsOptions, at: 0)
         listener = try! NWListener(using: parameters, on: self.port)
+//        // Bonjour
+//        listener.service = NWListener.Service(name: "magiclawiphone", type: "_ws._tcp", domain: nil, txtRecord: nil)
         
         try! start()
     }

@@ -38,29 +38,7 @@ struct ControlButtonView: View {
                             .font(.title3)
                             .fontWeight(.bold)
                         Spacer()
-                        Button {
-                            toggleLock()
-                            withAnimation(.easeInOut(duration: 0.15)) {
-                                settingModel.enableSendingData.toggle()
-                            }
-                        } label: {
-                            if settingModel.enableSendingData {
-                                Label("Stop sending", systemImage: "wave.3.forward")
-                                    .if(settingModel.enableSendingData) {
-                                        $0.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing)
-                                    }
-                                    .labelStyle(ReverseLabelStyle())
-                            } else {
-                                Text("Send data")
-                            }
-                               
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(settingModel.enableSendingData ? .green : .blue)
-                        .onAppear {
-                            // 当视图出现时，重置为默认方向
-                            AppDelegate.orientationLock = .all
-                        }
+                        
 //                        .controlSize(.small)
                     }
                     Divider()
@@ -141,30 +119,7 @@ struct ControlButtonView: View {
                             .font(.title3)
                             .fontWeight(.bold)
                         Spacer()
-                        Button {
-                            toggleLock()
-                            withAnimation(.easeInOut(duration: 0.15)) {
-                                settingModel.enableSendingData.toggle()
-                            }
-                        } label: {
-                            if settingModel.enableSendingData {
-                                Label("Stop sending", systemImage: "wave.3.forward")
-                                    .if(settingModel.enableSendingData) {
-                                        $0.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing)
-                                    }
-                                    .labelStyle(ReverseLabelStyle())
-                            } else {
-                                Text("Send data")
-                            } 
-                        }
-                        .buttonStyle(.bordered)
-//                        .controlSize(.mini)
-                        .tint(settingModel.enableSendingData ? .green : .blue)
-                        .padding(.bottom, 3)
-                        .onAppear {
-                            // 当视图出现时，重置为默认方向
-                            AppDelegate.orientationLock = .all
-                        }
+                        
                     }
                     Divider()
                     

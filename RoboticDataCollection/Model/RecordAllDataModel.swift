@@ -15,11 +15,13 @@ import Zip
     public var isWaitingSaveing = false
     
     let arRecorder = ARRecorder.shared
+    let audioRecorder = AudioRecorder.shared
     
 //    private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
     private let settingModel = SettingModel.shared
+    
     // TODO: - 保存进度
     private var savingProgress = SavingProgress.shared
     
@@ -81,6 +83,8 @@ import Zip
                         }
                     }
                 }
+        
+        audioRecorder.startRecording(parentFolderURL: parentFolderURL!)
         webSocketManager.isRecording = true
         
     }
@@ -99,6 +103,8 @@ import Zip
                     }
                 }
             }
+        
+        audioRecorder.stopRecording()
 //        DispatchQueue.global(qos: .userInitiated).async {
           
         //      recordedMotionData = motionManager.motionDataArray
