@@ -10,45 +10,46 @@ import SwiftUI
 struct RemotePanel: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.dismiss) var dismiss
-//    @Binding var visibility: Visibility
+    @ObservedObject var audioWebSocketServer: WebSocketServerManager
+    
+    //    @Binding var visibility: Visibility
     @State var showBigAr = false
     
     let screenWidth = UIScreen.main.bounds.size.width
     let screenHeight = UIScreen.main.bounds.size.height
     @State private var tabBarVisible: Bool = false
     @State private var dragOffset = CGSize.zero // 存储当前拖动中的偏移量
-
+    
     
     var body: some View {
         ZStack {
             RemoteARView()
                 .ignoresSafeArea(edges: [.bottom])
-//                .ignoresSafeArea()
-                VStack {
+            //                .ignoresSafeArea()
+            VStack {
+                HStack {
+                    Spacer()
+                    VStack { // Close button
                         HStack {
                             Spacer()
-                           
-                            
-                            VStack { // Close button
-                                HStack {
-                                    Spacer()
-                                    Button(action: {
-                                        dismiss()
-                                    }) {
-                                        Text("")
-                                    }
-                                    .padding()
-                                    .shadow(color: Color.gray.opacity(0.6), radius: 10)
-                                    .buttonStyle(ExitButtonStyle())
-                                    
-                                }
-                                Spacer()
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Text("")
                             }
+                            .padding()
+                            .shadow(color: Color.gray.opacity(0.6), radius: 10)
+                            .buttonStyle(ExitButtonStyle())
+                            
                         }
-                    Spacer()
-                    RemoteControlButton()
-                        .padding()
+                        Spacer()
+                    }
                 }
+                Spacer()
+                RemoteControlButton()
+                    .padding()
+                StreamingAudioView(audioWebsocketServer: self.audioWebSocketServer)
+            }
         }
         .offset(y: dragOffset.height) // 应用偏移量
         .gesture(
@@ -73,7 +74,7 @@ struct RemotePanel: View {
 }
 
 #Preview {
-    RemotePanel()
+    RemotePanel(audioWebSocketServer: WebSocketServerManager(port: 8081))
         .environment(RecordAllDataModel())
         .environment(WebSocketManager.shared)
         .environmentObject(ARRecorder.shared)

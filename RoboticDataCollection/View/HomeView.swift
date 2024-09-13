@@ -12,7 +12,7 @@ struct HomeView: View {
     @State var showRecordView: Bool = false
     @State var showRemoteView: Bool = false
     @State var visibility = Visibility.visible
-    
+    @StateObject var audioWebsocketServer = WebSocketServerManager(port: 8081)
     var body: some View {
         NavigationStack {
             VStack {
@@ -60,7 +60,7 @@ struct HomeView: View {
                 PanelView()
             })
             .fullScreenCover(isPresented: self.$showRemoteView, content: {
-                RemotePanel()
+                RemotePanel(audioWebSocketServer: self.audioWebsocketServer)
             })
             
         }

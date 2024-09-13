@@ -72,7 +72,7 @@ struct StartRecordingButton: View {
                 withAnimation {
                     if isRunningTimer { //结束录制
                         // 触发震动
-                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedbackGenerator.impactOccurred()
                         
                         recordAllDataModel.stopRecordingData()
@@ -88,10 +88,10 @@ struct StartRecordingButton: View {
                                 createTime: Date(),
                                 timeDuration: recordAllDataModel.recordingDuration,
                                 notes: self.description,
-                                forceData: recordAllDataModel.recordedForceData,
-                                rightForceData: recordAllDataModel.recordedRightForceData,
-                                angleData: recordAllDataModel.recordedAngleData,
-                                aRData: recordAllDataModel.recordedARData
+                                leftForceCount: recordAllDataModel.recordedForceData.count,
+                                rightForceCount: recordAllDataModel.recordedRightForceData.count,
+                                angleDataCount: recordAllDataModel.recordedAngleData.count,
+                                ARDataCount: recordAllDataModel.recordedARData.count
                             )
                             newAllData.scenario = self.newScenario
                             modelContext.insert(newAllData)
@@ -99,10 +99,10 @@ struct StartRecordingButton: View {
                         }
                         
                     } else { // start recording
+                        recordAllDataModel.startRecordingData()
                         // 触发震动
                         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
                         impactFeedbackGenerator.impactOccurred()
-                        recordAllDataModel.startRecordingData()
                         display = "00:00:00"
                         startTime = Date()
                         timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()

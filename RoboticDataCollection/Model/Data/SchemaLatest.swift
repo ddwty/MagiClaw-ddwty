@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-typealias SchemaLatest = SchemaV1
+typealias SchemaLatest = SchemaV2
 typealias AllStorgeData = SchemaLatest.AllStorgeData
 typealias Scenario = SchemaLatest.Scenario
 

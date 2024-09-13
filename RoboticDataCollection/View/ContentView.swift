@@ -27,6 +27,11 @@ struct ContentView: View {
                     .tabItem {
                         Label("Settings",systemImage: "gear")
                     }
+//                StreamingAudioView()
+//                    .tabItem {
+//                        Label("Audio",systemImage: "mic")
+//                    }
+                
             }
         
         // 首次进入创建scenario例子

@@ -15,6 +15,7 @@ struct SettingView: View {
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     @AppStorage("smoothDepth") private var smoothDepth = true
+    @AppStorage("showWorldOrigin") private var showWorldOrigin = false
 //    @State var enableSendingData = false
     @ObservedObject var settingModel = SettingModel.shared
     
@@ -72,10 +73,26 @@ struct SettingView: View {
                     }
                    
                     
+                   
+                }
+                
+                Section {
+                    Toggle(isOn: $settingModel.showWorldOrigin) {
+                        VStack(alignment: .leading) {
+                            Text("Show world origin")
+                            Text("Displays the world coordinate system in the camera viewfinder")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                
+                Section {
                     NavigationLink(destination: NewScenarioView()) {
                         Text("Scenario")
                     }
                 }
+                
                 Section(header: Text("Connection")) {
                     HStack {
                         VStack(alignment: .leading) {
@@ -100,14 +117,14 @@ struct SettingView: View {
                             }
                     }
                     
-                    Toggle(isOn: $settingModel.enableSendingData) {
-                        VStack(alignment: .leading) {
-                            Text("Enable sending data")
-                            Text("Send data via websocket on port 8080")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
+//                    Toggle(isOn: $settingModel.enableSendingData) {
+//                        VStack(alignment: .leading) {
+//                            Text("Enable sending data")
+//                            Text("Send data via websocket on port 8080")
+//                                .font(.caption)
+//                                .foregroundColor(.secondary)
+//                        }
+//                    }
                     
                     
                     
@@ -147,14 +164,3 @@ struct SettingView: View {
     
 }
 
-class SettingModel: ObservableObject {
-//    @Published var ignoreWebsocket = false
-//    @Published var hostname = "raspberrypi.local"
-//    @Published var selectedFrameRate: Int = 30
-//    @Published var smoothDepth = true
-    static let shared = SettingModel()
-    private init() {}
-    
-    @Published var enableSendingData = false
-    @AppStorage("saveZipFile") var saveZipFile = false
-}

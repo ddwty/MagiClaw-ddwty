@@ -24,8 +24,6 @@ class ARRecorder: NSObject, ObservableObject {
     var videoOutputURL: URL?
     var depthDataURL: URL?
     var frameDataArray: [ARData] = []
-    @AppStorage("selectedFrameRate") var frameRate: Int = 30 // 默认帧率
-    @AppStorage("smoothDepth") var smoothDepth = true
     private var firstTimestamp = 0.0
     private var isFirstFrame = true
     
@@ -49,7 +47,7 @@ class ARRecorder: NSObject, ObservableObject {
             let depthBuffer = frame.smoothedSceneDepth?.depthMap
             let pixelBuffer = frame.capturedImage
             
-            let presentationTime = CMTime(value: frameNumber, timescale: CMTimeScale(frameRate))
+            let presentationTime = CMTime(value: frameNumber, timescale: CMTimeScale(SettingModel.shared.frameRate))
             
             if pixelBufferAdaptor.append(pixelBuffer, withPresentationTime: presentationTime) {
                 frameNumber += 1

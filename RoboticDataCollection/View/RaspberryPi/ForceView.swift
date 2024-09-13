@@ -86,7 +86,7 @@ struct TotalForceView: View {
                 
                 
             }
-//            .animation(.easeInOut(duration: 0.1), value: displayedForce)
+//            .animation(.easeInOut(duration: 0.3), value: displayedForce)
             .onAppear {
                 // Create a timer that updates displayedForce at the specified interval
                 

@@ -38,8 +38,8 @@ let defaultForceData = ForceData(timeStamp: 0.0000, forceData: [0,0,0,0,0,0])
 
 extension AllStorgeData {
     static let sampleData: [AllStorgeData] = [
-        AllStorgeData(createTime: Date(), timeDuration: 0, notes: "", forceData: [defaultForceData], rightForceData: [defaultForceData], angleData: [], aRData: []),
-        AllStorgeData(createTime: Date(), timeDuration: 0, notes: "", forceData: [defaultForceData], rightForceData: [defaultForceData], angleData: [], aRData: []),
-        AllStorgeData(createTime: Date(), timeDuration: 0, notes: "", forceData: [defaultForceData], rightForceData: [defaultForceData], angleData: [], aRData: [])
+        AllStorgeData(createTime: Date(), timeDuration: 0, notes: "" ),
+        AllStorgeData(createTime: Date(), timeDuration: 0, notes: ""),
+        AllStorgeData(createTime: Date(), timeDuration: 0, notes: "")
         ]
 }

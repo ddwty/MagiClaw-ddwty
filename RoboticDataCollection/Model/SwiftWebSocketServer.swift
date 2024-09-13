@@ -10,8 +10,8 @@ import Foundation
 import Network
 
 class WebSocketServerManager: ObservableObject {
-    let port: NWEndpoint.Port
-    let listener: NWListener
+    var port: NWEndpoint.Port
+    var listener: NWListener
     let parameters: NWParameters
 
     var connectionsByID: [Int: ServerConnection] = [:]
@@ -25,11 +25,14 @@ class WebSocketServerManager: ObservableObject {
         wsOptions.autoReplyPing = true
         parameters.defaultProtocolStack.applicationProtocols.insert(wsOptions, at: 0)
         listener = try! NWListener(using: parameters, on: self.port)
-//        // Bonjour
-//        listener.service = NWListener.Service(name: "magiclawiphone", type: "_ws._tcp", domain: nil, txtRecord: nil)
         
+        // TODO: 按需要启动
         try! start()
+        
+//        // 尝试启动
+//               self.startListener()
     }
+    
 
     func start() throws {
         print("Server starting...")
@@ -37,6 +40,41 @@ class WebSocketServerManager: ObservableObject {
         listener.newConnectionHandler = self.didAccept(nwConnection:)
         listener.start(queue: .main)
     }
+    
+    
+    /// 递增端口号直到成功启动监听器
+//        private func startListener() {
+//            var currentPort = self.port.rawValue
+//            var isStarted = false
+//            
+//            while !isStarted {
+//                do {
+//                    // 创建新的 NWListener 实例
+//                    listener = try NWListener(using: parameters, on: NWEndpoint.Port(rawValue: currentPort)!)
+//                    listener.stateUpdateHandler = self.stateDidChange(to:)
+//                    listener.newConnectionHandler = self.didAccept(nwConnection:)
+//                    listener.start(queue: .main)
+//                    
+//                    print("Server started on port \(currentPort)")
+//                    isStarted = true // 如果启动成功，退出循环
+//                } catch let error as NWError {
+//                    if error == .posix(.EADDRINUSE) {
+//                        // 如果端口号已被占用，递增端口号并重试
+//                        print("Port \(currentPort) is already in use. Trying next port...")
+//                        currentPort += 1
+//                    } else {
+//                        // 如果是其他错误，打印错误并终止
+//                        print("Failed to start listener: \(error.localizedDescription)")
+//                        break
+//                    }
+//                } catch {
+//                    print("Unexpected error: \(error)")
+//                    break
+//                }
+//            }
+//            
+//            self.port = NWEndpoint.Port(rawValue: currentPort)! // 更新端口号
+//        }
 
     func stateDidChange(to newState: NWListener.State) {
         switch newState {
@@ -44,7 +82,7 @@ class WebSocketServerManager: ObservableObject {
             print("Server ready.")
         case .failed(let error):
             print("Server failure, error: \(error.localizedDescription)")
-            exit(EXIT_FAILURE)
+//            exit(EXIT_FAILURE)
         default:
             break
         }
@@ -78,7 +116,7 @@ class WebSocketServerManager: ObservableObject {
         print("server did close connection \(connection.id)")
     }
 
-    private func stop() {
+    func stop() {
         self.listener.stateUpdateHandler = nil
         self.listener.newConnectionHandler = nil
         self.listener.cancel()
@@ -171,7 +209,7 @@ class ServerConnection {
                 self.connectionDidFail(error: error)
                 return
             }
-            print("connection \(self.id) did send, text: \(text)")
+            print("connection \(self.id) did send text, text: \(text)")
         })
     }
 

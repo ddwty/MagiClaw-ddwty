@@ -4,6 +4,7 @@
 //
 //  Created by Tianyu on 7/25/24.
 //
+
 import SwiftUI
 import RealityKit
 import ARKit
@@ -22,10 +23,7 @@ struct MyARView: View {
             GeometryReader { geo in
                 ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
                 
-//                Text("Frame Rate: \n\(String(format: "%.2f", frameRate)) FPS")
-//                               .padding()
             }
-        
     }
 }
 
@@ -43,8 +41,8 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
-//    @EnvironmentObject var tcpServerManager: TCPServerManager
-    @EnvironmentObject var websocketServer: WebSocketServerManager
+//    @EnvironmentObject var websocketServer: WebSocketServerManager
+    var websocketServer = WebSocketServerManager(port: 8081)
   
     
     func makeUIViewController(context: Context) -> ARViewController {
@@ -189,16 +187,16 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //                    self.sendToClients(data: imageData)
 //                }
 //            }
-            DispatchQueue.global(qos: .background).async {
-            let cameraTransform = frame.camera.transform
-            let pose = cameraTransform.getPoseMatrix()
-            let pixelBuffer = frame.capturedImage
-            
-                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose) {
-               
-                    self.sendToClients(data: combinedData)
-                }
-            }
+//            DispatchQueue.global(qos: .background).async {
+//            let cameraTransform = frame.camera.transform
+//            let pose = cameraTransform.getPoseMatrix()
+//            let pixelBuffer = frame.capturedImage
+//            
+//                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose) {
+//               
+//                    self.sendToClients(data: combinedData)
+//                }
+//            }
         }
 //        DispatchQueue.global(qos: .userInitiated).async {
 //            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
@@ -281,12 +279,8 @@ extension ARView {
         let config = ARWorldTrackingConfiguration()
 //        config.isAutoFocusEnabled = true
         
-        
-        
-        
-        
         // 设置用户选择的帧率
-        let desiredFrameRate = ARRecorder.shared.frameRate
+        let desiredFrameRate = SettingModel.shared.frameRate
         print("desiredFrameRate: \(desiredFrameRate)")
         if let videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats.first(where: { $0.framesPerSecond == desiredFrameRate }) {
             config.videoFormat = videoFormat
@@ -296,7 +290,7 @@ extension ARView {
         }
         
         // 设置是否使用smooth depth
-        if ARRecorder.shared.smoothDepth {
+        if SettingModel.shared.smoothDepth {
             if ARWorldTrackingConfiguration.supportsFrameSemantics(.smoothedSceneDepth) {
                 config.frameSemantics.insert(.smoothedSceneDepth)
                 print("Using smoothed scene depth")

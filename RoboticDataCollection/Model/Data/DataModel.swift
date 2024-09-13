@@ -10,7 +10,7 @@ import ARKit
 import simd
 import SwiftData
 
-@Model
+//@Model
 class ForceData {
     let timeStamp: Double
     let forceData:[Double]?
@@ -32,7 +32,7 @@ class ForceData {
 //    }
 //}
 
-@Model
+//@Model // 暂时不储存这个了
 //TODO: - 这里的时间戳应该是Double or Date
 class AngleData {
     let timeStamp: Double
@@ -45,7 +45,7 @@ class AngleData {
 }
 
 
-@Model
+//@Model
 class ARData {
     var timestamp: Double  // 这一帧的时间戳
     var transform: [Float] // 使用数组来存储矩阵数据
