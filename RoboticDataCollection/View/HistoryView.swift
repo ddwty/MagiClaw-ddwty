@@ -61,6 +61,7 @@ private let dateFormatter: DateFormatter = {
 struct HistoryListView: View {
     @Query private var allStorgeData: [AllStorgeData]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) var colorScheme
     var body : some View {
         if allStorgeData.isEmpty {
             VStack {
@@ -73,6 +74,9 @@ struct HistoryListView: View {
                     .foregroundStyle(.secondary)
                 Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.background)
+            
         } else {
             List {
                 ForEach(allStorgeData) { recording in
@@ -116,7 +120,16 @@ struct HistoryListView: View {
                             }
                             
                         }
+                        
                     }
+                    .if(colorScheme == .dark) { view in
+                        view.listRowBackground(
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .background(Material.thinMaterial)
+                        )
+                    }
+                    
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
                             withAnimation {
@@ -140,6 +153,9 @@ struct HistoryListView: View {
                 //                .onDelete(perform: deleteRecordings)
                 
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.background)
+            
         }
     }
     init(sort: SortDescriptor<AllStorgeData>) {
@@ -149,6 +165,7 @@ struct HistoryListView: View {
 
 
 struct RecordingDetailView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Bindable var recording: AllStorgeData
     @State private var isFileExporterPresented = false
     @State private var isProcessing = false
@@ -186,6 +203,13 @@ struct RecordingDetailView: View {
                             .font(.body)
                             .foregroundColor(.secondary)
                     }
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
                 }
                 
 //                Section {
@@ -235,6 +259,14 @@ struct RecordingDetailView: View {
                             .foregroundColor(.secondary)
                     }
                 }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
+                }
+                
                 Section(header: Text("Details")) {
                     HStack(alignment: .center) {
                         Text("Pose Data")
@@ -304,9 +336,18 @@ struct RecordingDetailView: View {
 //                        }
 //                    }
                 }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
+                }
             }
             .navigationTitle("Recording Details")
             .navigationBarTitleDisplayMode(.inline)
+            .scrollContentBackground(.hidden)
+            .background(Color.background)
             
         }
         

@@ -11,6 +11,7 @@ import SwiftData
 struct PanelView: View {
     //    let container: ModelContainer
     @Environment(\.verticalSizeClass) var verticalSizeClass
+   
     
     @Environment(\.dismiss) var dismiss
     //    @Binding var visibility: Visibility
@@ -26,196 +27,181 @@ struct PanelView: View {
     @State var initGeoHeight: CGFloat = .zero
     @State var value: CGFloat = .zero
     @State private var showPopover: Bool = false // 指示树莓派各个组件连接情况
-    
-   
     @State private var dragOffset = CGSize.zero // 存储当前拖动中的偏移量
+    @State  var isPortrait: Bool = true  // 用于按钮控制屏幕方向
+    
     var body: some View {
         //#if DEBUG
         //        let _ = Self._printChanges()
         //    #endif
-        GeometryReader { geometry in
-            Group {
-                if verticalSizeClass == .regular {
-                    ZStack {
-                        VStack {
-                            HStack {
+        ZStack {
+            GeometryReader { geometry in
+                Group {
+                    if verticalSizeClass == .regular {
+                        ZStack {
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        dismiss()
+                                    }) {
+                                        Text("")
+                                    }
+                                    .padding()
+                                    .buttonStyle(ExitButtonStyle())
+                                }
                                 Spacer()
-                                Button(action: {
-                                    dismiss()
-                                }) {
-                                    Text("")
-                                }
-                                .padding()
-                                .buttonStyle(ExitButtonStyle())
                             }
-                            Spacer()
-                        }
-                        VStack {
-                            MyARView()
-                                .id("ar")
-                                .cornerRadius(8)
-                                .aspectRatio(3/4, contentMode: .fit)
-                                .padding(.top, 10)
-                                .frame(minWidth: screenWidth * 0.2, minHeight: screenHeight * 0.2)
-                            //                        Text("width: " + String(describing: geometry.size.width) + "height: " + String(describing: geometry.size.height))
-                            GroupBox {
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text("Status:")
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                        Spacer()
-                                        RaspberryPiView(showPopover: $showPopover)
-                                        Spacer()
-                                    }
-                                    
-                                    Divider()
-                                    HStack {
-                                        TotalForceView(leftOrRight: "L")
-                                            .padding(.trailing)
-                                        Spacer()
-                                        
-                                        TotalForceView(leftOrRight: "R")
-                                    }
-                                    Divider()
-                                    AngleView()
-                                }
-                            }
-                            .padding(.horizontal)
-                            ControlButtonView(showPopover: $showPopover)
-                                .padding(.horizontal)
-                        }
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    dismiss()
-                                }) {
-                                    Text("")
-                                }
-                                .padding()
-                                .buttonStyle(ExitButtonStyle())
-                            }
-                            Spacer()
-                        }
-                    }
-                    
-                } else { // landscape
-                    ZStack {
-                        VStack {
-                            GroupBox {
-                                VStack(alignment: .center) {
-                                    HStack {
-                                        Spacer()
-                                        Text("Status:")
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                        RaspberryPiView(showPopover: $showPopover)
-                                        Spacer()
-                                    }
-                                    Divider()
-                                    HStack {
-                                        TotalForceView(leftOrRight: "L")
-                                        //                                        .frame(width: screenHeight * 0.3)
-                                            .frame(minWidth: 200)
-                                        Spacer()
-                                        AngleView()
-                                            .frame(width: 120)
-                                        Spacer()
-                                        TotalForceView(leftOrRight: "R")
-                                        //                                        .frame(width: screenHeight * 0.3)
-                                            .frame(minWidth: 200)
-                                    }
-                                }
-                            }
-                            
-                            HStack {
-                                VStack {
-                                    MyARView()
+                            VStack {
+                                ZStack {
+                                    MyARView(isPortrait: self.$isPortrait)
                                         .id("ar")
-                                        .cornerRadius(8)
-                                        .aspectRatio(4/3, contentMode: .fit)
-                                        .padding(.bottom)
+                                        .cornerRadius(15)
+                                        .aspectRatio(3/4, contentMode: .fit)
+                                        .frame(minWidth: screenWidth * 0.2, minHeight: screenHeight * 0.2)
+                                        .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 0)
+                                    
                                 }
-                                ControlButtonView(showPopover: $showPopover)
-                                    .padding(.bottom)
+                                StatusCard(showPopover: $showPopover)
+                                    .padding(.horizontal)
+                                ControlPanel(showPopover: $showPopover)
+                                    .padding(.horizontal)
+                            }
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        dismiss()
+                                    }) {
+                                        Text("")
+                                    }
+                                    .padding()
+                                    .buttonStyle(ExitButtonStyle())
+                                }
+                                Spacer()
+                            }
+                        }
+                        
+                    } else { // landscape
+                        ZStack {
+                            VStack {
+                                StatusCard(showPopover: $showPopover)
+                                HStack {
+                                    VStack {
+                                        MyARView(isPortrait: self.$isPortrait)
+                                            .id("ar")
+                                            .cornerRadius(15)
+                                            .aspectRatio(4/3, contentMode: .fit)
+                                            .padding(.bottom)
+                                            .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 0)
+                                    }
+                                    ControlPanel(showPopover: $showPopover)
+                                        .padding(.bottom)
+                                    
+                                }
                                 
                             }
+                            .ignoresSafeArea(.keyboard)
+                            .padding(.top)
                             
-                        }
-                        .ignoresSafeArea(.keyboard)
-                        .padding(.top)
-                        
-                        VStack { // Close button
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    dismiss()
-                                }) {
-                                    Text("")
+                            VStack { // Close button
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        dismiss()
+                                    }) {
+                                        Text("")
+                                    }
+                                    .padding()
+                                    .shadow(color: Color.black.opacity(0.2), radius: 10)
+                                    .buttonStyle(ExitButtonStyle())
                                 }
-                                .padding()
-                                .shadow(color: Color.gray.opacity(0.6), radius: 10)
-                                .buttonStyle(ExitButtonStyle())
+                                Spacer()
                             }
-                            Spacer()
                         }
+                        
                     }
                     
                 }
+                .background(Color.background)
+               
                 
+            } //: GeometryReader
+            .onAppear {
+                //键盘抬起
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.current) { (noti) in
+                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                    let height = value.height
+                    withAnimation(.easeInOut) {
+                        self.value = height - UIApplication.shared.windows.first!.safeAreaInsets.bottom
+                    }
+                }
+                //键盘收起
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.current) { (noti) in
+                    withAnimation(.easeInOut) {
+                        self.value = 0
+                    }
+                }
             }
             
-        }
+            .offset(y: verticalSizeClass == .regular ?  -value * 0.5 : -value * 0.8)
+            .onTapGesture {
+                hideKeyboard()
+            }
+            .offset(y: dragOffset.height) // 应用偏移量
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        // 实时更新拖动的偏移量，只允许向下拖动
+                        if gesture.translation.height > 0 {
+                            self.dragOffset = gesture.translation
+                        }
+                    }
+                    .onEnded { _ in
+                        // dissmiss
+                        if self.dragOffset.height > 100 {
+                            dismiss()
+                        }
+                        self.dragOffset = .zero
+                    }
+            )
+            .animation(.easeInOut(duration: 0.3), value: dragOffset)
+            
+            
+        } //: ZStack
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background)
         .onAppear {
-            //键盘抬起
-            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.current) { (noti) in
-                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                let height = value.height
-                withAnimation(.easeInOut) {
-                    self.value = height - UIApplication.shared.windows.first!.safeAreaInsets.bottom
-                }
+            
+            if self.verticalSizeClass == .regular {
+                self.isPortrait = true
+            } else {
+                self.isPortrait = false
             }
-            //键盘收起
-            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.current) { (noti) in
-                withAnimation(.easeInOut) {
-                    self.value = 0
-                }
-            }
-            // 隐藏tabbar
-            //            self.visibility = .hidden
+//                            AppDelegate.orientationLock = .all // 允许所有方向
         }
-        //        .onChange(of: self.verticalSizeClass) {
-        //            // 旋转屏幕后仍然需要隐藏tabbar
-        //            self.visibility = .hidden
-        //        }
+//        .onChange(of: verticalSizeClass) { old, newValue in
+//            if self.verticalSizeClass == .regular {
+//                self.isPortrait = true
+//            } else {
+//                self.isPortrait = false
+//            }
+//        }
         
-        
-        .offset(y: verticalSizeClass == .regular ?  -value * 0.5 : -value * 0.8)
-        .onTapGesture {
-            hideKeyboard()
+        .onDisappear {
+            AppDelegate.orientationLock = .all // 恢复所有方向锁定
+            resetOrientation() // 重置方向
         }
-        .offset(y: dragOffset.height) // 应用偏移量
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    // 实时更新拖动的偏移量，只允许向下拖动
-                    if gesture.translation.height > 0 {
-                        self.dragOffset = gesture.translation
-                    }
-                }
-                .onEnded { _ in
-                    // dissmiss
-                    if self.dragOffset.height > 100 {
-                        dismiss()
-                    }
-                    self.dragOffset = .zero
-                }
-        )
-        .animation(.easeInOut(duration: 0.3), value: dragOffset)
         
     }
-    
+    private func resetOrientation() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let geometryPreferences = UIWindowScene.GeometryPreferences.iOS(interfaceOrientations: .all)
+            windowScene.requestGeometryUpdate(geometryPreferences) { _ in
+              
+            }
+        }
+    }
     
 }
 
@@ -255,3 +241,4 @@ struct Preview {
         }
     }
 }
+

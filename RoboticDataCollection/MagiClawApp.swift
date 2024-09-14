@@ -32,8 +32,12 @@ struct MagiClawApp: App {
                 .environmentObject(poseRGBWebsocketServer)
 //                .environmentObject(audioWebsocketServer)
                 .modelContainer(for: AllStorgeData.self)
+            
+                .tint(Color("tintColor"))
 //                .modelContainer(container)
+                
         }
+//        .accentColor(.red)
        
         .onChange(of: scenePhase) { old, newPhase in
             switch newPhase {

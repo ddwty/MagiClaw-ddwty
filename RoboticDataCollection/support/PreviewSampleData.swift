@@ -31,6 +31,9 @@ let previewContainer: ModelContainer = {
 
 struct SampleDeck {
     static var contents: [AllStorgeData] = [
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", leftForceCount: 10, rightForceCount: 10, angleDataCount: 10, ARDataCount: 10),
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", leftForceCount: 10, rightForceCount: 10, angleDataCount: 10, ARDataCount: 10),
+        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", leftForceCount: 10, rightForceCount: 10, angleDataCount: 10, ARDataCount: 10)
 //        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bathroom,forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
 //        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .bedroom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: []),
 //        AllStorgeData(createTime: Date(), timeDuration: 10, notes: "Default description", scenario: .livingRoom , forceData: [], rightForceData: [defaultForceData], angleData: [], aRData: [])

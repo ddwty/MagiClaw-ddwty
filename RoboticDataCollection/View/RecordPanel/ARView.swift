@@ -16,15 +16,84 @@ struct MyARView: View {
     @State private var cameraTransform = simd_float4x4()
     @State private var isRecording = false
     @State private var isProcessing = false
+    @Binding var isPortrait: Bool  // 用于按钮控制屏幕方向
+    @State var flashLightOn: Bool = false
+    
     @EnvironmentObject var recorder: ARRecorder
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.colorScheme) var colorScheme
     @State private var frameRate: Double = 0
     var body: some View {
             GeometryReader { geo in
                 ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
+                    .overlay {
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Button(action: {
+                                    self.flashLightOn.toggle()
+                                    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                                    impactFeedbackGenerator.impactOccurred()
+                                    toggleTorch(on: flashLightOn)
+                                   
+                                }) {
+                                    Image(systemName: self.flashLightOn ? "flashlight.on.fill" : "flashlight.off.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                        .padding(5)
+                                        .background(
+                                            .regularMaterial,
+                                            in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        )
+                                        .foregroundColor(Color("tintColor"))
+                                }
+                                .padding()
+                                Spacer()
+                                // 仅针对iPhone有屏幕旋转按钮
+                                if UIDevice.current.userInterfaceIdiom == .phone {
+                                            Spacer()
+                                            Button(action: {
+                                                toggleOrientation(isPortrait: &isPortrait)
+                                            }) {
+                                                Image(systemName: "rectangle.portrait.rotate")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 25, height: 25)
+                                                    .padding(5)
+                                                    .background(
+                                                        .regularMaterial,
+                                                        in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                    )
+                                                    .foregroundColor(Color("tintColor"))
+                                            }
+                                            .padding()
+                                }
+                            }
+                        }
+                        
+                    }
                 
             }
     }
+    
+//    private func toggleOrientation() {
+//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+//            if #available(iOS 16.0, *) {
+//                let desiredOrientations: UIInterfaceOrientationMask = isPortrait ? .landscapeRight : .portrait
+//                let geometryPreferences = UIWindowScene.GeometryPreferences.iOS(interfaceOrientations: desiredOrientations)
+//                
+//                windowScene.requestGeometryUpdate(geometryPreferences) { _ in
+//                   
+//                        isPortrait.toggle()
+//                    }
+//                }
+//            } else {
+//                print("Changing orientation programmatically is not supported on iOS versions earlier than 16.0")
+//            }
+//        }
+    
+    
 }
 
 
@@ -330,8 +399,10 @@ extension ARView {
 //                }
 //            }
         
-
-        debugOptions = [.showWorldOrigin]
+        
+        if SettingModel.shared.showWorldOrigin {
+            debugOptions = [.showWorldOrigin]
+        }
         session.run(config, options: [.resetTracking, .removeExistingAnchors])
     }
 

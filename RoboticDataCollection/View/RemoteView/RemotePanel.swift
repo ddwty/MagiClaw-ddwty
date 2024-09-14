@@ -23,52 +23,56 @@ struct RemotePanel: View {
     
     var body: some View {
         ZStack {
-            RemoteARView()
-                .ignoresSafeArea(edges: [.bottom])
-            //                .ignoresSafeArea()
-            VStack {
-                HStack {
-                    Spacer()
-                    VStack { // Close button
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                dismiss()
-                            }) {
-                                Text("")
-                            }
-                            .padding()
-                            .shadow(color: Color.gray.opacity(0.6), radius: 10)
-                            .buttonStyle(ExitButtonStyle())
-                            
-                        }
+            ZStack {
+                RemoteARView()
+                    .ignoresSafeArea(edges: [.bottom])
+                //                .ignoresSafeArea()
+                VStack {
+                    HStack {
                         Spacer()
+                        VStack { // Close button
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    dismiss()
+                                }) {
+                                    Text("")
+                                }
+                                .padding()
+                                .shadow(color: Color.gray.opacity(0.6), radius: 10)
+                                .buttonStyle(ExitButtonStyle())
+                                
+                            }
+                            Spacer()
+                        }
                     }
+                    Spacer()
+                    RemoteControlButton()
+                        .padding()
+                    StreamingAudioView(audioWebsocketServer: self.audioWebSocketServer)
                 }
-                Spacer()
-                RemoteControlButton()
-                    .padding()
-                StreamingAudioView(audioWebsocketServer: self.audioWebSocketServer)
             }
+            .offset(y: dragOffset.height) // 应用偏移量
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        // 实时更新拖动的偏移量，只允许向下拖动
+                        if gesture.translation.height > 0 {
+                            self.dragOffset = gesture.translation
+                        }
+                    }
+                    .onEnded { _ in
+                        // dissmiss
+                        if self.dragOffset.height > 100 {
+                            dismiss()
+                        }
+                        self.dragOffset = .zero
+                    }
+            )
+            .animation(.easeInOut(duration: 0.3), value: dragOffset)
         }
-        .offset(y: dragOffset.height) // 应用偏移量
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    // 实时更新拖动的偏移量，只允许向下拖动
-                    if gesture.translation.height > 0 {
-                        self.dragOffset = gesture.translation
-                    }
-                }
-                .onEnded { _ in
-                    // dissmiss
-                    if self.dragOffset.height > 100 {
-                        dismiss()
-                    }
-                    self.dragOffset = .zero
-                }
-        )
-        .animation(.easeInOut(duration: 0.3), value: dragOffset)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background)
         
     }
 }

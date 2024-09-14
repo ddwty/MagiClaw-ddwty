@@ -16,6 +16,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                Spacer()
                 Text("MagiClaw")
                     .font(.system(size: 52))
                     .fontWeight(.bold)
@@ -55,7 +56,11 @@ struct HomeView: View {
                     }
                     .padding()
                 }
+                Spacer()
             }
+            .frame(maxWidth: .infinity)
+            .background(Color.background)
+            
             .fullScreenCover(isPresented: self.$showRecordView, content: {
                 PanelView()
             })
@@ -64,6 +69,7 @@ struct HomeView: View {
             })
             
         }
+        
     }
 }
 

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// 用于强制锁定Remote视图的方向
+// 用于强制锁定Remote视图的方向, 没用到
 enum Orientation: Int, CaseIterable {
     case landscapeLeft
     case landscapeRight

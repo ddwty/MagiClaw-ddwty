@@ -43,8 +43,14 @@ struct InfoView: View {
                     }
                     .padding()
                     Text("MagiClaw")
-                        .foregroundStyle(.primary)
-                        .font(.title2)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .fontDesign(.rounded)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [Color("magiclawLinear1"), Color("magiclawLinear2"), Color("magiclawLinear3")],
+                                startPoint: .leading, endPoint: .trailing)
+                        )
                 }
                 .padding()
                 Divider()
@@ -59,7 +65,8 @@ struct InfoView: View {
                            
                         
                         Link("ancorasir.com", destination: URL(string: "https://ancorasir.com")!)
-                            .foregroundColor(.blue)
+                            .foregroundStyle(Color("tintColor"))
+
                     }
                     .padding(.top, 5)
                 }
@@ -93,6 +100,7 @@ struct InfoView: View {
                 Spacer()
             }
             .padding()
+            .background(Color.background)
 //            .navigationTitle("About")
         }
     }

@@ -18,5 +18,7 @@ extension Color {
     func toHexString(includeAlpha: Bool = false) -> String? {
         return UIColor(self).toHexString(includeAlpha: includeAlpha)
     }
+    
+    
 
 }

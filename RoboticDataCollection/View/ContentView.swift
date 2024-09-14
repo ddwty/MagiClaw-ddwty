@@ -15,24 +15,29 @@ struct ContentView: View {
     @AppStorage("firstLaunch") private var isFirstLaunch = true
     var body: some View {
             TabView {
-                HomeView()
-                    .tabItem {
-                        Label("Panel", systemImage: "camera" )
-                    }
-                HistoryView()
-                    .tabItem {
-                        Label("Records",systemImage: "clock")
-                    }
-                SettingView()
-                    .tabItem {
-                        Label("Settings",systemImage: "gear")
-                    }
-//                StreamingAudioView()
-//                    .tabItem {
-//                        Label("Audio",systemImage: "mic")
-//                    }
-                
+                Group {
+                    HomeView()
+                        .tabItem {
+                            Label("Panel", systemImage: "camera" )
+                        }
+                    HistoryView()
+                        .tabItem {
+                            Label("Records",systemImage: "clock")
+                        }
+                    SettingView()
+                        .tabItem {
+                            Label("Settings",systemImage: "gear")
+                        }
+                    //                StreamingAudioView()
+                    //                    .tabItem {
+                    //                        Label("Audio",systemImage: "mic")
+                    //                    }
+                }
+//                .toolbarBackground(Material.ultraThin, for: .tabBar)
+//                .toolbarBackground(.visible, for: .tabBar)
+//                .toolbarColorScheme(.dark, for: .tabBar)
             }
+           
         
         // 首次进入创建scenario例子
         .onAppear {

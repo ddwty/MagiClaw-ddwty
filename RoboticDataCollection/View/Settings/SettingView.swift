@@ -9,6 +9,7 @@ import SwiftUI
 import MessageUI
 
 struct SettingView: View {
+    @Environment(\.colorScheme) var colorScheme
     @AppStorage("ignore websocket") private var ignorWebsocket = false
     @EnvironmentObject  var arRecorder: ARRecorder
     @Environment(WebSocketManager.self) private var webSocketManager
@@ -16,7 +17,7 @@ struct SettingView: View {
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     @AppStorage("smoothDepth") private var smoothDepth = true
     @AppStorage("showWorldOrigin") private var showWorldOrigin = false
-//    @State var enableSendingData = false
+    //    @State var enableSendingData = false
     @ObservedObject var settingModel = SettingModel.shared
     
     
@@ -26,10 +27,14 @@ struct SettingView: View {
     @State private var showMailErrorAlert = false
     @State private var isShowingMailView = false
     @State private var showInfo = false
-   
+    @State private var showHowtoUse = false
+    
+    
+    
     
     var body: some View {
         NavigationStack {
+            
             Form {
                 Section(header: Text("Recording")) {
                     Toggle(isOn: $ignorWebsocket) {
@@ -40,7 +45,8 @@ struct SettingView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                
+                    
+                    
                     Toggle(isOn: $smoothDepth) {
                         VStack(alignment: .leading) {
                             Text("Smooth depth")
@@ -48,7 +54,7 @@ struct SettingView: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
-                       
+                        
                     }
                     
                     
@@ -71,9 +77,29 @@ struct SettingView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                   
                     
-                   
+                    
+                    
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
+                }
+                
+                Section {
+                    NavigationLink(destination: NewScenarioView()) {
+                        Text("Scenario")
+                    }
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
                 }
                 
                 Section {
@@ -86,11 +112,12 @@ struct SettingView: View {
                         }
                     }
                 }
-                
-                Section {
-                    NavigationLink(destination: NewScenarioView()) {
-                        Text("Scenario")
-                    }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
                 }
                 
                 Section(header: Text("Connection")) {
@@ -108,7 +135,7 @@ struct SettingView: View {
                             .autocorrectionDisabled(true)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(5)
-                            
+                        
                             .onChange(of: hostname) { oldValue, newValue in
                                 // 防止hostname被设置为空
                                 guard !newValue.isEmpty else { return }
@@ -117,40 +144,77 @@ struct SettingView: View {
                             }
                     }
                     
-//                    Toggle(isOn: $settingModel.enableSendingData) {
-//                        VStack(alignment: .leading) {
-//                            Text("Enable sending data")
-//                            Text("Send data via websocket on port 8080")
-//                                .font(.caption)
-//                                .foregroundColor(.secondary)
-//                        }
-//                    }
+                    //                    Toggle(isOn: $settingModel.enableSendingData) {
+                    //                        VStack(alignment: .leading) {
+                    //                            Text("Enable sending data")
+                    //                            Text("Send data via websocket on port 8080")
+                    //                                .font(.caption)
+                    //                                .foregroundColor(.secondary)
+                    //                        }
+                    //                    }
                     
                     
                     
                     HStack {
-                        Text("IP Address")
+                        VStack(alignment: .leading) {
+                            Text("IP Address")
+                            Text("Your Apple device's IP address")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                         Spacer()
                         IPView()
+                            
                         
                     }
                 }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
+                }
+            
+                
                 Section() {
+                    Button(action: {
+                        self.showHowtoUse.toggle()
+                    }, label: {
+                        Label("How to use?", systemImage: "questionmark.circle")
+                            .foregroundStyle(Color("tintColor"))
+                        
+                    })
+                    
                     Button(action: {
                         self.showInfo.toggle()
                     }, label: {
                         Label("About", systemImage: "info.circle")
-                            .foregroundColor(.blue)
-                            
+                            .foregroundStyle(Color("tintColor"))
+                        
                     })
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .background(Material.thinMaterial)
+                    )
                 }
                 
             }
+            
+           
             
             .navigationTitle("Settings")
             .sheet(isPresented: self.$showInfo) {
                 InfoView(isShowingMailView: self.$isShowingMailView)
             }
+            .sheet(isPresented: self.$showHowtoUse) {
+                HowtoUseView()
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.background)
         }
     }
 }
