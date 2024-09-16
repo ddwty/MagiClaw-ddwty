@@ -80,9 +80,31 @@ class WebSocketServerManager: ObservableObject {
         switch newState {
         case .ready:
             print("Server ready.")
+            
+            // 显示服务器状态
+            switch self.port {
+                case 8080:
+                    ServerConnectionStatus.shared.isSendingDataServerReady = true
+                case 8081:
+                    ServerConnectionStatus.shared.isStreamingAudioServerReady = true
+                default:
+                    break
+            }
+            
         case .failed(let error):
             print("Server failure, error: \(error.localizedDescription)")
+            
 //            exit(EXIT_FAILURE)
+            
+            switch self.port {
+                case 8080:
+                    ServerConnectionStatus.shared.isSendingDataServerReady = false
+                case 8081:
+                    ServerConnectionStatus.shared.isStreamingAudioServerReady = false
+                default:
+                    break
+            }
+            
         default:
             break
         }
@@ -109,11 +131,33 @@ class WebSocketServerManager: ObservableObject {
         
 //        connection.send(text: "Welcome you are connection: \(connection.id)")
         print("server did open connection \(connection.id)")
+        
+        // Add connection ID to the corresponding client list
+        switch self.port {
+            case 8080:
+                if !ServerConnectionStatus.shared.sendDataClientID.contains(connection.id) {
+                    ServerConnectionStatus.shared.sendDataClientID.append(connection.id)
+                }
+            case 8081:
+                if !ServerConnectionStatus.shared.audioStreamClientID.contains(connection.id) {
+                    ServerConnectionStatus.shared.audioStreamClientID.append(connection.id)
+                }
+            default:
+                break
+        }
     }
 
     private func connectionDidStop(_ connection: ServerConnection) {
         self.connectionsByID.removeValue(forKey: connection.id)
         print("server did close connection \(connection.id)")
+        switch self.port {
+            case 8080:
+                ServerConnectionStatus.shared.sendDataClientID.removeAll(where: { $0 == connection.id })
+            case 8081:
+                ServerConnectionStatus.shared.audioStreamClientID.removeAll(where: { $0 == connection.id })
+            default:
+                break
+        }
     }
 
     func stop() {

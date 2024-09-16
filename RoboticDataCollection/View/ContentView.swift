@@ -8,15 +8,16 @@
 
 import SwiftUI
 import SwiftData
-
 struct ContentView: View {
    
     @Environment(\.modelContext) private var modelContext
     @AppStorage("firstLaunch") private var isFirstLaunch = true
+    @State var showModal = true
     var body: some View {
             TabView {
                 Group {
                     HomeView()
+//                    PanelView()
                         .tabItem {
                             Label("Panel", systemImage: "camera" )
                         }

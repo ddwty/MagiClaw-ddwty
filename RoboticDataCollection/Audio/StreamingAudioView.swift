@@ -15,21 +15,7 @@ struct StreamingAudioView: View {
 
         var body: some View {
             VStack {
-                Button(action: {
-                    if isStreaming {
-                        audioStreamManager?.stopStreaming()
-                    } else {
-                        audioStreamManager = AudioStreamManager(websocketServerManager: audioWebsocketServer)
-                        audioStreamManager?.startStreaming()
-                    }
-                    isStreaming.toggle()
-                }) {
-                    Text(isStreaming ? "Stop Streaming Audio" : "Start Streaming Audio")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
+                
             }
         }
     

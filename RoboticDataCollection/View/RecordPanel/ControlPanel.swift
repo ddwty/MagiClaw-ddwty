@@ -19,7 +19,7 @@ struct ControlPanel: View {
     @Query private var storedScenarios: [Scenario]
     
     @State var showSaveAlert = false
-    @State private var description = ""
+//    @State private var description = ""
     //    @State private var scenario: Scenario = .unspecified
     
     @State private var newScenario: Scenario?
@@ -31,6 +31,7 @@ struct ControlPanel: View {
     
     
     var body: some View {
+        @Bindable var recordAllData = recordAllDataModel
         if verticalSizeClass == .regular {
                 VStack(alignment: .leading) {
                     HStack {
@@ -70,10 +71,10 @@ struct ControlPanel: View {
                                 }
                             }
                     
-                    TextField("Enter description", text: $description)
+                    TextField("Enter description", text: $recordAllData.description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
-                        .onChange(of: description) {oldValue, newValue in
+                        .onChange(of: recordAllData.description) {oldValue, newValue in
                             recordAllDataModel.description = newValue
                         }
                         .disableAutocorrection(true)
@@ -89,7 +90,7 @@ struct ControlPanel: View {
                     
                     HStack {
                         Spacer()
-                        StartRecordingButton( showPopover: self.$showPopover, isSaved: self.$showSaveAlert, description: self.$description, newScenario: self.$newScenario)
+                        StartRecordingButton( showPopover: self.$showPopover, isSaved: self.$showSaveAlert, newScenario: self.$newScenario)
                            
                         Spacer()
                     }
@@ -128,7 +129,7 @@ struct ControlPanel: View {
                         VStack(alignment: .leading) {
                             Text("Description:")
                                 .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
-                            TextEditor(text: $description)
+                            TextEditor(text: $recordAllData.description)
                                 .background(Color.primary.colorInvert())
                                                .cornerRadius(5)
                                                .overlay(
@@ -137,9 +138,9 @@ struct ControlPanel: View {
                                                        .opacity(0.3)
                                                )
                                 .focused($isFocused)
-                                .onChange(of: description) {oldValue, newValue in
-                                    recordAllDataModel.description = newValue
-                                }
+//                                .onChange(of: description) {oldValue, newValue in
+//                                    recordAllDataModel.description = newValue
+//                                }
                                 .disableAutocorrection(true)
                                 .frame(minWidth: 100, minHeight: 30)
                                 .onTapGesture {  } // outer tap gesture to hide keyboard has no effect on this field
@@ -185,7 +186,7 @@ struct ControlPanel: View {
                             Spacer()
                             HStack {
                                 Spacer()
-                                StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$showSaveAlert, description: self.$description, newScenario: self.$newScenario)
+                                StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$showSaveAlert, newScenario: self.$newScenario)
                                 Spacer()
                             }
                             Spacer()

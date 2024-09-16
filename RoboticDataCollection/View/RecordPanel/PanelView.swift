@@ -7,10 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import AVFoundation
+
 
 struct PanelView: View {
     //    let container: ModelContainer
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    
    
     
     @Environment(\.dismiss) var dismiss
@@ -29,6 +32,7 @@ struct PanelView: View {
     @State private var showPopover: Bool = false // 指示树莓派各个组件连接情况
     @State private var dragOffset = CGSize.zero // 存储当前拖动中的偏移量
     @State  var isPortrait: Bool = true  // 用于按钮控制屏幕方向
+    @State private var showAlert = false
     
     var body: some View {
         //#if DEBUG
@@ -192,6 +196,7 @@ struct PanelView: View {
             AppDelegate.orientationLock = .all // 恢复所有方向锁定
             resetOrientation() // 重置方向
         }
+        .checkPermissions([.camera, .localNetwork])
         
     }
     private func resetOrientation() {
@@ -202,6 +207,7 @@ struct PanelView: View {
             }
         }
     }
+    
     
 }
 

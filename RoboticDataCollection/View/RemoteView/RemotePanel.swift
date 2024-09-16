@@ -12,9 +12,6 @@ struct RemotePanel: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var audioWebSocketServer: WebSocketServerManager
     
-    //    @Binding var visibility: Visibility
-    @State var showBigAr = false
-    
     let screenWidth = UIScreen.main.bounds.size.width
     let screenHeight = UIScreen.main.bounds.size.height
     @State private var tabBarVisible: Bool = false
@@ -24,6 +21,7 @@ struct RemotePanel: View {
     var body: some View {
         ZStack {
             ZStack {
+                
                 RemoteARView()
                     .ignoresSafeArea(edges: [.bottom])
                 //                .ignoresSafeArea()
@@ -47,9 +45,9 @@ struct RemotePanel: View {
                         }
                     }
                     Spacer()
-                    RemoteControlButton()
+                    RemoteControlCard(audioWebsocketServer: self.audioWebSocketServer)
                         .padding()
-                    StreamingAudioView(audioWebsocketServer: self.audioWebSocketServer)
+                        .frame(maxWidth: 400)
                 }
             }
             .offset(y: dragOffset.height) // 应用偏移量
@@ -74,6 +72,7 @@ struct RemotePanel: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.background)
         
+        
     }
 }
 
@@ -84,3 +83,4 @@ struct RemotePanel: View {
         .environmentObject(ARRecorder.shared)
         .environmentObject(WebSocketServerManager(port: 8080))
 }
+

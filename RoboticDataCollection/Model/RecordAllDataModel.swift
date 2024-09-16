@@ -30,7 +30,8 @@ import Zip
     
 //    var scenarioName = Scenario.unspecified
     var scenarioName = "Unspecified"
-    var description = "" // 暂时还没保存
+    var description = ""
+    
     private var timer: Timer?
     private var recordingStartTime: Date?
     private var parentFolderURL: URL?
@@ -60,7 +61,7 @@ import Zip
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
         let dateString = dateFormatter.string(from: Date())
-        parentFolderURL = documentDirectory.appendingPathComponent(dateString + "_\(scenarioName)")
+        parentFolderURL = documentDirectory.appendingPathComponent(dateString)
         
         do {
             try FileManager.default.createDirectory(at: parentFolderURL!, withIntermediateDirectories: true, attributes: nil)
@@ -114,12 +115,35 @@ import Zip
         recordedAngleData = webSocketManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
         
+        
+        
 //        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
         //        print("Force data:\(recordedForceData)")
         
         // 将其他数据保存为CSV
-       
-            self.generateCSV(in: parentFolderURL!)
+        self.generateCSV(in: parentFolderURL!)
+        
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HH:mm:ss"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        let dateString = formatter.string(from: currentDate)
+        let metaData = MetaData(
+            fileUUID: UUID().uuidString,
+            userID: nil,
+            createTime: dateString,
+            timeDuration: recordingDuration,
+            description: self.description,
+            scenario: self.scenarioName,
+            leftForceDataSize: recordedForceData.count,
+            rightForceDataSize: recordedRightForceData.count,
+            angleDataSize: recordedAngleData.count,
+            ARDataSize: recordedARData.count,
+            deviceModel: UIDevice.current.model,
+            systemName: UIDevice.current.systemName,
+            systemVersion: UIDevice.current.systemVersion,
+            appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
+        saveMetaDatatoJson(from: metaData, to: parentFolderURL!)
         
         self.isRecording = false
         stopTimer()
@@ -201,6 +225,22 @@ extension RecordAllDataModel {
         }
     }
     
+    private func saveMetaDatatoJson(from metadata: MetaData, to parentFolderURL: URL) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let data = try encoder.encode(metadata)
+                let url = parentFolderURL.appendingPathComponent("metadata.json")
+                try data.write(to: url)
+                print("Metadata Json file saved.")
+            } catch {
+                print("Error saving metadata to json.")
+            }
+        }
+    }
+    
+
 }
 
 

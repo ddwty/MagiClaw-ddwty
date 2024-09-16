@@ -269,3 +269,9 @@ extension View {
         self.modifier(DeviceRotationViewModifier(action: action))
     }
 }
+
+extension UIApplication {
+    static var appVersion: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    }
+}

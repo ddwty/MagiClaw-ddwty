@@ -17,7 +17,6 @@ struct SettingView: View {
     @AppStorage("selectedFrameRate") var selectedFrameRate: Int = 30
     @AppStorage("smoothDepth") private var smoothDepth = true
     @AppStorage("showWorldOrigin") private var showWorldOrigin = false
-    //    @State var enableSendingData = false
     @ObservedObject var settingModel = SettingModel.shared
     
     
@@ -143,16 +142,6 @@ struct SettingView: View {
                                 webSocketManager.reConnectToServer()
                             }
                     }
-                    
-                    //                    Toggle(isOn: $settingModel.enableSendingData) {
-                    //                        VStack(alignment: .leading) {
-                    //                            Text("Enable sending data")
-                    //                            Text("Send data via websocket on port 8080")
-                    //                                .font(.caption)
-                    //                                .foregroundColor(.secondary)
-                    //                        }
-                    //                    }
-                    
                     
                     
                     HStack {

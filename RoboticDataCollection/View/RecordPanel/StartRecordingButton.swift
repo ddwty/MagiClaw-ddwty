@@ -56,7 +56,7 @@ struct StartRecordingButton: View {
     
     @Binding var showPopover: Bool
     @Binding var isSaved: Bool
-    @Binding var description: String
+//    @Binding var description: String
     @Binding var newScenario: Scenario?
 
     @AppStorage("ignore websocket") private var ignoreWebsocket = false
@@ -71,22 +71,19 @@ struct StartRecordingButton: View {
                 toggleLock() // 屏幕方向锁定
                 withAnimation {
                     if isRunningTimer { //结束录制
-                      
 //                        self.showSaveAlert = true
-                        
                         recordAllDataModel.stopRecordingData()
                         timer.upstream.connect().cancel()
                         self.isRunningTimer = false
                         self.isWaitingtoSave = true
                         Task {
-                            
                             let container = modelContext.container
                             let actor = BackgroundSerialPersistenceActor(container: container)
                             // MARK: - Save All Data to SwiftData Here
                             let newAllData = AllStorgeData(
                                 createTime: Date(),
                                 timeDuration: recordAllDataModel.recordingDuration,
-                                notes: self.description,
+                                notes: recordAllDataModel.description,
                                 leftForceCount: recordAllDataModel.recordedForceData.count,
                                 rightForceCount: recordAllDataModel.recordedRightForceData.count,
                                 angleDataCount: recordAllDataModel.recordedAngleData.count,

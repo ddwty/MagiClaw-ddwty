@@ -71,9 +71,7 @@ struct MyARView: View {
                                 }
                             }
                         }
-                        
                     }
-                
             }
     }
     
@@ -171,12 +169,14 @@ class ARViewController: UIViewController, ARSessionDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         arView = ARView(frame: CGRect(origin: .zero, size: frameSize))
+        arView.addCoaching()
         self.view.addSubview(arView)
-        arView.session.delegate = self
         
+        arView.session.delegate = self
         
        
     }
@@ -198,6 +198,10 @@ class ARViewController: UIViewController, ARSessionDelegate {
            super.viewDidLayoutSubviews()
            // Update ARView frame when layout changes
            arView.frame = CGRect(origin: .zero, size: frameSize)
+        
+        if let coachingOverlay = arView.subviews.first(where: {$0 is ARCoachingOverlayView}) as? ARCoachingOverlayView {
+            coachingOverlay.frame = arView.frame
+        }
        }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -238,58 +242,19 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //                print(exifData)
 //        }
         
-        if settingModel.enableSendingData {
-//            let cameraTransform = frame.camera.transform
-//            // 将 transform 转换为 JSON 字符串
-//            if let jsonString = cameraTransform.toJSONString() {
-//
-//                DispatchQueue.global(qos: .background).async {
-//                    //                    self.tcpServerManager.broadcastMessage(jsonString)
-//                    //                    self.websocketServer.broadcastMessage(jsonString)
-//                    self.sendToClients(message: jsonString)
-//                }
-//            }
-//
-//            let pixelBuffer = frame.capturedImage
-//            if let imageData = pixelBufferToData(pixelBuffer: pixelBuffer) {
-//                DispatchQueue.global(qos: .background).async {
-//                    self.sendToClients(data: imageData)
-//                }
-//            }
-//            DispatchQueue.global(qos: .background).async {
-//            let cameraTransform = frame.camera.transform
-//            let pose = cameraTransform.getPoseMatrix()
-//            let pixelBuffer = frame.capturedImage
-//            
-//                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose) {
-//               
-//                    self.sendToClients(data: combinedData)
-//                }
-//            }
-        }
+        
 //        DispatchQueue.global(qos: .userInitiated).async {
 //            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
 //        }
+        let status = frame.camera.trackingState
+//        print("tracking state: \(status)")
+        
        
         recorder.recordFrame(frame)
     }
 }
 
 extension ARViewController {
-    private func sendToClients(message: String) {
-        // 发送文本数据到所有连接的客户端
-        websocketServer.connectionsByID.values.forEach { connection in
-            connection.send(text: message)
-        }
-    }
-    
-    private func sendToClients(data: Data) {
-        // 发送二进制数据到所有连接的客户端
-        websocketServer.connectionsByID.values.forEach { connection in
-            connection.send(data: data)
-        }
-    }
-    
     // 将 CVPixelBuffer 转换为 Data
 //    private func pixelBufferToData(pixelBuffer: CVPixelBuffer) -> Data? {
 //        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -309,37 +274,6 @@ extension ARViewController {
 //        }
 //        return nil
 //    }
-    
-    private func prepareSentData(pixelBuffer: CVPixelBuffer, pose: [Float]) -> Data? {
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let context = CIContext()
-
-        let targetSize = CGSize(width: 640, height: 480)
-        let scaleTransform = CGAffineTransform(scaleX: targetSize.width / ciImage.extent.width, y: targetSize.height / ciImage.extent.height)
-        let scaledCIImage = ciImage.transformed(by: scaleTransform)
-        
-        var poseData = Data()
-        for value in pose {
-            var floatValue = value
-            let floatData = Data(bytes: &floatValue, count: MemoryLayout<Float>.size)
-            poseData.append(floatData)
-        }
-        
-        var imageData = Data()
-        if let cgImage = context.createCGImage(scaledCIImage, from: CGRect(origin: .zero, size: targetSize)) {
-            let uiImage = UIImage(cgImage: cgImage)
-           
-            imageData = uiImage.jpegData(compressionQuality: 0.8) ?? Data()
-        }
-        
-        // 在 imageData 前面插入 prefixData
-        var combinedData = Data()
-            combinedData.append(poseData)
-        combinedData.append(imageData)
-        
-        return combinedData
-    }
-
 }
 
 extension ARView {
@@ -408,6 +342,20 @@ extension ARView {
 
 }
 
+extension ARView: ARCoachingOverlayViewDelegate {
+    func addCoaching() {
+        let coachingOverlay = ARCoachingOverlayView()
 
+        // Goal is a field that indicates your app's tracking requirements.
+        coachingOverlay.goal = .tracking
+             
+        // The session this view uses to provide coaching.
+        coachingOverlay.session = self.session
+             
+        // How a view should resize itself when its superview's bounds change.
+        coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        coachingOverlay.frame = self.frame
 
-
+        self.addSubview(coachingOverlay)
+    }
+}
