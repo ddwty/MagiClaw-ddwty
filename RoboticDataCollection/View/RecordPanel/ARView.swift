@@ -23,12 +23,15 @@ struct MyARView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.colorScheme) var colorScheme
     @State private var frameRate: Double = 0
+    
     var body: some View {
             GeometryReader { geo in
                 ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
+//                 .id(verticalSizeClass) // 这将强制在方向改变时重新创建视图
                     .overlay {
                         VStack {
                             Spacer()
+                            Text("\(geo.size.width)")
                             HStack {
                                 Button(action: {
                                     self.flashLightOn.toggle()
@@ -73,25 +76,9 @@ struct MyARView: View {
                         }
                     }
             }
+            .border(.red)
     }
-    
-//    private func toggleOrientation() {
-//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-//            if #available(iOS 16.0, *) {
-//                let desiredOrientations: UIInterfaceOrientationMask = isPortrait ? .landscapeRight : .portrait
-//                let geometryPreferences = UIWindowScene.GeometryPreferences.iOS(interfaceOrientations: desiredOrientations)
-//                
-//                windowScene.requestGeometryUpdate(geometryPreferences) { _ in
-//                   
-//                        isPortrait.toggle()
-//                    }
-//                }
-//            } else {
-//                print("Changing orientation programmatically is not supported on iOS versions earlier than 16.0")
-//            }
-//        }
-    
-    
+  
 }
 
 
@@ -108,19 +95,16 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
-//    @EnvironmentObject var websocketServer: WebSocketServerManager
     var websocketServer = WebSocketServerManager(port: 8081)
   
     
     func makeUIViewController(context: Context) -> ARViewController {
         let arViewController = ARViewController(frameSize: frameSize, websocketServer: websocketServer)
                 arViewController.recorder = recorder
-                arViewController.updateFrameRateBinding($frameRate)
                 return arViewController
     }
     
     func updateUIViewController(_ uiViewController: ARViewController, context: Context) {
-      
         uiViewController.updateARViewFrame(frameSize: frameSize)
     }
     
@@ -163,6 +147,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
         self.frameSize = frameSize
         self.websocketServer = websocketServer
         super.init(nibName: nil, bundle: nil)
+        print("init")
     }
 
     required init?(coder: NSCoder) {
@@ -171,8 +156,10 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     
     override func viewDidLoad() {
+        print("viewDidLoad")
         super.viewDidLoad()
         arView = ARView(frame: CGRect(origin: .zero, size: frameSize))
+        print("view did load frameSize: \(frameSize)")
         arView.addCoaching()
         self.view.addSubview(arView)
         
@@ -181,19 +168,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
        
     }
     
-    func updateFrameRateBinding(_ binding: Binding<Double>) {
-            self.frameRateBinding = binding
-        }
-        
-        @objc private func updateFrameRate() {
-            let now = CACurrentMediaTime()
-            let delta = now - lastUpdateTime
-            if delta > 0 {
-                frameRateBinding?.wrappedValue = 1.0 / delta
-            }
-            lastUpdateTime = now
-        }
-    
+   
     override func viewDidLayoutSubviews() {
            super.viewDidLayoutSubviews()
            // Update ARView frame when layout changes
@@ -202,18 +177,12 @@ class ARViewController: UIViewController, ARSessionDelegate {
         if let coachingOverlay = arView.subviews.first(where: {$0 is ARCoachingOverlayView}) as? ARCoachingOverlayView {
             coachingOverlay.frame = arView.frame
         }
-       }
+    }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-            super.viewWillTransition(to: size, with: coordinator)
-       
-            // 在屏幕旋转时更新框架大小
-        coordinator.animate(alongsideTransition: { _ in
-                // 只更新 ARView 的 frame，而不重启 ARSession
-                self.frameSize = size
-                self.arView.frame = CGRect(origin: .zero, size: size)
-            })
-        }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//        self.updateARViewFrame(frameSize: self.frameSize)
+//    }
     
     func updateARViewFrame(frameSize: CGSize) {
            // Update the frame size when passed from SwiftUI
@@ -232,20 +201,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        // Update camera transform and other data
-//        let transformString = frame.camera.transform.description
-//        tcpServerManager?.broadcastMessage(transformString)
-//        print("session\(Date.now)")
-        
-        
-//        if let exifData = frame.exifData as? [String: Any] {
-//                print(exifData)
-//        }
-        
-        
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
-//        }
+ 
         let status = frame.camera.trackingState
 //        print("tracking state: \(status)")
         
@@ -254,27 +210,6 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
 }
 
-extension ARViewController {
-    // 将 CVPixelBuffer 转换为 Data
-//    private func pixelBufferToData(pixelBuffer: CVPixelBuffer) -> Data? {
-//        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-//        let context = CIContext()
-//
-//        let targetSize = CGSize(width: 640, height: 480)
-//        let scaleTransform = CGAffineTransform(scaleX: targetSize.width / ciImage.extent.width, y: targetSize.height / ciImage.extent.height)
-//        let scaledCIImage = ciImage.transformed(by: scaleTransform)
-//
-//        if let cgImage = context.createCGImage(scaledCIImage, from: CGRect(origin: .zero, size: targetSize)) {
-//            let uiImage = UIImage(cgImage: cgImage)
-//
-//            // 编码为 JPEG Data
-//            if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
-//                return imageData
-//            }
-//        }
-//        return nil
-//    }
-}
 
 extension ARView {
     
