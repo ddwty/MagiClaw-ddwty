@@ -65,6 +65,21 @@ struct NewScenarioView: View {
                         }
 //                        .buttonStyle(.borderedProminent)
                         .disabled(name.isEmpty)
+                        Button("Add") {
+                          
+                            
+                        #if DEBUG
+                           
+                            let sampleDatas: [AllStorgeData] = generateSampleData()
+                           
+                            for sampleData in sampleDatas {
+                                let container = modelContext.container
+                                let actor = BackgroundSerialPersistenceActor(container: container)
+                                modelContext.insert(sampleData)
+                            }
+                            
+                        #endif
+                        }
                         Spacer()
                     }
                 }

@@ -64,6 +64,8 @@ struct StartRecordingButton: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject var savingProgress = SavingProgress.shared
     
+    
+    
    
     var body: some View {
         ZStack {

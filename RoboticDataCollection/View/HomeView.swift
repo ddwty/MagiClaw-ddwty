@@ -13,6 +13,7 @@ struct HomeView: View {
     @State var showRemoteView: Bool = false
     @State var visibility = Visibility.visible
     @StateObject var audioWebsocketServer = WebSocketServerManager(port: 8081)
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -27,6 +28,8 @@ struct HomeView: View {
                             startPoint: .leading, endPoint: .trailing)
                     )
                     .padding()
+                Text("The New Version of DeepClaw")
+                    .foregroundStyle(Color.secondary)
                 Text("Next Gen Universal Action Embodiment Interface")
                     .foregroundStyle(Color.secondary)
                 if verticalSizeClass == .regular {
@@ -56,6 +59,10 @@ struct HomeView: View {
                     }
                     .padding()
                 }
+                Link(destination: URL(string: "https://deepclaw.com")!) {
+                    Label("Our Website", systemImage: "safari")
+                        .foregroundStyle(Color("tintColor"))
+                }
                 Spacer()
             }
             .frame(maxWidth: .infinity)
@@ -78,6 +85,7 @@ struct HomeView: View {
 }
 
 struct HomeRecordButton: View {
+    let device = UIDevice.current.userInterfaceIdiom
     var body: some View {
         VStack {
             Label("Record", systemImage: "camera.metering.center.weighted")
@@ -85,7 +93,9 @@ struct HomeRecordButton: View {
                 .fontWeight(.bold)
                 .foregroundColor(.white)
         }
-        .frame(width: 200, height: 100)
+        
+        .frame(width: device == .phone ? 200 : 300, height: device == .phone ? 100 : 150)
+        
         .background(
             LinearGradient(
                 colors: [Color("linearBlue1"), Color("linearBlue2")],
@@ -98,14 +108,15 @@ struct HomeRecordButton: View {
 
 
 struct HomeRemoteButton: View {
+    let device = UIDevice.current.userInterfaceIdiom
     var body: some View {
         VStack {
-            Label("Remote", systemImage: "paperplane.fill")
+            Label("Stream", systemImage: "paperplane.fill")
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
         }
-        .frame(width: 200, height: 100)
+        .frame(width: device == .phone ? 200 : 300, height: device == .phone ? 100 : 150)
         .background(
             LinearGradient(
                 colors: [Color("linearGreen1"), Color("linearGreen2")],

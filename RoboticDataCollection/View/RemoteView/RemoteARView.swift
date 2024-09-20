@@ -206,14 +206,12 @@ class RemoteARViewController: UIViewController, ARSessionDelegate {
 
 extension RemoteARViewController {
     private func sendToClients(message: String) {
-        // 发送文本数据到所有连接的客户端
         websocketServer.connectionsByID.values.forEach { connection in
             connection.send(text: message)
         }
     }
     
     private func sendToClients(data: Data) {
-        // 发送二进制数据到所有连接的客户端
         websocketServer.connectionsByID.values.forEach { connection in
             connection.send(data: data)
         }
@@ -259,6 +257,7 @@ extension RemoteARViewController {
             let uiImage = UIImage(cgImage: cgImage)
            
             imageData = uiImage.jpegData(compressionQuality: 0.8) ?? Data()
+//            imageData = uiImage.pngData() ?? Data()
         }
         
         // 在 imageData 前面插入 prefixData

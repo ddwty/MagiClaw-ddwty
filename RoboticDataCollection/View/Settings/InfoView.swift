@@ -64,7 +64,7 @@ struct InfoView: View {
                             .foregroundColor(.secondary)
                            
                         
-                        Link("ancorasir.com", destination: URL(string: "https://ancorasir.com")!)
+                        Link("DeepClaw.com", destination: URL(string: "https://deepclaw.com")!)
                             .foregroundStyle(Color("tintColor"))
 
                     }

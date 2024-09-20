@@ -24,7 +24,13 @@ struct RemotePanel: View {
                 
                 RemoteARView()
                     .ignoresSafeArea(edges: [.bottom])
-                //                .ignoresSafeArea()
+//            #if DEBUG
+//                Image("fakeRemoteView")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .offset(x: 200)
+//                    .ignoresSafeArea(edges: .bottom)
+//            #endif
                 VStack {
                     HStack {
                         Spacer()
@@ -37,7 +43,7 @@ struct RemotePanel: View {
                                     Text("")
                                 }
                                 .padding()
-                                .shadow(color: Color.gray.opacity(0.6), radius: 10)
+                                .shadow(color: Color.black.opacity(0.15), radius: 10)
                                 .buttonStyle(ExitButtonStyle())
                                 
                             }

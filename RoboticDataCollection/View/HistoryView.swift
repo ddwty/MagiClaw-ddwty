@@ -138,6 +138,7 @@ struct HistoryListView: View {
                            
                         } label: {
                             Label("Delete", systemImage: "trash")
+                                .foregroundStyle(Color.red)
                         }
                     }
                     .contextMenu {

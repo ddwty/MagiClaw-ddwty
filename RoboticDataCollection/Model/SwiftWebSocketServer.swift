@@ -35,7 +35,7 @@ class WebSocketServerManager: ObservableObject {
     
 
     func start() throws {
-        print("Server starting...")
+        print("Server starting on port \(self.port)...")
         listener.stateUpdateHandler = self.stateDidChange(to:)
         listener.newConnectionHandler = self.didAccept(nwConnection:)
         listener.start(queue: .main)

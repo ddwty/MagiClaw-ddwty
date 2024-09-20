@@ -28,10 +28,19 @@ struct MyARView: View {
             GeometryReader { geo in
                 ARViewContainer(frameSize: CGSize(width: geo.size.width, height: verticalSizeClass == .regular ?  geo.size.width * 4 / 3 :  geo.size.width * 3 / 4), cameraTransform: $cameraTransform, recorder: recorder, frameRate: $frameRate)
 //                 .id(verticalSizeClass) // 这将强制在方向改变时重新创建视图
+//#if DEBUG
+//                    .overlay{
+//
+//Image("fakeARView")
+//    .resizable()
+//    .aspectRatio(contentMode: .fill)
+//
+//                    }
+//#endif
                     .overlay {
+                       
                         VStack {
                             Spacer()
-                            Text("\(geo.size.width)")
                             HStack {
                                 Button(action: {
                                     self.flashLightOn.toggle()
@@ -49,7 +58,7 @@ struct MyARView: View {
                                             .regularMaterial,
                                             in: RoundedRectangle(cornerRadius: 8, style: .continuous)
                                         )
-                                        .foregroundColor(Color("tintColor"))
+                                        .foregroundColor(self.flashLightOn ? Color.yellow : Color("tintColor"))
                                 }
                                 .padding()
                                 Spacer()
@@ -74,9 +83,10 @@ struct MyARView: View {
                                 }
                             }
                         }
+                        
                     }
+                    
             }
-            .border(.red)
     }
   
 }
@@ -95,7 +105,7 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
-    var websocketServer = WebSocketServerManager(port: 8081)
+    @EnvironmentObject var websocketServer: WebSocketServerManager
   
     
     func makeUIViewController(context: Context) -> ARViewController {

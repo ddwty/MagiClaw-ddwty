@@ -48,7 +48,7 @@ struct RemoteControlCard: View {
                 VStack {
                     Toggle(isOn: $remoteControlManager.enableSendingData) {
                         VStack(alignment: .leading) {
-                            Text("Sending data")
+                            Text(remoteControlManager.enableSendingData ? "Sending...(Pose & RGB)" : "Send data (Pose & RGB)")
                             
                             HStack {
                                 Image(systemName: "circle.fill")
@@ -85,7 +85,7 @@ struct RemoteControlCard: View {
                     
                     Toggle(isOn: $isStreamingAudio) {
                         VStack(alignment: .leading) {
-                            Text("Streaming audio")
+                            Text(isStreamingAudio ? "Streaming..." : "Stream audio")
                             HStack {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(serverConnectionStatus.isStreamingAudioServerReady ? .green : .red)

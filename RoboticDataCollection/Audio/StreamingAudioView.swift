@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct StreamingAudioView: View {
-//        @StateObject var websocketServerManager = WebSocketServerManager(port: 8081)
         var audioWebsocketServer: WebSocketServerManager
         @State private var audioStreamManager: AudioStreamManager?
         @State private var isStreaming = false

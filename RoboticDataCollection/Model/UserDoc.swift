@@ -113,7 +113,7 @@ let documentationSections: [UserDoc] = [
         imageName: "dot.radiowaves.left.and.right",
         description: nil,
         docSection: [
-            DocSection(numPoints: "Open the “Panel” page at the tab bar and select “Remote.”", bullist: nil),
+            DocSection(numPoints: "Open the “Panel” page at the tab bar and select “Stream”.", bullist: nil),
             DocSection(numPoints: "Tap the “Enable sending data” button. The device will start a WebSocket server and transmit binary data, including the device’s 6D pose and RGB images from the rear camera.", bullist: nil),
             DocSection(numPoints: "To receive the data elsewhere:",
                        bullist: ["Go to the app’s “Settings” page to find the iPhone’s IP address.",

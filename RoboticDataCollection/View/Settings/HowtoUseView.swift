@@ -59,7 +59,7 @@ struct HowtoUseView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Color.background)
-            .navigationTitle("User guideline")
+            .navigationTitle("User guide")
         }
     }
 }

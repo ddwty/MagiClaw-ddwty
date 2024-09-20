@@ -20,7 +20,7 @@ struct SettingView: View {
     @ObservedObject var settingModel = SettingModel.shared
     
     
-    let availableFrameRates = [30, 60] // 可以选择的帧率选项
+    let availableFrameRates = [30, 60]
     
     @State private var showMailComposer = false
     @State private var showMailErrorAlert = false
@@ -36,6 +36,12 @@ struct SettingView: View {
             
             Form {
                 Section(header: Text("Recording")) {
+                    Picker("Device position", selection: SettingModel.shared.$devicePosition) {
+                           Text("Left").tag("Left")
+                           Text("Right").tag("Right")
+                       }
+                    
+//                       .pickerStyle(.inline)
                     Toggle(isOn: $ignorWebsocket) {
                         VStack(alignment: .leading) {
                             Text("Ignore Raspberry Pi connection")
@@ -82,40 +88,9 @@ struct SettingView: View {
                 }
                 .if(colorScheme == .dark) { view in
                     view.listRowBackground(
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(Material.thinMaterial)
-                    )
-                }
-                
-                Section {
-                    NavigationLink(destination: NewScenarioView()) {
-                        Text("Scenario")
-                    }
-                }
-                .if(colorScheme == .dark) { view in
-                    view.listRowBackground(
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(Material.thinMaterial)
-                    )
-                }
-                
-                Section {
-                    Toggle(isOn: $settingModel.showWorldOrigin) {
-                        VStack(alignment: .leading) {
-                            Text("Show world origin")
-                            Text("Displays the world coordinate system in the camera viewfinder")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                .if(colorScheme == .dark) { view in
-                    view.listRowBackground(
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(Material.thinMaterial)
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .background(Material.thinMaterial)
                     )
                 }
                 
@@ -153,18 +128,51 @@ struct SettingView: View {
                         }
                         Spacer()
                         IPView()
-                            
+                        
                         
                     }
                 }
                 .if(colorScheme == .dark) { view in
                     view.listRowBackground(
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(Material.thinMaterial)
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .background(Material.thinMaterial)
                     )
                 }
-            
+                
+                Section {
+                    NavigationLink(destination: NewScenarioView()) {
+                        Text("Scenario")
+                    }
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .background(Material.thinMaterial)
+                    )
+                }
+                
+                Section {
+                    Toggle(isOn: $settingModel.showWorldOrigin) {
+                        VStack(alignment: .leading) {
+                            Text("Show world origin")
+                            Text("Displays the world coordinate system in the camera viewfinder")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .if(colorScheme == .dark) { view in
+                    view.listRowBackground(
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .background(Material.thinMaterial)
+                    )
+                }
+                
+               
+                
                 
                 Section() {
                     Button(action: {
@@ -185,15 +193,15 @@ struct SettingView: View {
                 }
                 .if(colorScheme == .dark) { view in
                     view.listRowBackground(
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .background(Material.thinMaterial)
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .background(Material.thinMaterial)
                     )
                 }
                 
             }
             
-           
+            
             
             .navigationTitle("Settings")
             .sheet(isPresented: self.$showInfo) {
