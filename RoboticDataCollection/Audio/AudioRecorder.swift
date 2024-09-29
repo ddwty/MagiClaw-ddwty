@@ -42,8 +42,8 @@ class AudioRecorder: NSObject, ObservableObject {
         }
         
 //        let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let audioFilename = parentFolderURL.appendingPathComponent("\(Date().toString(dateFormat: "Audio")).m4a")
-        
+//        let audioFilename = parentFolderURL.appendingPathComponent("\(Date().toString(dateFormat: "Audio")).m4a")
+        let audioFilename = parentFolderURL.appendingPathComponent("Audio.m4a")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,

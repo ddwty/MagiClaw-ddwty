@@ -29,11 +29,11 @@ struct StartRecordingButton: View {
     
 //    let modelContainer: ModelContainer
 //    var viewModel:  StartButtonViewModel
-//    init(modelContainer: ModelContainer, showPopover: Binding<Bool>, isSaved: Binding<Bool>, description: Binding<String>, newScenario: Binding<Scenario?>) {
+//    init(modelContainer: ModelContainer, showPopover: Binding<Bool>, showSaveAlert: Binding<Bool>, description: Binding<String>, newScenario: Binding<Scenario?>) {
 //        self.modelContainer = modelContainer
 //        viewModel =  StartButtonViewModel(modelContainer: modelContainer)
 //        _showPopover = showPopover
-//        _isSaved = isSaved
+//        _isSaved = showSaveAlert
 //        _description = description
 //        _newScenario = newScenario
 //        
@@ -56,13 +56,15 @@ struct StartRecordingButton: View {
     
     @Binding var showPopover: Bool
     @Binding var isSaved: Bool
-    @Binding var description: String
+//    @Binding var description: String
     @Binding var newScenario: Scenario?
 
     @AppStorage("ignore websocket") private var ignoreWebsocket = false
     @State var isWaitingtoSave = false
     @Environment(\.modelContext) private var modelContext
     @StateObject var savingProgress = SavingProgress.shared
+    
+    
     
    
     var body: some View {
@@ -71,23 +73,19 @@ struct StartRecordingButton: View {
                 toggleLock() // 屏幕方向锁定
                 withAnimation {
                     if isRunningTimer { //结束录制
-                        // 触发震动
-                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
-                        impactFeedbackGenerator.impactOccurred()
-                        
+//                        self.showSaveAlert = true
                         recordAllDataModel.stopRecordingData()
                         timer.upstream.connect().cancel()
                         self.isRunningTimer = false
                         self.isWaitingtoSave = true
                         Task {
-                            
                             let container = modelContext.container
                             let actor = BackgroundSerialPersistenceActor(container: container)
                             // MARK: - Save All Data to SwiftData Here
                             let newAllData = AllStorgeData(
                                 createTime: Date(),
                                 timeDuration: recordAllDataModel.recordingDuration,
-                                notes: self.description,
+                                notes: recordAllDataModel.description,
                                 leftForceCount: recordAllDataModel.recordedForceData.count,
                                 rightForceCount: recordAllDataModel.recordedRightForceData.count,
                                 angleDataCount: recordAllDataModel.recordedAngleData.count,
@@ -100,14 +98,14 @@ struct StartRecordingButton: View {
                         
                     } else { // start recording
                         recordAllDataModel.startRecordingData()
-                        // 触发震动
-                        let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-                        impactFeedbackGenerator.impactOccurred()
+                       
+                       
                         display = "00:00:00"
                         startTime = Date()
                         timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
                         self.isRunningTimer = true
                         self.isWaitingtoSave = false
+                       
                     }
                 }
             }) {
@@ -137,9 +135,11 @@ struct StartRecordingButton: View {
                     AppDelegate.orientationLock = .all
                 }
             }
+            .sensoryFeedback(.success, trigger: isRunningTimer)
             
             // 当ignorewebsocket为true时，按钮就可以用,只要showPopover，就禁用
             .disabled((!(ignoreWebsocket || webSocketManager.isConnected)) || showPopover)
+            
             .onReceive(timer) { _ in
                 if isRunningTimer {
                     let duration = Date().timeIntervalSince(startTime)
@@ -199,5 +199,5 @@ struct StartRecordingButton: View {
 }
 
 //#Preview {
-//    StartRecordingButton(showPopover: .constant(false), isSaved: .constant(false), description: .constant(""), newScenario: .constant(nil))
+//    StartRecordingButton(showPopover: .constant(false), showSaveAlert: .constant(false), description: .constant(""), newScenario: .constant(nil))
 //}

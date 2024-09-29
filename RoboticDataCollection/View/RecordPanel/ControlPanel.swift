@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 import UIKit
 
-struct ControlButtonView: View {
+struct ControlPanel: View {
 //    let container: ModelContainer
     @Environment(RecordAllDataModel.self) var recordAllDataModel
     @Environment(WebSocketManager.self) private var webSocketManager
@@ -18,8 +18,8 @@ struct ControlButtonView: View {
     // 让UnSpecified排在最前面，剩下的按字母顺序排
     @Query private var storedScenarios: [Scenario]
     
-    @State var isSaved = false
-    @State private var description = ""
+    @State var showSaveAlert = false
+//    @State private var description = ""
     //    @State private var scenario: Scenario = .unspecified
     
     @State private var newScenario: Scenario?
@@ -29,9 +29,10 @@ struct ControlButtonView: View {
     @FocusState private var isFocused: Bool
     @State private var isLocked = false
     
+    
     var body: some View {
+        @Bindable var recordAllData = recordAllDataModel
         if verticalSizeClass == .regular {
-            GroupBox {
                 VStack(alignment: .leading) {
                     HStack {
                         Text("Control Panel")
@@ -39,7 +40,6 @@ struct ControlButtonView: View {
                             .fontWeight(.bold)
                         Spacer()
                         
-//                        .controlSize(.small)
                     }
                     Divider()
                             HStack {
@@ -71,10 +71,10 @@ struct ControlButtonView: View {
                                 }
                             }
                     
-                    TextField("Enter description", text: $description)
+                    TextField("Enter description", text: $recordAllData.description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .focused($isFocused)
-                        .onChange(of: description) {oldValue, newValue in
+                        .onChange(of: recordAllData.description) {oldValue, newValue in
                             recordAllDataModel.description = newValue
                         }
                         .disableAutocorrection(true)
@@ -90,16 +90,19 @@ struct ControlButtonView: View {
                     
                     HStack {
                         Spacer()
-                        StartRecordingButton( showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
+                        StartRecordingButton( showPopover: self.$showPopover, isSaved: self.$showSaveAlert, newScenario: self.$newScenario)
+                           
                         Spacer()
                     }
                 }
-            }
+                .cardBackground()
+               
             .alert(
                 "Recording completed",
-                isPresented: $isSaved
+                isPresented: $showSaveAlert
             ) {
                 Button("OK") {
+                    self.showSaveAlert = false
                 }
             } message: {
                 let title = "You have successfully recorded an action😁"
@@ -112,9 +115,8 @@ struct ControlButtonView: View {
                        .multilineTextAlignment(.leading)
             }
         } else {
-            GroupBox {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .bottom) {
                         Text("Control Panel")
                             .font(.title3)
                             .fontWeight(.bold)
@@ -127,14 +129,21 @@ struct ControlButtonView: View {
                         VStack(alignment: .leading) {
                             Text("Description:")
                                 .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
-                            TextEditor(text: $description)
+                            TextEditor(text: $recordAllData.description)
+                                .background(Color.primary.colorInvert())
+                                               .cornerRadius(5)
+                                               .overlay(
+                                                   RoundedRectangle(cornerRadius: 5)
+                                                       .stroke(.black, lineWidth: 1 / 3)
+                                                       .opacity(0.3)
+                                               )
                                 .focused($isFocused)
-                                .onChange(of: description) {oldValue, newValue in
-                                    recordAllDataModel.description = newValue
-                                }
+//                                .onChange(of: description) {oldValue, newValue in
+//                                    recordAllDataModel.description = newValue
+//                                }
                                 .disableAutocorrection(true)
-                                .frame(minWidth: 100, minHeight: 50)
-                                .onTapGesture {  } // outer tap gesture has no effect on field
+                                .frame(minWidth: 100, minHeight: 30)
+                                .onTapGesture {  } // outer tap gesture to hide keyboard has no effect on this field
                                 .toolbar {
                                     ToolbarItemGroup(placement: .keyboard) {
                                         Spacer()
@@ -177,17 +186,18 @@ struct ControlButtonView: View {
                             Spacer()
                             HStack {
                                 Spacer()
-                                StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$isSaved, description: self.$description, newScenario: self.$newScenario)
+                                StartRecordingButton(showPopover: self.$showPopover, isSaved: self.$showSaveAlert, newScenario: self.$newScenario)
                                 Spacer()
                             }
                             Spacer()
                         }
                     }
                 }
-            }
+                .cardBackground()
+          
             .alert(
                 "Recording completed",
-                isPresented: $isSaved
+                isPresented: $showSaveAlert
             ) {
                 Button("OK") {
                 }
@@ -205,38 +215,10 @@ struct ControlButtonView: View {
     }
 }
 
-extension ControlButtonView {
-    private func toggleLock() {
-        let currentOrientation = UIDevice.current.orientation
-
-        if isLocked {
-            // 解除锁定
-            AppDelegate.orientationLock = .all
-        } else {
-            // 锁定当前方向
-            switch currentOrientation {
-            case .portrait, .portraitUpsideDown:
-                AppDelegate.orientationLock = .portrait
-            case .landscapeLeft, .landscapeRight:
-                AppDelegate.orientationLock = .landscape
-            default:
-                AppDelegate.orientationLock = .all
-            }
-        }
-
-        // 触发屏幕旋转
-//        UIViewController.attemptRotationToDeviceOrientation()
-        // 更新支持的界面方向
-           if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-               windowScene.keyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
-           }
-        isLocked.toggle()
-    }
-}
 
 
 #Preview(traits: .landscapeRight) {
-    ControlButtonView(showPopover: .constant(false))
+    ControlPanel(showPopover: .constant(false))
             .environment(RecordAllDataModel())
             .environment(WebSocketManager.shared)
             

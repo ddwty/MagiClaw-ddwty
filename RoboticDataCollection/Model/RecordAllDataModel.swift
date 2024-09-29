@@ -17,7 +17,7 @@ import Zip
     let arRecorder = ARRecorder.shared
     let audioRecorder = AudioRecorder.shared
     
-//    private let motionManager = MotionManager.shared
+    //    private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
     private let settingModel = SettingModel.shared
@@ -26,11 +26,12 @@ import Zip
     private var savingProgress = SavingProgress.shared
     
     // 用于为文件夹命名场景
-//    private var scenarioName = SelectedScenario.shared.selectedScenario
+    //    private var scenarioName = SelectedScenario.shared.selectedScenario
     
-//    var scenarioName = Scenario.unspecified
+    //    var scenarioName = Scenario.unspecified
     var scenarioName = "Unspecified"
-    var description = "" // 暂时还没保存
+    var description = ""
+    
     private var timer: Timer?
     private var recordingStartTime: Date?
     private var parentFolderURL: URL?
@@ -38,17 +39,19 @@ import Zip
     // 用于记录这个数据录制时长
     var recordingDuration: TimeInterval = 0
     
-//    var recordedMotionData: [MotionData] = []
+    //    var recordedMotionData: [MotionData] = []
     var recordedForceData: [ForceData] = []
     var recordedRightForceData: [ForceData] = []
     var recordedARData: [ARData] = []
     var recordedAngleData: [AngleData] = []
     
     
+    
+    
     func startRecordingData() {
         guard !isRecording else { return }
         
-//        recordedMotionData.removeAll()
+        //        recordedMotionData.removeAll()
         recordedForceData.removeAll()
         recordedARData.removeAll()
         recordedAngleData.removeAll()
@@ -60,7 +63,7 @@ import Zip
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
         let dateString = dateFormatter.string(from: Date())
-        parentFolderURL = documentDirectory.appendingPathComponent(dateString + "_\(scenarioName)")
+        parentFolderURL = documentDirectory.appendingPathComponent(dateString)
         
         do {
             try FileManager.default.createDirectory(at: parentFolderURL!, withIntermediateDirectories: true, attributes: nil)
@@ -73,16 +76,16 @@ import Zip
         webSocketManager.startRecordingData()
         
         arRecorder.startRecording(parentFolderURL: parentFolderURL!) { success in
-                    DispatchQueue.main.async {
-                        if success {
-                            self.recordingStartTime = Date()
-                            self.isRecording = true
-                            self.startTimer()
-                        } else {
-                            print("Failed to start AR recording")
-                        }
-                    }
+            DispatchQueue.main.async {
+                if success {
+                    self.recordingStartTime = Date()
+                    self.isRecording = true
+                    self.startTimer()
+                } else {
+                    print("Failed to start AR recording")
                 }
+            }
+        }
         
         audioRecorder.startRecording(parentFolderURL: parentFolderURL!)
         webSocketManager.isRecording = true
@@ -94,19 +97,19 @@ import Zip
         self.isWaitingSaveing = true
         
         webSocketManager.stopRecordingForceData()
-//        motionManager.stopRecording()
+        //        motionManager.stopRecording()
         arRecorder.stopRecording { videoURL in
-                DispatchQueue.main.async {
-                    guard let videoURL = videoURL, let parentFolderURL = self.parentFolderURL else {
-                        print("Failed to get video URL or parent folder URL")
-                        return
-                    }
+            DispatchQueue.main.async {
+                guard let videoURL = videoURL, let parentFolderURL = self.parentFolderURL else {
+                    print("Failed to get video URL or parent folder URL")
+                    return
                 }
             }
+        }
         
         audioRecorder.stopRecording()
-//        DispatchQueue.global(qos: .userInitiated).async {
-          
+        //        DispatchQueue.global(qos: .userInitiated).async {
+        
         //      recordedMotionData = motionManager.motionDataArray
         //      recordedMotionData = motionManager.motionDataArray
         recordedForceData = webSocketManager.recordedForceData
@@ -114,16 +117,39 @@ import Zip
         recordedAngleData = webSocketManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
         
-//        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
+        
+        
+        //        print("Recorded left force data length: \(recordedForceData.count), Recorded right force data length: \(recordedRightForceData.count), Angle data length: \(recordedAngleData.count), ar data length: \(recordedARData.count)")
         //        print("Force data:\(recordedForceData)")
         
         // 将其他数据保存为CSV
-       
-            self.generateCSV(in: parentFolderURL!)
+        self.generateCSV(in: parentFolderURL!)
+        
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HH:mm:ss"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        let dateString = formatter.string(from: currentDate)
+        let metaData = MetaData(
+            fileUUID: UUID().uuidString,
+            userID: nil,
+            createTime: dateString,
+            description: self.description,
+            scenario: self.scenarioName,
+            leftForceDataSize: recordedForceData.count,
+            rightForceDataSize: recordedRightForceData.count,
+            angleDataSize: recordedAngleData.count,
+            ARDataSize: recordedARData.count,
+            position: SettingModel.shared.devicePosition,
+            deviceModel: UIDevice.current.model,
+            systemName: UIDevice.current.systemName,
+            systemVersion: UIDevice.current.systemVersion,
+            appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")
+        saveMetaDatatoJson(from: metaData, to: parentFolderURL!)
         
         self.isRecording = false
         stopTimer()
-
+        
         
     }
 }
@@ -164,7 +190,7 @@ extension RecordAllDataModel {
             }
         }
     }
-
+    
     private func exportToCSV<T: CSVConvertible>(data: [T], fileName: String, folderURL: URL) -> URL? {
         let csvOutputURL = folderURL.appendingPathComponent(fileName).appendingPathExtension("csv")
         
@@ -187,7 +213,7 @@ extension RecordAllDataModel {
         let zipURL = folderURL.appendingPathExtension("magiclaw")
         
         do {
-//            try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: nil)
+            //            try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: nil)
             try Zip.zipFiles(paths: [folderURL], zipFilePath: zipURL, password: nil, progress: {(progress) -> () in
                 print(progress)
             })
@@ -200,6 +226,22 @@ extension RecordAllDataModel {
             print("Error zipping folder: \(error.localizedDescription)")
         }
     }
+    
+    private func saveMetaDatatoJson(from metadata: MetaData, to parentFolderURL: URL) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let data = try encoder.encode(metadata)
+                let url = parentFolderURL.appendingPathComponent("metadata.json")
+                try data.write(to: url)
+                print("Metadata Json file saved.")
+            } catch {
+                print("Error saving metadata to json.")
+            }
+        }
+    }
+    
     
 }
 

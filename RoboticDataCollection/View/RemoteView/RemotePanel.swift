@@ -12,9 +12,6 @@ struct RemotePanel: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var audioWebSocketServer: WebSocketServerManager
     
-    //    @Binding var visibility: Visibility
-    @State var showBigAr = false
-    
     let screenWidth = UIScreen.main.bounds.size.width
     let screenHeight = UIScreen.main.bounds.size.height
     @State private var tabBarVisible: Bool = false
@@ -23,52 +20,64 @@ struct RemotePanel: View {
     
     var body: some View {
         ZStack {
-            RemoteARView()
-                .ignoresSafeArea(edges: [.bottom])
-            //                .ignoresSafeArea()
-            VStack {
-                HStack {
-                    Spacer()
-                    VStack { // Close button
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                dismiss()
-                            }) {
-                                Text("")
-                            }
-                            .padding()
-                            .shadow(color: Color.gray.opacity(0.6), radius: 10)
-                            .buttonStyle(ExitButtonStyle())
-                            
-                        }
+            ZStack {
+                
+                RemoteARView()
+                    .ignoresSafeArea(edges: [.bottom])
+//            #if DEBUG
+//                Image("fakeRemoteView")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .offset(x: 200)
+//                    .ignoresSafeArea(edges: .bottom)
+//            #endif
+                VStack {
+                    HStack {
                         Spacer()
+                        VStack { // Close button
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    dismiss()
+                                }) {
+                                    Text("")
+                                }
+                                .padding()
+                                .shadow(color: Color.black.opacity(0.15), radius: 10)
+                                .buttonStyle(ExitButtonStyle())
+                                
+                            }
+                            Spacer()
+                        }
                     }
+                    Spacer()
+                    RemoteControlCard(audioWebsocketServer: self.audioWebSocketServer)
+                        .padding()
+                        .frame(maxWidth: 400)
                 }
-                Spacer()
-                RemoteControlButton()
-                    .padding()
-                StreamingAudioView(audioWebsocketServer: self.audioWebSocketServer)
             }
+            .offset(y: dragOffset.height) // 应用偏移量
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        // 实时更新拖动的偏移量，只允许向下拖动
+                        if gesture.translation.height > 0 {
+                            self.dragOffset = gesture.translation
+                        }
+                    }
+                    .onEnded { _ in
+                        // dissmiss
+                        if self.dragOffset.height > 100 {
+                            dismiss()
+                        }
+                        self.dragOffset = .zero
+                    }
+            )
+            .animation(.easeInOut(duration: 0.3), value: dragOffset)
         }
-        .offset(y: dragOffset.height) // 应用偏移量
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    // 实时更新拖动的偏移量，只允许向下拖动
-                    if gesture.translation.height > 0 {
-                        self.dragOffset = gesture.translation
-                    }
-                }
-                .onEnded { _ in
-                    // dissmiss
-                    if self.dragOffset.height > 100 {
-                        dismiss()
-                    }
-                    self.dragOffset = .zero
-                }
-        )
-        .animation(.easeInOut(duration: 0.3), value: dragOffset)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background)
+        
         
     }
 }
@@ -80,3 +89,4 @@ struct RemotePanel: View {
         .environmentObject(ARRecorder.shared)
         .environmentObject(WebSocketServerManager(port: 8080))
 }
+

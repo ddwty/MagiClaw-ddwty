@@ -183,7 +183,6 @@ extension View {
     //强制改变某个视图方向
     @ViewBuilder
     func forceRotation(orientation: UIInterfaceOrientationMask) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
             self.onAppear() {
                 AppDelegate.orientationLock = orientation
             }
@@ -192,9 +191,7 @@ extension View {
             self.onDisappear() {
                 AppDelegate.orientationLock = currentOrientation
             }
-        } else {
-            self
-        }
+       
     }
 }
 
@@ -209,7 +206,8 @@ struct ExitButtonStyle: ButtonStyle {
             .padding()
             .background(
                 Circle()
-                    .fill(Color(white: colorScheme == .dark ? 0.19 : 0.93))
+//                    .fill(Color(white: colorScheme == .dark ? 0.19 : 0.93))
+                    .fill(Material.thickMaterial)
                     //.brightness(isPressed ? 0.1 : 0) // Aclara el color cuando está presionado
                     .frame(width: 40, height: 40)
             )
@@ -225,5 +223,55 @@ struct ExitButtonStyle: ButtonStyle {
             .buttonStyle(PlainButtonStyle())
             .opacity(isPressed ? 0.18 : 1)
 
+    }
+}
+
+
+// Custom card ViewModifier
+struct CardBackground: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
+    func body(content: Content) -> some View {
+        content
+            .padding()
+//            .background(Color(UIColor.systemBackground))
+            .background(colorScheme == .light ? .thickMaterial : .ultraThinMaterial)
+        
+            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+            .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 0)
+           
+    }
+}
+
+// 扩展 View，使得可以更方便地调用
+extension View {
+    func cardBackground() -> some View {
+        self.modifier(CardBackground())
+    }
+}
+
+
+
+struct DeviceRotationViewModifier: ViewModifier {
+    let action: (UIDeviceOrientation) -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear()
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                action(UIDevice.current.orientation)
+            }
+    }
+}
+
+// A View wrapper to make the modifier easier to use
+extension View {
+    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        self.modifier(DeviceRotationViewModifier(action: action))
+    }
+}
+
+extension UIApplication {
+    static var appVersion: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     }
 }

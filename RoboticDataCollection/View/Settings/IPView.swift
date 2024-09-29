@@ -13,7 +13,7 @@ struct IPView: View {
     
     var body: some View {
         Text(ipAddress)
-            .foregroundStyle(.gray)
+            .foregroundStyle(Color.secondary)
             .onAppear {
                 ipAddress = getWiFiIPAddress()
             }
