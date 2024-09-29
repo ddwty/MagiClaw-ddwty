@@ -99,7 +99,8 @@ struct FingerAngle: Codable {
     
     // MARK: - AND both left finger and angel connected status
     private func updateConnectionStatus() {
-        let newIsConnected = isLeftFingerConnected && isAngelConnected && isRightFingerConnected
+//        let newIsConnected = isLeftFingerConnected && isAngelConnected && isRightFingerConnected
+        let newIsConnected = isLeftFingerConnected && isRightFingerConnected
         if isConnected != newIsConnected {
             isConnected = newIsConnected
         }
@@ -112,7 +113,7 @@ struct FingerAngle: Codable {
         self.recordedAngleData.reserveCapacity(100000)
         connectLeftFinger()
         connectRightFinger()
-        connectAngel()
+//        connectAngel()
         
     }
     
@@ -134,7 +135,7 @@ struct FingerAngle: Codable {
         disconnect()  // 先断开现有连接
         connectLeftFinger()
         connectRightFinger()
-        connectAngel()
+//        connectAngel()
     }
     
     func disconnect() {
@@ -359,8 +360,8 @@ extension WebSocketManager {
                 //                print(forceDataforShow?.forceData ?? [1,2,4])
                 //                print(forceDataforShow ?? "No force data")
                 let xForce = forceData.forceData?[0] ?? 0
-                let yForce = forceData.forceData?[1] ?? 0
-                let zForce = forceData.forceData?[2] ?? 0
+                let yForce = (forceData.forceData?[1] ?? 0)
+                let zForce = (forceData.forceData?[2] ?? 0)
                 self.totalLeftForce = sqrt(xForce * xForce + yForce * yForce + zForce * zForce)
                 //                print("\(totalForce)")
                
@@ -369,7 +370,6 @@ extension WebSocketManager {
                     self.recordedForceData.append(forceData)
                    
                 }
-                //                throttleUpdate() // 调用节流函数
             }
         }
     }
@@ -400,7 +400,6 @@ extension WebSocketManager {
                   
                     self.recordedRightFingerForceData.append(forceData)
                 }
-                //                throttleUpdate() // 调用节流函数
             }
         }
     }
@@ -422,7 +421,6 @@ extension WebSocketManager {
                     self.recordedAngleData.append(angleData)
 //                    print("angle data: \(angleData)")
                 }
-                //                throttleUpdate() // 调用节流函数
             }
         }
     }

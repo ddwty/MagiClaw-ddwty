@@ -65,11 +65,8 @@ struct NewScenarioView: View {
                         }
 //                        .buttonStyle(.borderedProminent)
                         .disabled(name.isEmpty)
+#if DEBUG
                         Button("Add") {
-                          
-                            
-                        #if DEBUG
-                           
                             let sampleDatas: [AllStorgeData] = generateSampleData()
                            
                             for sampleData in sampleDatas {
@@ -77,9 +74,8 @@ struct NewScenarioView: View {
                                 let actor = BackgroundSerialPersistenceActor(container: container)
                                 modelContext.insert(sampleData)
                             }
-                            
-                        #endif
                         }
+#endif
                         Spacer()
                     }
                 }
