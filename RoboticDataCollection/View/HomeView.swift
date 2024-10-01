@@ -66,7 +66,7 @@ struct HomeView: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity)
-            .background(Color.background)
+            .background(Color("background"))
             
             .fullScreenCover(isPresented: self.$showRecordView, content: {
                 PanelView()

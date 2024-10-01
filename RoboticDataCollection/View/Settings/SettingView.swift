@@ -211,7 +211,7 @@ struct SettingView: View {
                 HowtoUseView()
             }
             .scrollContentBackground(.hidden)
-            .background(Color.background)
+            .background(Color("background"))
         }
     }
 }

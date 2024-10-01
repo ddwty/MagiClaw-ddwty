@@ -58,7 +58,7 @@ struct HowtoUseView: View {
                 .padding(.horizontal, 24)
             }
             .scrollContentBackground(.hidden)
-            .background(Color.background)
+            .background(Color("background"))
             .navigationTitle("User guide")
         }
     }

@@ -15,46 +15,52 @@ struct RemoteControlCard: View {
     
     @State private var audioStreamManager: AudioStreamManager?
     @State private var isStreamingAudio = false
-//    @State private var isLocked = false
-    @State private var showFullPanel = true
+    //    @State private var isLocked = false
+    @Binding var showFullPanel: Bool
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Real-time Data Transmission")
-                        .font(.title3)
-                        .fontWeight(.bold)
+            // Top bar with toggle button aligned to the right
+           
+            // Details panel that appears when showFullPanel is true
+//            if showFullPanel {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Real-time Data Transmission Section
                     HStack {
-                        Text("IP address: ")
-                            .foregroundStyle(Color.secondary)
-                        IPView()
-                    }
-                }
-                Spacer()
-                Image(systemName: showFullPanel ? "arrow.up.right.and.arrow.down.left.square" : "arrow.down.backward.and.arrow.up.forward.square")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .foregroundStyle(Color.primary.opacity(0.3))
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            self.showFullPanel.toggle()
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Real-time Data Transmission")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                            HStack {
+                                Text("IP address: ")
+                                    .foregroundStyle(Color.secondary)
+                                IPView()
+                            }
                         }
+                        Spacer()
+                        Image(systemName: showFullPanel ? "arrow.up.right.and.arrow.down.left.square" : "arrow.down.backward.and.arrow.up.forward.square")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(Color.primary.opacity(0.3))
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    self.showFullPanel = false
+                                }
+                            }
+                        
                     }
-            }
-            Divider()
-            
-            if showFullPanel {
-                VStack {
+                    
+                    Divider()
+                    
+                    // Toggle for Sending Data
                     Toggle(isOn: $remoteControlManager.enableSendingData) {
-                        VStack(alignment: .leading) {
-                            Text(remoteControlManager.enableSendingData ? "Sending...(Pose & RGB)" : "Send data (Pose & RGB)")
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(remoteControlManager.enableSendingData ? "Sending... (Pose & RGB)" : "Send data (Pose & RGB)")
                             
                             HStack {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(serverConnectionStatus.isSendingDataServerReady ? .green : .red)
                                     .imageScale(.small)
-                                    .font(.caption)
                                 Text("Port: 8080")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
@@ -70,27 +76,25 @@ struct RemoteControlCard: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                        
                     }
                     .padding()
-                    //                .background(Color(UIColor.systemBackground))
                     .background(
-                        RoundedRectangle(cornerSize: CGSize(width: 15, height: 15), style: .continuous)
-                            .stroke(remoteControlManager.enableSendingData ? Color.green : Color.white, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(remoteControlManager.enableSendingData ? Color.green : Color.gray, lineWidth: 1)
                     )
                     .tint(Color.green)
-                    .onChange(of: remoteControlManager.enableSendingData) {
+                    .onChange(of: remoteControlManager.enableSendingData) { _ in
                         toggleLock()
                     }
                     
+                    // Toggle for Streaming Audio
                     Toggle(isOn: $isStreamingAudio) {
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 4) {
                             Text(isStreamingAudio ? "Streaming..." : "Stream audio")
                             HStack {
                                 Image(systemName: "circle.fill")
                                     .foregroundColor(serverConnectionStatus.isStreamingAudioServerReady ? .green : .red)
                                     .imageScale(.small)
-                                    .font(.caption)
                                 Text("Port: 8081")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
@@ -106,18 +110,15 @@ struct RemoteControlCard: View {
                             }
                         }
                     }
-                    //                .padding()
-                    //                .background(Color(UIColor.systemBackground))
-                    //                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
                     .padding()
                     .background(
-                        RoundedRectangle(cornerSize: CGSize(width: 15, height: 15), style: .continuous)
-                            .stroke(isStreamingAudio ? Color.green : Color.white, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(isStreamingAudio ? Color.green : Color.gray, lineWidth: 1)
                     )
                     .tint(Color.green)
-                    .onChange(of: isStreamingAudio) {
+                    .onChange(of: isStreamingAudio) { value in
                         toggleLock()
-                        if isStreamingAudio {
+                        if value {
                             audioStreamManager = AudioStreamManager(websocketServerManager: audioWebsocketServer)
                             audioStreamManager?.startStreaming()
                         } else {
@@ -125,12 +126,22 @@ struct RemoteControlCard: View {
                         }
                     }
                 }
-            }
+                //                        .padding()
+                //                        .background(Color(UIColor.systemBackground).opacity(0.8))
+                //                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                //                        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                //                        .transition(.asymmetric(
+                //                            insertion: .move(edge: .bottom).combined(with: .opacity),
+                //                            removal: .move(edge: .bottom).combined(with: .opacity)
+                //                        ))
+//            }
         }
         .padding()
         .background(.regularMaterial)
+//        .frame(maxWidth: showFullPanel ? 400 : 0)
+        
         .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-        .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 0)
+        .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 2)
         .onAppear {
             // 当视图出现时，重置为默认方向
             AppDelegate.orientationLock = .all
@@ -144,16 +155,16 @@ struct RemoteControlCard: View {
 }
 
 #Preview {
-    RemoteControlCard(audioWebsocketServer: WebSocketServerManager(port: 8081))
+    RemoteControlCard(audioWebsocketServer: WebSocketServerManager(port: 8081), showFullPanel: .constant(false))
 }
 
 
 extension RemoteControlCard {
     private func toggleLock() {
-//        self.isLocked = remoteControlManager.enableSendingData || isStreamingAudio
+        //        self.isLocked = remoteControlManager.enableSendingData || isStreamingAudio
         let isLocked = remoteControlManager.enableSendingData || isStreamingAudio
         let currentOrientation = UIDevice.current.orientation
-
+        
         if !isLocked {
             // 解除锁定
             AppDelegate.orientationLock = .all
@@ -168,12 +179,12 @@ extension RemoteControlCard {
                 AppDelegate.orientationLock = .all
             }
         }
-
+        
         // 触发屏幕旋转
-//        UIViewController.attemptRotationToDeviceOrientation()
+        //        UIViewController.attemptRotationToDeviceOrientation()
         // 更新支持的界面方向
-           if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-               windowScene.keyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
-           }
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.keyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+        }
     }
 }

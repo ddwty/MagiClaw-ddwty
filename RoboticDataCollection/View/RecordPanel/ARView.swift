@@ -11,6 +11,7 @@ import ARKit
 import simd
 import Accelerate
 import AVFoundation
+import CoreImage
 
 struct MyARView: View {
     @State private var cameraTransform = simd_float4x4()
@@ -217,6 +218,22 @@ class ARViewController: UIViewController, ARSessionDelegate {
         
        
         recorder.recordFrame(frame)
+//        print("frame size: \(frame.camera.imageResolution)")
+        // convert frame to 640x480
+//        let start = CFAbsoluteTimeGetCurrent()
+//        let imageBuffer = frame.capturedImage
+//        let resizeBuffer = resizePixelBuffer(imageBuffer, width: 640, height: 480)
+//        let srcWidth = CVPixelBufferGetWidth(resizeBuffer!)
+//        let srcHeight = CVPixelBufferGetHeight(resizeBuffer!)
+////        print("frame size: \(srcWidth)")
+//        let end = CFAbsoluteTimeGetCurrent()
+////        print("Time: \(end - start)")
+//        
+        DispatchQueue.global(qos: .userInitiated).async {
+                    let start = CFAbsoluteTimeGetCurrent()
+                    self.distance = ArucoCV.calculateDistance(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize)
+                   
+        }
     }
 }
 

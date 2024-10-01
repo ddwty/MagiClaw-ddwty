@@ -100,7 +100,7 @@ struct InfoView: View {
                 Spacer()
             }
             .padding()
-            .background(Color.background)
+            .background(Color("background"))
 //            .navigationTitle("About")
         }
     }

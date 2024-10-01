@@ -10,6 +10,7 @@
 		3D08CA992C9838CD006DB388 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D08CA982C9838CD006DB388 /* PermissionManager.swift */; };
 		3D1C1BB42C96EEDF00D7FCD0 /* MetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C1BB32C96EEDF00D7FCD0 /* MetaDataModel.swift */; };
 		3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 3D29AE6C2C820A4000EE7A42 /* Starscream */; };
+		3D48584A2CAADE0F00935C51 /* MarkerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4858492CAADE0F00935C51 /* MarkerManager.swift */; };
 		3D53C6C32C971692001A61DC /* RemoteControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C22C971692001A61DC /* RemoteControlManager.swift */; };
 		3D53C6C52C97195D001A61DC /* RemoteControlCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */; };
 		3D53C6C72C972B8D001A61DC /* ServerConnectionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C62C972B8D001A61DC /* ServerConnectionStatus.swift */; };
@@ -26,6 +27,9 @@
 		3DB07E942C946E580098D9C3 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB07E932C946E580098D9C3 /* TestView.swift */; };
 		3DB07E962C94958F0098D9C3 /* HowtoUseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB07E952C94958F0098D9C3 /* HowtoUseView.swift */; };
 		3DB07E992C957DA20098D9C3 /* UserDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB07E982C957DA20098D9C3 /* UserDoc.swift */; };
+		3DD21A4E2CAA410700BB0D10 /* opencv2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD21A4D2CAA410700BB0D10 /* opencv2.xcframework */; };
+		3DDD3E5A2CA975ED005504A0 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3DDD3E592CA975ED005504A0 /* .gitignore */; };
+		3DDD3E5F2CA99148005504A0 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD3E5E2CA99148005504A0 /* CVPixelBufferExtension.swift */; };
 		602103632C75DB2F0025E247 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103572C75DB2E0025E247 /* StopWach.swift */; };
 		602103642C75DB2F0025E247 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103582C75DB2E0025E247 /* HistoryView.swift */; };
 		602103652C75DB2F0025E247 /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103592C75DB2E0025E247 /* ControlPanel.swift */; };
@@ -41,7 +45,6 @@
 		602103712C75DB3A0025E247 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */; };
 		602103722C75DB3A0025E247 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103702C75DB3A0025E247 /* CameraView.swift */; };
 		602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */; };
-		603C91762C89367E00CEA4C5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 603C91752C89367E00CEA4C5 /* .gitignore */; };
 		603E5E942C766B6B00ABF2FE /* MotionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E892C766B6B00ABF2FE /* MotionDataModel.swift */; };
 		603E5E952C766B6B00ABF2FE /* SwiftDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */; };
 		603E5E962C766B6B00ABF2FE /* ARRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603E5E8B2C766B6B00ABF2FE /* ARRecorder.swift */; };
@@ -90,13 +93,14 @@
 /* Begin PBXFileReference section */
 		3D08CA982C9838CD006DB388 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		3D1C1BB32C96EEDF00D7FCD0 /* MetaDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataModel.swift; sourceTree = "<group>"; };
+		3D4858492CAADE0F00935C51 /* MarkerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerManager.swift; sourceTree = "<group>"; };
 		3D53C6C22C971692001A61DC /* RemoteControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlManager.swift; sourceTree = "<group>"; };
 		3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlCard.swift; sourceTree = "<group>"; };
 		3D53C6C62C972B8D001A61DC /* ServerConnectionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectionStatus.swift; sourceTree = "<group>"; };
 		3D5DBF582C95B33100CBFE5F /* Flashlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashlight.swift; sourceTree = "<group>"; };
 		3D5DBF5A2C95B78200CBFE5F /* StatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCard.swift; sourceTree = "<group>"; };
 		3D5DBF762C95E5FB00CBFE5F /* ToggleOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleOrientation.swift; sourceTree = "<group>"; };
-		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D94E7C92C82D155002CD850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3DA34C7D2C8877CA005D918C /* StartRecordingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRecordingButton.swift; sourceTree = "<group>"; };
@@ -108,6 +112,9 @@
 		3DB07E932C946E580098D9C3 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		3DB07E952C94958F0098D9C3 /* HowtoUseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowtoUseView.swift; sourceTree = "<group>"; };
 		3DB07E982C957DA20098D9C3 /* UserDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDoc.swift; sourceTree = "<group>"; };
+		3DD21A4D2CAA410700BB0D10 /* opencv2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = opencv2.xcframework; path = ../opencv2.xcframework; sourceTree = "<group>"; };
+		3DDD3E592CA975ED005504A0 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3DDD3E5E2CA99148005504A0 /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		602103572C75DB2E0025E247 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
 		602103582C75DB2E0025E247 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		602103592C75DB2E0025E247 /* ControlPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
@@ -123,7 +130,6 @@
 		6021036F2C75DB3A0025E247 /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		602103702C75DB3A0025E247 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		602A42372C75E838006B4D1A /* RaspberryPiStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaspberryPiStatusView.swift; sourceTree = "<group>"; };
-		603C91752C89367E00CEA4C5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		603E5E892C766B6B00ABF2FE /* MotionDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionDataModel.swift; sourceTree = "<group>"; };
 		603E5E8A2C766B6B00ABF2FE /* SwiftDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataModel.swift; sourceTree = "<group>"; };
 		603E5E8B2C766B6B00ABF2FE /* ARRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARRecorder.swift; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DD21A4E2CAA410700BB0D10 /* opencv2.xcframework in Frameworks */,
 				3D94E7AE2C820C49002CD850 /* Zip in Frameworks */,
 				3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */,
 			);
@@ -192,13 +199,6 @@
 				3DB07E932C946E580098D9C3 /* TestView.swift */,
 			);
 			path = Unused;
-			sourceTree = "<group>";
-		};
-		3DA34C7F2C887814005D918C /* FrameWork */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = FrameWork;
 			sourceTree = "<group>";
 		};
 		3DA4C5F72C88728200E542CA /* ArUco */ = {
@@ -225,10 +225,19 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		3DD21A4C2CAA410700BB0D10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DD21A4D2CAA410700BB0D10 /* opencv2.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		603E5E9F2C7708B800ABF2FE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				603E5EA02C7708CC00ABF2FE /* UIColor+Extension.swift */,
+				3DDD3E5E2CA99148005504A0 /* CVPixelBufferExtension.swift */,
 				603E5EA22C7708DD00ABF2FE /* Color+Extension.swift */,
 				6021035F2C75DB2F0025E247 /* ExtensionView.swift */,
 				603E5E8C2C766B6B00ABF2FE /* ExtensionSimd.swift */,
@@ -280,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				605F723D2C8DD75A00D6F84F /* RemotePanel.swift */,
+				3D4858492CAADE0F00935C51 /* MarkerManager.swift */,
 				3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */,
 				605F72412C8DF03000D6F84F /* RemoteControlButton.swift */,
 				605F72462C90808400D6F84F /* RemoteARView.swift */,
@@ -316,9 +326,10 @@
 		609395162C55473700E98950 = {
 			isa = PBXGroup;
 			children = (
-				603C91752C89367E00CEA4C5 /* .gitignore */,
+				3DDD3E592CA975ED005504A0 /* .gitignore */,
 				607B2DEB2C6D15340010D914 /* README.md */,
 				609395212C55473700E98950 /* RoboticDataCollection */,
+				3DD21A4C2CAA410700BB0D10 /* Frameworks */,
 				609395202C55473700E98950 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -336,7 +347,6 @@
 			children = (
 				605F72482C91754C00D6F84F /* Audio */,
 				605F72432C9079F100D6F84F /* Public */,
-				3DA34C7F2C887814005D918C /* FrameWork */,
 				3DA4C5F72C88728200E542CA /* ArUco */,
 				609395222C55473700E98950 /* MagiClawApp.swift */,
 				3D94E7C92C82D155002CD850 /* AppDelegate.swift */,
@@ -480,10 +490,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				603C91762C89367E00CEA4C5 /* .gitignore in Resources */,
 				607B2DEC2C6D15340010D914 /* README.md in Resources */,
 				6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */,
 				3D94E7CE2C833E14002CD850 /* Launch Screen.storyboard in Resources */,
+				3DDD3E5A2CA975ED005504A0 /* .gitignore in Resources */,
 				609395272C55473A00E98950 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +532,7 @@
 				605F72452C907A1500D6F84F /* OrientationEnum.swift in Sources */,
 				605F72542C91799B00D6F84F /* Helper.swift in Sources */,
 				602103642C75DB2F0025E247 /* HistoryView.swift in Sources */,
+				3D48584A2CAADE0F00935C51 /* MarkerManager.swift in Sources */,
 				602103632C75DB2F0025E247 /* StopWach.swift in Sources */,
 				602103672C75DB2F0025E247 /* RaspberryPiView.swift in Sources */,
 				603E5E992C766B6B00ABF2FE /* Server.swift in Sources */,
@@ -560,6 +571,7 @@
 				3DA34C7E2C8877CA005D918C /* StartRecordingButton.swift in Sources */,
 				605F725A2C918E2600D6F84F /* AudioStreaming.swift in Sources */,
 				605F72572C9179A700D6F84F /* RecordingDataModel.swift in Sources */,
+				3DDD3E5F2CA99148005504A0 /* CVPixelBufferExtension.swift in Sources */,
 				602A42382C75E838006B4D1A /* RaspberryPiStatusView.swift in Sources */,
 				603E5EA32C7708DD00ABF2FE /* Color+Extension.swift in Sources */,
 				3D53C6C32C971692001A61DC /* RemoteControlManager.swift in Sources */,

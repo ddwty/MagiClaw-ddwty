@@ -75,7 +75,7 @@ struct HistoryListView: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.background)
+            .background(Color("background"))
             
         } else {
             List {
@@ -155,7 +155,7 @@ struct HistoryListView: View {
                 
             }
             .scrollContentBackground(.hidden)
-            .background(Color.background)
+            .background(Color("background"))
             
         }
     }
@@ -348,7 +348,7 @@ struct RecordingDetailView: View {
             .navigationTitle("Recording Details")
             .navigationBarTitleDisplayMode(.inline)
             .scrollContentBackground(.hidden)
-            .background(Color.background)
+            .background(Color("background"))
             
         }
         

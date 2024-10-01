@@ -34,7 +34,7 @@ struct PanelView: View {
                         landscapeView
                     }
                 }
-                .background(Color.background)
+                .background(Color("background"))
             }
             .onAppear {
                 setupKeyboardNotifications()
@@ -62,12 +62,12 @@ struct PanelView: View {
             .animation(.easeInOut(duration: 0.3), value: dragOffset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.background)
+        .background(Color("background"))
         .onDisappear {
             AppDelegate.orientationLock = .all
             resetOrientation()
         }
-        .checkPermissions([.camera, .localNetwork])
+//        .checkPermissions([.camera, .localNetwork])
     }
 
     private var portraitView: some View {
