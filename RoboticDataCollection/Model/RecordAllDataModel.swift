@@ -20,6 +20,7 @@ import Zip
     //    private let motionManager = MotionManager.shared
     //    private let cameraManager = CameraManager.shared
     private let webSocketManager = WebSocketManager.shared
+    private let clawAngleManager = ClawAngleManager.shared
     private let settingModel = SettingModel.shared
     
     // TODO: - 保存进度
@@ -43,8 +44,8 @@ import Zip
     var recordedForceData: [ForceData] = []
     var recordedRightForceData: [ForceData] = []
     var recordedARData: [ARData] = []
-    var recordedAngleData: [AngleData] = []
-    
+//    var recordedAngleData: [AngleData] = []
+    var recordedAngleData: [ClawAngleData] = []
     
     
     
@@ -87,6 +88,9 @@ import Zip
             }
         }
         
+        clawAngleManager.startRecordingData()
+        clawAngleManager.startTime = Date().timeIntervalSince1970
+        
         audioRecorder.startRecording(parentFolderURL: parentFolderURL!)
         webSocketManager.isRecording = true
         
@@ -106,15 +110,15 @@ import Zip
                 }
             }
         }
-        
+        clawAngleManager.stopRecordingForceData()
         audioRecorder.stopRecording()
         //        DispatchQueue.global(qos: .userInitiated).async {
         
         //      recordedMotionData = motionManager.motionDataArray
-        //      recordedMotionData = motionManager.motionDataArray
         recordedForceData = webSocketManager.recordedForceData
         recordedRightForceData = webSocketManager.recordedRightFingerForceData
-        recordedAngleData = webSocketManager.recordedAngleData
+//        recordedAngleData = webSocketManager.recordedAngleData
+        recordedAngleData = clawAngleManager.recordedAngleData
         recordedARData = arRecorder.frameDataArray
         
         

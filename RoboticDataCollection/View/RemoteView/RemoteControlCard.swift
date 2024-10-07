@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RemoteControlCard: View {
     @ObservedObject var audioWebsocketServer: WebSocketServerManager
-    @ObservedObject var remoteControlManager = RemoteControlManager.shared
+    @Bindable var remoteControlManager: RemoteControlManager
     @State private var serverConnectionStatus = ServerConnectionStatus.shared
     
     
@@ -55,7 +55,7 @@ struct RemoteControlCard: View {
                     // Toggle for Sending Data
                     Toggle(isOn: $remoteControlManager.enableSendingData) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(remoteControlManager.enableSendingData ? "Sending... (Pose & RGB)" : "Send data (Pose & RGB)")
+                            Text(remoteControlManager.enableSendingData ? "Sending... (Pose, Opening range, RGB)" : "Send data (Pose, Opening range, RGB)")
                             
                             HStack {
                                 Image(systemName: "circle.fill")
@@ -155,7 +155,7 @@ struct RemoteControlCard: View {
 }
 
 #Preview {
-    RemoteControlCard(audioWebsocketServer: WebSocketServerManager(port: 8081), showFullPanel: .constant(false))
+    RemoteControlCard(audioWebsocketServer: WebSocketServerManager(port: 8081), remoteControlManager: RemoteControlManager.shared, showFullPanel: .constant(false))
 }
 
 

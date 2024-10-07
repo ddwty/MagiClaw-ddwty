@@ -6,10 +6,11 @@
 //
 
 import Foundation
-class RemoteControlManager: ObservableObject {
+@Observable
+class RemoteControlManager{
     static let shared = RemoteControlManager()
     private init() {}
     
-    @Published var enableSendingData = false
-    @Published var enableStreamingAudio = false
+    var enableSendingData = false
+    var enableStreamingAudio = false
 }

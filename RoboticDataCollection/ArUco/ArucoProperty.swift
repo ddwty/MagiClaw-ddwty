@@ -9,6 +9,6 @@
 import Foundation
 
 struct ArucoProperty {
-    public static let ArucoMarkerSize : CGFloat = 0.0255; //25.5mm
+    public static let ArucoMarkerSize : CGFloat = 0.015;
     // in m
 }

@@ -20,6 +20,7 @@ struct PanelView: View {
     @State private var dragOffset = CGSize.zero
     @State var isPortrait: Bool = true
     @State private var showAlert = false
+    @State var clawAngle = ClawAngleManager.shared
 
     let screenWidth = UIScreen.main.bounds.size.width
     let screenHeight = UIScreen.main.bounds.size.height
@@ -78,14 +79,14 @@ struct PanelView: View {
             }
             VStack {
                 ZStack {
-                    MyARView(isPortrait: self.$isPortrait)
+                    MyARView(isPortrait: self.$isPortrait, clawAngle: clawAngle)
                         .id("ar")
                         .cornerRadius(15)
                         .aspectRatio(3/4, contentMode: .fit)
                         .frame(minWidth: screenWidth * 0.2, minHeight: screenHeight * 0.2)
                         .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 0)
                 }
-                StatusCard(showPopover: $showPopover)
+                StatusCard(showPopover: $showPopover, clawAngle: clawAngle)
                     .padding(.horizontal)
                 ControlPanel(showPopover: $showPopover)
                     .padding(.horizontal)
@@ -96,9 +97,9 @@ struct PanelView: View {
     private var landscapeView: some View {
         ZStack {
             VStack {
-                StatusCard(showPopover: $showPopover)
+                StatusCard(showPopover: $showPopover, clawAngle: clawAngle)
                 HStack {
-                    MyARView(isPortrait: self.$isPortrait)
+                    MyARView(isPortrait: self.$isPortrait, clawAngle: clawAngle)
                         .id("ar")
                         .cornerRadius(15)
                         .aspectRatio(4/3, contentMode: .fit)

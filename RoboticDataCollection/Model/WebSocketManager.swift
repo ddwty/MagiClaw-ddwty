@@ -339,7 +339,6 @@ struct FingerAngle: Codable {
             self.reConnectToServer() // 重连到服务器
         }
     }
-    
 }
 
 extension WebSocketManager {

@@ -11,7 +11,7 @@ import SwiftUI
 struct StatusCard: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Binding var showPopover: Bool
-    
+    var clawAngle: ClawAngleManager
     var body: some View {
         if verticalSizeClass == .regular {
             VStack(alignment: .leading) {
@@ -32,7 +32,9 @@ struct StatusCard: View {
                     TotalForceView(leftOrRight: "R")
                 }
                 Divider()
-                AngleView()
+//                AngleView()
+                Text("Opening range: " + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
+                    .font(.headline)
             }
             .cardBackground()
         } else {
@@ -50,8 +52,9 @@ struct StatusCard: View {
                     //                                        .frame(width: screenHeight * 0.3)
                         .frame(minWidth: 200)
                     Spacer()
-                    AngleView()
-                        .frame(width: 120)
+                    Text("Opening range \n" + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
+                        .font(.headline)
+                        .frame(width: 140)
                     Spacer()
                     TotalForceView(leftOrRight: "R")
                     //                                        .frame(width: screenHeight * 0.3)

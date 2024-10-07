@@ -29,10 +29,6 @@ struct ContentView: View {
                         .tabItem {
                             Label("Settings",systemImage: "gear")
                         }
-                    //                StreamingAudioView()
-                    //                    .tabItem {
-                    //                        Label("Audio",systemImage: "mic")
-                    //                    }
                 }
 //                .toolbarBackground(Material.ultraThin, for: .tabBar)
 //                .toolbarBackground(.visible, for: .tabBar)

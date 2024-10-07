@@ -45,6 +45,7 @@ class AngleData {
 }
 
 
+
 //@Model
 class ARData {
     var timestamp: Double  // 这一帧的时间戳
@@ -104,6 +105,16 @@ extension ForceData: CSVConvertible {
 }
 
 extension AngleData: CSVConvertible {
+    func csvHeader() -> String {
+        return "Timestamp,Angle\n"
+    }
+    
+    func csvRow() -> String {
+        return "\(timeStamp),\(angle)"
+    }
+}
+
+extension ClawAngleData: CSVConvertible {
     func csvHeader() -> String {
         return "Timestamp,Angle\n"
     }

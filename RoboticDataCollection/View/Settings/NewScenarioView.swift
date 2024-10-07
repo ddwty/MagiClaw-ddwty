@@ -18,42 +18,42 @@ struct NewScenarioView: View {
     
     private let colors: [Color] = [
         .red, .blue, .green, .yellow, .orange, .purple, .pink, .gray, .mint, .cyan, .indigo, .brown, .teal
-        ]
-        
+    ]
+    
     private func randomColor() -> Color {
-            // 选择不同于当前颜色的随机颜色
-            var newColor: Color
-            repeat {
-                newColor = colors.randomElement() ?? .red
-            } while newColor == color
-            return newColor
+        // 选择不同于当前颜色的随机颜色
+        var newColor: Color
+        repeat {
+            newColor = colors.randomElement() ?? .red
+        } while newColor == color
+        return newColor
     }
-
+    
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Add New Scenario")) {
                     TextField("New scenario", text: $name)
-//                    ColorPicker("Set the color", selection: $color, supportsOpacity: false)
+                    //                    ColorPicker("Set the color", selection: $color, supportsOpacity: false)
                     HStack {
-                                            ColorPicker("Pick the color", selection: $color, supportsOpacity: false)
-                                            Button(action: {
-                                                withAnimation {
-                                                    color = randomColor()
-                                                }
-                                            }) {
-                                                Text("Random")
-                                                    
-                                            }
-                                            .padding(.leading)
-                                            .buttonStyle(.bordered)
-                                        }
+                        ColorPicker("Pick the color", selection: $color, supportsOpacity: false)
+                        Button(action: {
+                            withAnimation {
+                                color = randomColor()
+                            }
+                        }) {
+                            Text("Random")
+                            
+                        }
+                        .padding(.leading)
+                        .buttonStyle(.bordered)
+                    }
                     HStack {
                         Spacer()
                         Button("Create") {
                             withAnimation {
-                               // 触发震动
+                                // 触发震动
                                 let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
                                 impactFeedbackGenerator.impactOccurred()
                                 
@@ -61,14 +61,14 @@ struct NewScenarioView: View {
                                 context.insert(newScenario)
                                 self.name = ""
                             }
-                           
+                            
                         }
-//                        .buttonStyle(.borderedProminent)
+                        //                        .buttonStyle(.borderedProminent)
                         .disabled(name.isEmpty)
 #if DEBUG
                         Button("Add") {
                             let sampleDatas: [AllStorgeData] = generateSampleData()
-                           
+                            
                             for sampleData in sampleDatas {
                                 let container = modelContext.container
                                 let actor = BackgroundSerialPersistenceActor(container: container)
@@ -90,25 +90,25 @@ struct NewScenarioView: View {
                             return $0.name.localizedCompare($1.name) == .orderedAscending
                         }
                     }) { scenario in
-                            Text(scenario.name)
-                                .foregroundStyle(scenario.hexColor)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 3)
-                                .background(
-                                    Capsule()
-                                        .strokeBorder(scenario.hexColor, lineWidth: 1)
-                                )
-                                // 禁止Unspecified被删除
-                                .if(scenario.name != "Unspecified") { view in
-                                    view.swipeActions(edge: .trailing) {
-                                        Button(role: .destructive) {
-                                            modelContext.delete(scenario)
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
+                        Text(scenario.name)
+                            .foregroundStyle(scenario.hexColor)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(
+                                Capsule()
+                                    .strokeBorder(scenario.hexColor, lineWidth: 1)
+                            )
+                        // 禁止Unspecified被删除
+                            .if(scenario.name != "Unspecified") { view in
+                                view.swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        modelContext.delete(scenario)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
                                     }
                                 }
-                        }
+                            }
+                    }
                     
                 }
             }
