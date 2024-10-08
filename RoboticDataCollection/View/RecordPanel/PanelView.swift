@@ -21,6 +21,7 @@ struct PanelView: View {
     @State var isPortrait: Bool = true
     @State private var showAlert = false
     @State var clawAngle = ClawAngleManager.shared
+    @State var showMultiView = false
 
     let screenWidth = UIScreen.main.bounds.size.width
     let screenHeight = UIScreen.main.bounds.size.height
@@ -68,6 +69,9 @@ struct PanelView: View {
             AppDelegate.orientationLock = .all
             resetOrientation()
         }
+        .sheet(isPresented: self.$showMultiView) {
+            MultiSensorView(poseMatrix: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+        }
 //        .checkPermissions([.camera, .localNetwork])
     }
 
@@ -88,6 +92,30 @@ struct PanelView: View {
                 }
                 StatusCard(showPopover: $showPopover, clawAngle: clawAngle)
                     .padding(.horizontal)
+                    .onTapGesture {
+                        self.showMultiView.toggle()
+                    }
+//                ScrollView(.horizontal) {
+//                    HStack {
+//                        StatusCard(showPopover: $showPopover, clawAngle: clawAngle)
+//                            .padding(.horizontal)
+//                        MultiSensorView(poseMatrix: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+//                            .padding(.horizontal)
+//                    }
+//                    .scrollTargetLayout()
+//                }
+//                .scrollTargetBehavior(.viewAligned)
+//                TabView() {
+//                        StatusCard(showPopover: $showPopover, clawAngle: clawAngle)
+//                            .padding(.horizontal)
+//                            .frame(height: 220)
+//                        MultiSensorView(poseMatrix: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+//                            .padding(.horizontal)
+//                            .frame(maxHeight: .infinity)
+//                    
+//                }
+//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                
                 ControlPanel(showPopover: $showPopover)
                     .padding(.horizontal)
             }

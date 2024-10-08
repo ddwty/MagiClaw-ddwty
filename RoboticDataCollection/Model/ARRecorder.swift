@@ -43,8 +43,12 @@ class ARRecorder: NSObject, ObservableObject {
         }
         
         if assetWriterInput.isReadyForMoreMediaData {
-            //            let depthBuffer = frame.sceneDepth?.depthMap
-            let depthBuffer = frame.smoothedSceneDepth?.depthMap
+            let depthBuffer: CVPixelBuffer?
+            if SettingModel.shared.smoothDepth {
+                 depthBuffer = frame.smoothedSceneDepth?.depthMap
+            } else {
+                 depthBuffer = frame.sceneDepth?.depthMap
+            }
             let pixelBuffer = frame.capturedImage
             
             let presentationTime = CMTime(value: frameNumber, timescale: CMTimeScale(SettingModel.shared.frameRate))

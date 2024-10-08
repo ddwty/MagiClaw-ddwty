@@ -129,27 +129,26 @@ static void detect(std::vector<std::vector<cv::Point2f> > &corners, std::vector<
 
     
 
-    detectorParams.minMarkerPerimeterRate = 0.5;
     detectorParams.adaptiveThreshWinSizeMin = 23;
     detectorParams.adaptiveThreshWinSizeMax = 23;
-    detectorParams.adaptiveThreshWinSizeStep = 10;
+    detectorParams.adaptiveThreshWinSizeStep = 3;
     detectorParams.adaptiveThreshConstant = 7;
-    detectorParams.minMarkerPerimeterRate = 0.1;
+    detectorParams.minMarkerPerimeterRate = 0.15;
     detectorParams.maxMarkerPerimeterRate = 4;
-    detectorParams.polygonalApproxAccuracyRate = 0.03;
+    detectorParams.polygonalApproxAccuracyRate = 0.06;
     detectorParams.minCornerDistanceRate = 0.05;
-    detectorParams.minDistanceToBorder = 3;
+    detectorParams.minDistanceToBorder = 0;
     detectorParams.minMarkerDistanceRate = 0.05;
-    detectorParams.cornerRefinementWinSize = 5;
+    detectorParams.cornerRefinementWinSize = 1;
     detectorParams.cornerRefinementMaxIterations = 30;
     detectorParams.cornerRefinementMinAccuracy = 0.1;
     detectorParams.markerBorderBits = 1;
     detectorParams.perspectiveRemovePixelPerCell = 2;
-    detectorParams.perspectiveRemoveIgnoredMarginPerCell = 0.13;
-    detectorParams.maxErroneousBitsInBorderRate = 0.35;
+    detectorParams.perspectiveRemoveIgnoredMarginPerCell = 0.1;
+    detectorParams.maxErroneousBitsInBorderRate = 0.5;
     detectorParams.minOtsuStdDev = 5.0;
-    detectorParams.errorCorrectionRate = 0.6;
-//    
+    detectorParams.errorCorrectionRate = 0.8;
+//
     cv::aruco::ArucoDetector detector(dictionary, detectorParams);
     // grey scale channel at 0
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
@@ -161,12 +160,12 @@ static void detect(std::vector<std::vector<cv::Point2f> > &corners, std::vector<
     
 //    cv::Mat kernel = cv::Mat::ones(5, 5, CV_32F) / 25;
 //    // 对图像进行预处理，如直方图均衡化
-//    cv::GaussianBlur(mat, mat, cv::Size(3, 3), 0);  // 对图像进行高斯模糊以减少噪声
+//    cv::GaussianBlur(mat, mat, cv::Size(30, 30), 0);  // 对图像进行高斯模糊以减少噪声
 //    cv::Canny(mat, mat, 100, 200);  // 使用 Canny 边缘检测
     
 //    cv::aruco::detectMarkers(mat, dictionary, corners, ids);
     detector.detectMarkers(mat, corners, ids);
-    cv::aruco::drawDetectedMarkers(mat, corners, ids);
+//    cv::aruco::drawDetectedMarkers(mat, corners, ids);
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     double endTime = cv::getTickCount();
     double totalTime = (endTime - startTime) / cv::getTickFrequency();

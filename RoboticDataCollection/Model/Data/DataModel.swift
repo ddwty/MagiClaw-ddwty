@@ -11,7 +11,8 @@ import simd
 import SwiftData
 
 //@Model
-class ForceData {
+class ForceData: Identifiable {
+    let id = UUID()  // 添加唯一标识符
     let timeStamp: Double
     let forceData:[Double]?
     

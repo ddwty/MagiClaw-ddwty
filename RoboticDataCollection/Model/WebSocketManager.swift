@@ -37,7 +37,8 @@ struct FingerAngle: Codable {
     var recordedRightFingerForceData: [ForceData] = []
     var recordedAngleData: [AngleData] = []
     
-    public var forceDataforShow: ForceData?
+    public var LforceDataforShow: [ForceData] = []
+    public var RforceDataforShow: [ForceData] = []
     public var angleDataforShow: Int = 0
     public var totalLeftForce: Double = 0
     public var totalRightForce: Double = 0
@@ -354,7 +355,10 @@ extension WebSocketManager {
                 let forceData = ForceData(
                     timeStamp: timestamp - firstTimestampOfForce,
                     forceData: fingerForce.force?.value)
-                
+                self.LforceDataforShow.append(forceData)
+                if self.LforceDataforShow.count > 100 {
+                    self.LforceDataforShow.removeFirst()
+                }
                 //                self.forceDataforShow = forceData
                 //                print(forceDataforShow?.forceData ?? [1,2,4])
                 //                print(forceDataforShow ?? "No force data")
@@ -388,6 +392,11 @@ extension WebSocketManager {
                 let forceData = ForceData(
                     timeStamp: timestamp - firstTimestampOfRightForce,
                     forceData: fingerForce.force?.value)
+                
+                self.RforceDataforShow.append(forceData)
+                if self.RforceDataforShow.count > 100 {
+                    self.RforceDataforShow.removeFirst()
+                }
                 
                 let xForce = forceData.forceData?[0] ?? 0
                 let yForce = forceData.forceData?[1] ?? 0

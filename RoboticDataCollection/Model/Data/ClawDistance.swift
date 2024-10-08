@@ -86,6 +86,9 @@ class ClawAngleManager {
     var recordedAngleData: [ClawAngleData] = []
     var isRecording = false
     var startTime: Double = 0.0
+    
+    var detectRate: [Bool] = []
+    
     private init(){
         self.recordedAngleData.reserveCapacity(100000)
     }

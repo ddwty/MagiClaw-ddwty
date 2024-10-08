@@ -37,6 +37,7 @@ struct StatusCard: View {
                     .font(.headline)
             }
             .cardBackground()
+            
         } else {
             VStack(alignment: .center) {
                 HStack {
@@ -66,6 +67,9 @@ struct StatusCard: View {
     }
 }
 
-//#Preview {
-//    StatusCard()
-//}
+#Preview {
+    StatusCard(showPopover: .constant(false), clawAngle: ClawAngleManager.shared)
+        .environment(WebSocketManager.shared)
+        .environmentObject(ARRecorder.shared)
+        .environmentObject(WebSocketServerManager(port: 8080))
+}
