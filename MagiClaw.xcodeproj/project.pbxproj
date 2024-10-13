@@ -34,6 +34,7 @@
 		3DDD3E5F2CA99148005504A0 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD3E5E2CA99148005504A0 /* CVPixelBufferExtension.swift */; };
 		3DEFB0722CB3FCD800FC8668 /* MultiSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEFB0712CB3FCD800FC8668 /* MultiSensorView.swift */; };
 		3DFE82DF2CB4264C009C9121 /* ForceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE82DE2CB4264C009C9121 /* ForceChart.swift */; };
+		3DFE82E12CB624EE009C9121 /* TimestampModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE82E02CB624EE009C9121 /* TimestampModel.swift */; };
 		602103632C75DB2F0025E247 /* StopWach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103572C75DB2E0025E247 /* StopWach.swift */; };
 		602103642C75DB2F0025E247 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103582C75DB2E0025E247 /* HistoryView.swift */; };
 		602103652C75DB2F0025E247 /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602103592C75DB2E0025E247 /* ControlPanel.swift */; };
@@ -120,6 +121,7 @@
 		3DDD3E5E2CA99148005504A0 /* CVPixelBufferExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVPixelBufferExtension.swift; sourceTree = "<group>"; };
 		3DEFB0712CB3FCD800FC8668 /* MultiSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSensorView.swift; sourceTree = "<group>"; };
 		3DFE82DE2CB4264C009C9121 /* ForceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceChart.swift; sourceTree = "<group>"; };
+		3DFE82E02CB624EE009C9121 /* TimestampModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampModel.swift; sourceTree = "<group>"; };
 		602103572C75DB2E0025E247 /* StopWach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWach.swift; sourceTree = "<group>"; };
 		602103582C75DB2E0025E247 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		602103592C75DB2E0025E247 /* ControlPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 			children = (
 				603E5EA82C771C1A00ABF2FE /* Data */,
 				603E5E8B2C766B6B00ABF2FE /* ARRecorder.swift */,
+				3DFE82E02CB624EE009C9121 /* TimestampModel.swift */,
 				3D53C6C22C971692001A61DC /* RemoteControlManager.swift */,
 				603E5E8D2C766B6B00ABF2FE /* CameraManager.swift */,
 				603E5E892C766B6B00ABF2FE /* MotionDataModel.swift */,
@@ -563,6 +566,7 @@
 				603E5EA12C7708CC00ABF2FE /* UIColor+Extension.swift in Sources */,
 				605F72602C92F2AE00D6F84F /* SchemaV2.swift in Sources */,
 				3D1C1BB42C96EEDF00D7FCD0 /* MetaDataModel.swift in Sources */,
+				3DFE82E12CB624EE009C9121 /* TimestampModel.swift in Sources */,
 				6021036D2C75DB2F0025E247 /* SettingView.swift in Sources */,
 				3DEFB0722CB3FCD800FC8668 /* MultiSensorView.swift in Sources */,
 				3D53C6C52C97195D001A61DC /* RemoteControlCard.swift in Sources */,
@@ -747,7 +751,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -792,7 +796,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

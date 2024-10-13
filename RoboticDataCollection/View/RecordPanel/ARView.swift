@@ -243,85 +243,88 @@ class ARViewController: UIViewController, ARSessionDelegate {
 //        let end = CFAbsoluteTimeGetCurrent()
 ////        print("Time: \(end - start)")
 //                // 在后台线程中处理 marker 检测和实体创建
-        DispatchQueue.global(qos: .userInitiated).async {
-            guard let transMatrixArray = ArucoCV.estimatePose(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize) as? [SKWorldTransform] else {
-               
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            var angleData: Float = -1.0
+            var detectedIds: Set<Int> = []
+            var marker0Position: simd_float3?
+            var marker1Position: simd_float3?
+            
+            if let transMatrixArray = ArucoCV.estimatePose(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize) as? [SKWorldTransform] {
+                detectedIds = Set(transMatrixArray.map { Int($0.arucoId) })
                 
-                return
-            }
-           
-            let detectedIds: Set<Int> = Set(transMatrixArray.map { Int($0.arucoId) })
-            for transform in transMatrixArray {
-                let arucoId = transform.arucoId
-//                let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
-                let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
-                
-                DispatchQueue.main.async { [self] in
-                    // 如果 marker 对应的立方体已经存在，则更新其位置
-                    if let existingEntity = self.markerEntities[Int(arucoId)] {
-                        existingEntity.transform.matrix = markerTransformMatrix
-                    } else {
-                        var color = Color.blue
-                        switch arucoId {
-                        case 0: color = Color.blue
-                        case 1: color = Color.green
-                        default: color = Color.gray
-                        }
-                        
-                        let boxEntity = self.createBoxEntity(color: color)
-//                        boxEntity.transform.matrix = markerTransformMatrix
-                        
-                        let anchor = AnchorEntity()
-                        anchor.transform.matrix = markerTransformMatrix
-                        anchor.addChild(boxEntity)
-                        self.arView.scene.addAnchor(anchor)
-                        
-                        self.markerEntities[Int(arucoId)] = anchor
+                for transform in transMatrixArray {
+                    let arucoId = transform.arucoId
+                    let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
+                    let position = markerTransformMatrix.columns.3
+                    
+                    if arucoId == 0 {
+                        marker0Position = simd_float3(position.x, position.y, position.z)
+                    } else if arucoId == 1 {
+                        marker1Position = simd_float3(position.x, position.y, position.z)
                     }
-                    if !(detectedIds.contains(0) && detectedIds.contains(1)) {
-                        // 如果没有同时检测到 id 为 0 和 1 的 marker，则将 distance 和 angle 设置为 -1
-                        self.clawAngle.ClawAngleDataforShow = ClawAngleData(distance: -1.0)
-                    } else {
-                        // 获取 marker 0 和 marker 1 的位置信息
-                        let position = markerTransformMatrix.columns.3 // 平移向量
-                        if arucoId == 0 {
-                            self.marker0Position = simd_float3(position.x, position.y, position.z)
-                        } else if arucoId == 1 {
-                            self.marker1Position = simd_float3(position.x, position.y, position.z)
-                        }
-                        
-                        // 计算并打印欧式距离
-                        if let marker0 = self.marker0Position, let marker1 = marker1Position {
-                            //                        clawAngle.distance =
-//                            clawAngle.distance = simd_distance(marker0, marker1)
-                            self.clawAngle.ClawAngleDataforShow = ClawAngleData(distance: simd_distance(marker0, marker1))
-                            //                        print("Euclidean distance between Marker 0 and Marker 1: \(distance)")
-                            if clawAngle.isRecording {
-                                self.clawAngle.recordedAngleData.append(ClawAngleData(timeStamp: Date().timeIntervalSince1970 - clawAngle.startTime, distance: simd_distance(marker0, marker1)))
-                            }
-                        }
+                    
+                    DispatchQueue.main.async {
+                        self.updateMarkerEntity(for: Int(arucoId), with: markerTransformMatrix)
+                    }
+                }//: for
+                
+                if let marker0 = marker0Position, let marker1 = marker1Position {
+                    let distance = simd_distance(marker0, marker1)
+                    angleData = ClawAngleData.calculateTheta(distance: distance)
+                    
+                    DispatchQueue.main.async {
+                        // 限制显示的数据范围是0～1
+                        self.clawAngle.ClawAngleDataforShow = max(0, min(angleData, 1))
+                         // 记录角度数据
+                        self.clawAngle.recordAngleData(angle: angleData)
+                    }
+//                    print("found")
+                } else {
+//                    print("no marker")
+                    DispatchQueue.main.async {
+                        self.clawAngle.ClawAngleDataforShow = nil
+                        angleData = -1
+                        self.clawAngle.recordAngleData(angle: -1)
                     }
                 }
             }
             
-            // 检查并移除未检测到的 marker 对应的立方体
             DispatchQueue.main.async {
-                let currentMarkerIds = Set(self.markerEntities.keys)
-                let removedIds = currentMarkerIds.subtracting(detectedIds)
-                
-                for id in removedIds {
-                    if let entityToRemove = self.markerEntities[id] {
-                        // 从场景中移除对应的立方体
-                        entityToRemove.removeFromParent()
-                        // 从字典中移除
-                        self.markerEntities.removeValue(forKey: id)
-                    }
-                }
+                self.removeUndetectedMarkers(detectedIds: detectedIds)
             }
         }
         
     }
     
+    private func updateMarkerEntity(for arucoId: Int, with transform: simd_float4x4) {
+        if let existingEntity = self.markerEntities[arucoId] {
+            existingEntity.transform.matrix = transform
+        } else {
+            let color: Color = arucoId == 0 ? .blue : (arucoId == 1 ? .green : .gray)
+            let boxEntity = self.createBoxEntity(color: color)
+            let anchor = AnchorEntity()
+            anchor.transform.matrix = transform
+            anchor.addChild(boxEntity)
+            self.arView.scene.addAnchor(anchor)
+            self.markerEntities[arucoId] = anchor
+        }
+    }
+    
+    
+    private func removeUndetectedMarkers(detectedIds: Set<Int>) {
+        let currentMarkerIds = Set(self.markerEntities.keys)
+        let removedIds = currentMarkerIds.subtracting(detectedIds)
+        
+        for id in removedIds {
+            if let entityToRemove = self.markerEntities[id] {
+                entityToRemove.removeFromParent()
+                self.markerEntities.removeValue(forKey: id)
+            }
+        }
+    }
     func createBoxEntity(color: Color) -> ModelEntity {
         let mesh = MeshResource.generateBox(size: 0.02, cornerRadius: 0.001)
         let material = SimpleMaterial(color: UIColor(color), roughness: 0.4, isMetallic: false)

@@ -28,12 +28,9 @@ struct HomeView: View {
                             startPoint: .leading, endPoint: .trailing)
                     )
                     .padding()
-                Text("The New Version of DeepClaw")
-                    .foregroundStyle(Color.secondary)
-                Text("Next Gen Universal Action Embodiment Interface")
+                Text("The Next Generation of DeepClaw for Embodied Actions")
                     .foregroundStyle(Color.secondary)
                 if verticalSizeClass == .regular {
-                    
                     VStack(spacing: 20) {
                         HomeRecordButton()
                             .onTapGesture {

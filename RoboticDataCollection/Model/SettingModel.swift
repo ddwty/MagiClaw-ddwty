@@ -17,9 +17,9 @@ class SettingModel: ObservableObject {
     private init() {}
     
     @Published var enableSendingData = false
-    @AppStorage("saveZipFile") var saveZipFile = false
+    @AppStorage("saveZipFile") var saveZipFile = true
     @AppStorage("selectedFrameRate") var frameRate: Int = 30 // 默认帧率
-    @AppStorage("smoothDepth") var smoothDepth = true
+    @AppStorage("smoothDepth") var smoothDepth = false
     @AppStorage("showWorldOrigin") var showWorldOrigin = false
     @AppStorage("position") var devicePosition = "Right"
 }

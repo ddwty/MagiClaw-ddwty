@@ -53,7 +53,7 @@ struct TotalForceView: View {
                 
                 Chart {
                     BarMark(
-                        x: .value("Force", min(displayedForce, 10)), // 使用 min() 限制值
+                        x: .value("Force", min(displayedForce, 15)), // 使用 min() 限制值
                         y: .value("Value", "force")
                     )
                     .foregroundStyle(LinearGradient(
@@ -65,9 +65,9 @@ struct TotalForceView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .chartYAxis(Visibility.hidden)
-                .chartXScale(domain: 0...10)
+                .chartXScale(domain: 0...15)
                 .chartXAxis {
-                    AxisMarks(values: Array(stride(from: 0, through: 10, by: 2))) { _ in
+                    AxisMarks(values: Array(stride(from: 0, through: 15, by: 5))) { _ in
                         AxisGridLine()
                             .foregroundStyle(Color.gray)
                         
@@ -78,7 +78,7 @@ struct TotalForceView: View {
                             .foregroundStyle(Color.primary)
                             .font(.caption)
                     }
-                    AxisMarks(values: Array(stride(from: 0, through: 10, by: 1))) {
+                    AxisMarks(values: Array(stride(from: 0, through: 15, by: 1))) {
                         AxisGridLine()
                     }
                 }

@@ -41,9 +41,16 @@ struct RemotePanel: View {
                 if verticalSizeClass == .regular {
                     VStack {
                         HStack {
-                            Text("Opening range: " + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
-                                .padding()
-                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            if let angle = clawAngle.ClawAngleDataforShow {
+                                Text("Opening range: " + String(format: "%.3f", angle))
+                                    .padding()
+                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            } else {
+                                Text("No detected marker")
+                                    .padding()
+                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            }
+                          
                             Spacer()
                         }
                         Spacer()
@@ -57,9 +64,15 @@ struct RemotePanel: View {
                 } else  {
                     HStack {
                         HStack {
-                            Text("Opening range:\n" + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
-                                .padding()
-                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            if let angle = clawAngle.ClawAngleDataforShow {
+                                Text("Opening range: " + String(format: "%.3f", angle))
+                                    .padding()
+                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            } else {
+                                Text("No marker detected")
+                                    .padding()
+                                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+                            }
 //                            Spacer()
                         }
                         Spacer()

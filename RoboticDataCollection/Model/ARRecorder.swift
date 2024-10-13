@@ -76,7 +76,6 @@ class ARRecorder: NSObject, ObservableObject {
             //
             let width = CVPixelBufferGetWidth(depthBuffer)
             let height = CVPixelBufferGetHeight(depthBuffer)
-            let rowBytes = CVPixelBufferGetBytesPerRow(depthBuffer)
             guard let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer) else {
                 print("Error: Unable to get base address of depth buffer")
                 return
@@ -84,25 +83,44 @@ class ARRecorder: NSObject, ObservableObject {
             
             let float32Pointer = baseAddress.assumingMemoryBound(to: Float32.self)
             
-        //  转为UInt16
-            var UInt16Buffer = [UInt16](repeating: 0, count: width * height)
+            let bufferSize = width * height
             
-            for y in 0..<height {
-                for x in 0..<width {
-                    let depthValue = float32Pointer[y * width + x]
-                    let processedValue = UInt16(max(0, min(65535, depthValue * 10000))) // 防止溢出
-                    UInt16Buffer[y * width + x] = processedValue
-                }
-            }
+            // 创建一个临时的 Float 缓冲区
+            var floatBuffer = [Float](repeating: 0, count: bufferSize)
+            
+            // 使用 vDSP 进行缩放
+            vDSP_vsmul(float32Pointer, 1, [Float(10000)], &floatBuffer, 1, vDSP_Length(bufferSize))
+            
+            // 创建 UInt16 缓冲区
+            var uint16Buffer = [UInt16](repeating: 0, count: bufferSize)
+            
+            // 使用 vDSP 函数进行裁剪和转换
+            var lower: Float = 0
+            var upper: Float = 65535
+            vDSP_vclip(floatBuffer, 1, &lower, &upper, &floatBuffer, 1, vDSP_Length(bufferSize))
+            
+            // 直接将 Float 转换为 UInt16
+            vDSP_vfixu16(floatBuffer, 1, &uint16Buffer, 1, vDSP_Length(bufferSize))
+            
+            let data = Data(bytes: &uint16Buffer, count: bufferSize * MemoryLayout<UInt16>.size)
+            
+//        //  转为UInt16
+//            var UInt16Buffer = [UInt16](repeating: 0, count: width * height)
+//            
+//            for y in 0..<height {
+//                for x in 0..<width {
+//                    let depthValue = float32Pointer[y * width + x]
+//                    let processedValue = UInt16(max(0, min(65535, depthValue * 10000))) // 防止溢出
+//                    UInt16Buffer[y * width + x] = processedValue
+//                }
+//            }
+//            
+//           
+//            let data = UInt16Buffer.withUnsafeBufferPointer { buffer in
+//                Data(buffer: buffer)
+//            }
             
            
-            let data = UInt16Buffer.withUnsafeBufferPointer { buffer in
-                Data(buffer: buffer)
-            }
-            
-           
-//            let buffer = UnsafeBufferPointer(start: baseAddress!.assumingMemoryBound(to: Float32.self), count: width * height)
-//            let data = Data(buffer: buffer)
             
             let fileName = String(format: "depth_%.3f.bin", timestamp)
             

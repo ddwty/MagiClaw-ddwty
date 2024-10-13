@@ -13,34 +13,9 @@ struct ClawAngleData: Codable {
     let angle: Float
     
     
-    init(timeStamp: Double = 0.0, distance: Float) {
-//        let calculatedAngle = ClawAngleData.calculateAngle(distance: distance)
-        let calculatedAngle = ClawAngleData.calculateTheta(distance: distance)
+    init(timeStamp: Double = 0.0, angle: Float = 0.0) {
         self.timeStamp = timeStamp
-        self.angle = calculatedAngle
-    }
-    
-    
-    static func calculateAngle(distance: Float) -> Double {
-        let minDistance: Float = 0.047
-        let maxDistance: Float = 0.19
-        if distance == -1 {
-            return -1
-        }
-        
-        if distance <= minDistance {
-            return 0.0
-        }
-        
-        if distance >= maxDistance {
-            return 1.0
-        }
-        
-        let normalizedValue = (distance - minDistance) / (maxDistance - minDistance)
-        
-        // 保留3位小数
-        let roundedValue = round(normalizedValue * 1000) / 1000
-        return Double(roundedValue)
+        self.angle = angle
     }
     
     static func calculateTheta(distance: Float) -> Float {
@@ -82,23 +57,29 @@ struct ClawAngleData: Codable {
 @Observable
 class ClawAngleManager {
     static let shared = ClawAngleManager()
-    var ClawAngleDataforShow: ClawAngleData?
+    var ClawAngleDataforShow: Float?
     var recordedAngleData: [ClawAngleData] = []
     var isRecording = false
-    var startTime: Double = 0.0
     
-    var detectRate: [Bool] = []
-    
-    private init(){
+    private init() {
         self.recordedAngleData.reserveCapacity(100000)
     }
+    
     func startRecordingData() {
         self.recordedAngleData.removeAll()
         isRecording = true
     }
+    
     func stopRecordingForceData() {
         isRecording = false
-     }
+    }
+    
+    func recordAngleData(angle: Float) {
+        guard isRecording, let elapsedTime = TimestampModel.shared.getElapsedTime() else { return }
+        
+        let angleData = ClawAngleData(timeStamp: elapsedTime, angle: angle)
+        recordedAngleData.append(angleData)
+    }
 }
 
 //class ClawAngleManager {

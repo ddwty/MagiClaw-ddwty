@@ -33,8 +33,14 @@ struct StatusCard: View {
                 }
                 Divider()
 //                AngleView()
-                Text("Opening range: " + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
-                    .font(.headline)
+                if let angle = clawAngle.ClawAngleDataforShow {
+                    Text("Opening range: " + String(format: "%.3f", angle))
+                        .font(.headline)
+                } else {
+                    Text("No detected marker")
+                        .font(.headline)
+                }
+                   
             }
             .cardBackground()
             
@@ -53,9 +59,16 @@ struct StatusCard: View {
                     //                                        .frame(width: screenHeight * 0.3)
                         .frame(minWidth: 200)
                     Spacer()
-                    Text("Opening range \n" + String(format: "%.3f", clawAngle.ClawAngleDataforShow?.angle ?? 0))
-                        .font(.headline)
-                        .frame(width: 140)
+                    if let angle = clawAngle.ClawAngleDataforShow {
+                        Text("Opening range: " + String(format: "%.3f", angle))
+                            .font(.headline)
+                            .frame(minWidth: 80)
+                        
+                    } else {
+                        Text("No detected marker")
+                            .font(.headline)
+                            .frame(minWidth: 80)
+                    }
                     Spacer()
                     TotalForceView(leftOrRight: "R")
                     //                                        .frame(width: screenHeight * 0.3)

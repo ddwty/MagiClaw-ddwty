@@ -29,7 +29,7 @@ struct RemoteARView: View {
             RemoteARViewContainer(clawAngle: clawAngle, cameraTransform: $cameraTransform)
             
         }
-        //            .checkPermissions([.camera,.microphone, .localNetwork])
+        .checkPermissions([.camera,.microphone, .localNetwork])
         
     }
 }
@@ -88,8 +88,6 @@ class RemoteARViewController: UIViewController, ARSessionDelegate {
     // 存储当前场景中与 marker 对应的立方体，使用 arucoId 作为 key
     //    var markerEntities: [Int: ModelEntity] = [:]
     var markerEntities: [Int: AnchorEntity] = [:]
-    var marker0Position: simd_float3? = nil
-    var marker1Position: simd_float3? = nil
     
     let boxEntity = ModelEntity(mesh: MeshResource.generateBox(size: 0.1, cornerRadius: 0.005), materials: [SimpleMaterial(color: .gray, roughness: 0.15, isMetallic: true)])
     let boxAnchor = AnchorEntity()
@@ -196,118 +194,95 @@ class RemoteARViewController: UIViewController, ARSessionDelegate {
     //    }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        // Update camera transform and other data
-        //        if let exifData = frame.exifData as? [String: Any] {
-        //                print(exifData)
-        //        }
         let cameraTransform = frame.camera.transform
         
-        //        print(cameraTransform)
-        // 获取 Aruco marker 的位置信息
-        DispatchQueue.global(qos: .userInitiated).async {
-            let start = CFAbsoluteTimeGetCurrent()
-            var angleData: Float = 0.0
-            guard let transMatrixArray = ArucoCV.estimatePose(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize) as? [SKWorldTransform] else {
-                return
-            }
-           
-            //            var detectedIds: Set<Int> = []
-            let detectedIds: Set<Int> = Set(transMatrixArray.map { Int($0.arucoId) })
-            print(String(describing: detectedIds))
+        // 使用串行队列来确保处理顺序
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
             
-            for transform in transMatrixArray {
-                let arucoId = transform.arucoId
-                //                let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
-                let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
+            var angleData: Float = -1.0
+            var detectedIds: Set<Int> = []
+            var marker0Position: simd_float3?
+            var marker1Position: simd_float3?
+            
+            if let transMatrixArray = ArucoCV.estimatePose(frame.capturedImage, withIntrinsics: frame.camera.intrinsics, andMarkerSize: ArucoProperty.ArucoMarkerSize) as? [SKWorldTransform] {
+                detectedIds = Set(transMatrixArray.map { Int($0.arucoId) })
                 
-                
-                DispatchQueue.main.async { [self] in
-                    if let existingEntity = self.markerEntities[Int(arucoId)] {
-                        existingEntity.transform.matrix = markerTransformMatrix
-                    } else {
-                        var color = Color.blue
-                        switch arucoId {
-                        case 0: color = Color.blue
-                        case 1: color = Color.green
-                        default: color = Color.gray
-                        }
-                        
-                        let boxEntity = self.createBoxEntity(color: color)
-                        //                        boxEntity.transform.matrix = markerTransformMatrix
-                        
-                        let anchor = AnchorEntity()
-                        anchor.transform.matrix = markerTransformMatrix
-                        anchor.addChild(boxEntity)
-                        self.arView.scene.addAnchor(anchor)
-                        
-                        self.markerEntities[Int(arucoId)] = anchor
+                for transform in transMatrixArray {
+                    let arucoId = transform.arucoId
+                    let markerTransformMatrix = matrix_multiply(cameraTransform, transform.transform)
+                    let position = markerTransformMatrix.columns.3
+                    
+                    if arucoId == 0 {
+                        marker0Position = simd_float3(position.x, position.y, position.z)
+                    } else if arucoId == 1 {
+                        marker1Position = simd_float3(position.x, position.y, position.z)
                     }
-                    if !(detectedIds.contains(0) && detectedIds.contains(1)) {
-                        // 如果没有同时检测到 id 为 0 和 1 的 marker，则将 distance 和 angle 设置为 -1
-                        //                        self.clawAngle.ClawAngleDataforShow = ClawAngleData(distance: -1.0)
-                        //                        angleData = -1.0
-                    } else {
-                        let position = markerTransformMatrix.columns.3 // 平移向量
-                        if arucoId == 0 {
-                            self.marker0Position = simd_float3(position.x, position.y, position.z)
-                        } else if arucoId == 1 {
-                            self.marker1Position = simd_float3(position.x, position.y, position.z)
-                        }
+                    
+                    DispatchQueue.main.async {
+                        self.updateMarkerEntity(for: Int(arucoId), with: markerTransformMatrix)
                     }
                 }
-              
-            } //: for
-            
-            if let marker0 = self.marker0Position, let marker1 = self.marker1Position {
-                self.clawAngle.ClawAngleDataforShow = ClawAngleData(distance: simd_distance(marker0, marker1))
-                angleData = ClawAngleData.calculateTheta(distance: simd_distance(marker0, marker1))
-                //                            print("angle calu: \(angleData)")
-//                print("Distance between Marker 0 and Marker 1: \(simd_distance(marker0, marker1))")
-                print("found")
-                self.marker0Position = nil
-                self.marker1Position = nil
-                //                            print("Normal angle: \(String(describing: self.clawAngle.ClawAngleDataforShow))")
-            } else {
-                print("no marker")
-                self.clawAngle.ClawAngleDataforShow = ClawAngleData(distance: -1.0)
-                angleData = -1.0
+                
+                if let marker0 = marker0Position, let marker1 = marker1Position {
+                    let distance = simd_distance(marker0, marker1)
+                    angleData = ClawAngleData.calculateTheta(distance: distance)
+                    
+                    DispatchQueue.main.async {
+                        self.clawAngle.ClawAngleDataforShow = angleData
+                    }
+                    print("found")
+                } else {
+                    print("no marker")
+                    DispatchQueue.main.async {
+                        self.clawAngle.ClawAngleDataforShow = nil
+                        angleData = -1
+                    }
+                }
             }
             
             if RemoteControlManager.shared.enableSendingData {
-                let start = CFAbsoluteTimeGetCurrent()
                 let pose = cameraTransform.getPoseMatrix()
                 let pixelBuffer = frame.capturedImage
-                let depthBuffer: CVPixelBuffer?
-                if SettingModel.shared.smoothDepth {
-                     depthBuffer = frame.smoothedSceneDepth?.depthMap
-                } else {
-                     depthBuffer = frame.sceneDepth?.depthMap
-                }
-               
-//                print("angle  data: \(angleData)")
+                let depthBuffer = SettingModel.shared.smoothDepth ? frame.smoothedSceneDepth?.depthMap : frame.sceneDepth?.depthMap
+                
                 if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose, angle: angleData, depthBuffer: depthBuffer) {
                     self.sendToClients(data: combinedData)
                 }
-                // 0.033
-               
             }
             
-            // 检查并移除未检测到的 marker 对应的立方体
             DispatchQueue.main.async {
-                let currentMarkerIds = Set(self.markerEntities.keys)
-                let removedIds = currentMarkerIds.subtracting(detectedIds)
-                
-                for id in removedIds {
-                    if let entityToRemove = self.markerEntities[id] {
-                        // 从场景中移除对应的立方体
-                        entityToRemove.removeFromParent()
-                        // 从字典中移除
-                        self.markerEntities.removeValue(forKey: id)
-                    }
-                }
+                self.removeUndetectedMarkers(detectedIds: detectedIds)
             }
         }
     }
+    
+    private func updateMarkerEntity(for arucoId: Int, with transform: simd_float4x4) {
+        if let existingEntity = self.markerEntities[arucoId] {
+            existingEntity.transform.matrix = transform
+        } else {
+            let color: Color = arucoId == 0 ? .blue : (arucoId == 1 ? .green : .gray)
+            let boxEntity = self.createBoxEntity(color: color)
+            let anchor = AnchorEntity()
+            anchor.transform.matrix = transform
+            anchor.addChild(boxEntity)
+            self.arView.scene.addAnchor(anchor)
+            self.markerEntities[arucoId] = anchor
+        }
+    }
+    
+    private func removeUndetectedMarkers(detectedIds: Set<Int>) {
+        let currentMarkerIds = Set(self.markerEntities.keys)
+        let removedIds = currentMarkerIds.subtracting(detectedIds)
+        
+        for id in removedIds {
+            if let entityToRemove = self.markerEntities[id] {
+                entityToRemove.removeFromParent()
+                self.markerEntities.removeValue(forKey: id)
+            }
+        }
+    }
+    
     func createBoxEntity(color: Color) -> ModelEntity {
         let mesh = MeshResource.generateBox(size: 0.005)
         let material = SimpleMaterial(color: UIColor(color), roughness: 1, isMetallic: false)
@@ -372,7 +347,7 @@ extension RemoteARViewController {
     //    }
     
     private func prepareSentData(pixelBuffer: CVPixelBuffer, pose: [Float], angle: Float, depthBuffer: CVPixelBuffer?) -> Data? {
-        let start = CFAbsoluteTimeGetCurrent()
+       
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
         
@@ -393,7 +368,7 @@ extension RemoteARViewController {
         }
         
         //0.002
-        
+        let startTime = CACurrentMediaTime()
         var depthData = Data()
         if let depthBuffer = depthBuffer {
             CVPixelBufferLockBaseAddress(depthBuffer, .readOnly)
@@ -403,30 +378,34 @@ extension RemoteARViewController {
             
             if let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer) {
                 let float32Pointer = baseAddress.assumingMemoryBound(to: Float32.self)
+                let bufferSize = width * height
                 
-                var UInt16Buffer = [UInt16](repeating: 0, count: width * height)
+                // 创建一个临时的 Float 缓冲区
+                var floatBuffer = [Float](repeating: 0, count: bufferSize)
                 
-                for y in 0..<height {
-                    for x in 0..<width {
-                        let depthValue = float32Pointer[y * width + x]
-                        let processedValue = UInt16(max(0, min(65535, depthValue * 10000))) // 防止溢出
-                        UInt16Buffer[y * width + x] = processedValue
-                    }
-                }
+                // 使用 vDSP 进行缩放
+                vDSP_vsmul(float32Pointer, 1, [Float(10000)], &floatBuffer, 1, vDSP_Length(bufferSize))
                 
-                depthData = UInt16Buffer.withUnsafeBufferPointer { buffer in
-                    Data(buffer: buffer)
-                }
+                // 创建 UInt16 缓冲区
+                var uint16Buffer = [UInt16](repeating: 0, count: bufferSize)
+                
+                // 使用 vDSP 函数进行裁剪和转换
+                var lower: Float = 0
+                var upper: Float = 65535
+                vDSP_vclip(floatBuffer, 1, &lower, &upper, &floatBuffer, 1, vDSP_Length(bufferSize))
+                
+                // 直接将 Float 转换为 UInt16
+                vDSP_vfixu16(floatBuffer, 1, &uint16Buffer, 1, vDSP_Length(bufferSize))
+                
+                depthData = Data(bytes: &uint16Buffer, count: bufferSize * MemoryLayout<UInt16>.size)
             } else {
-                print("警告: 无法获取深度缓冲区的基地址")
+                print("No baseAddress")
             }
         } else {
-            print("警告: 深度缓冲区为空")
+            print("No depth buffer")
         }
-        
-        
-        //0.06
-        
+        let endTime = CACurrentMediaTime()
+        print("depthData time: \(endTime - startTime)")
         
         
         
@@ -438,8 +417,7 @@ extension RemoteARViewController {
             //            imageData = uiImage.pngData() ?? Data()
         }
         //0.05
-        let end = CFAbsoluteTimeGetCurrent()
-        print("Time: \(end - start)")
+       // 0.0002
         
         var combinedData = Data()
         combinedData.append(angleData)

@@ -69,10 +69,10 @@ struct PanelView: View {
             AppDelegate.orientationLock = .all
             resetOrientation()
         }
-        .sheet(isPresented: self.$showMultiView) {
-            MultiSensorView(poseMatrix: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
-        }
-//        .checkPermissions([.camera, .localNetwork])
+//        .sheet(isPresented: self.$showMultiView) {
+//            MultiSensorView(poseMatrix: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+//        }
+        .checkPermissions([.camera,.microphone, .localNetwork])
     }
 
     private var portraitView: some View {

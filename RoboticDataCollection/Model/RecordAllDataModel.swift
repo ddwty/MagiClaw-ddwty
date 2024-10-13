@@ -51,6 +51,7 @@ import Zip
     
     func startRecordingData() {
         guard !isRecording else { return }
+       
         
         //        recordedMotionData.removeAll()
         recordedForceData.removeAll()
@@ -74,6 +75,7 @@ import Zip
         }
         
         // 开始录制
+        TimestampModel.shared.startRecording()
         webSocketManager.startRecordingData()
         
         arRecorder.startRecording(parentFolderURL: parentFolderURL!) { success in
@@ -89,8 +91,6 @@ import Zip
         }
         
         clawAngleManager.startRecordingData()
-        clawAngleManager.startTime = Date().timeIntervalSince1970
-        
         audioRecorder.startRecording(parentFolderURL: parentFolderURL!)
         webSocketManager.isRecording = true
         
@@ -99,7 +99,7 @@ import Zip
     func stopRecordingData() {
         guard isRecording else { return }
         self.isWaitingSaveing = true
-        
+        TimestampModel.shared.stopRecording()
         webSocketManager.stopRecordingForceData()
         //        motionManager.stopRecording()
         arRecorder.stopRecording { videoURL in
