@@ -356,6 +356,7 @@ extension RemoteARViewController {
         let scaledCIImage = ciImage.transformed(by: scaleTransform)
         
         var angleFloatValue = angle
+        print("angleValue: \(angleFloatValue)")
         var angleData = Data(bytes: &angleFloatValue, count: MemoryLayout<Float>.size)
         
         //0.004
@@ -380,21 +381,17 @@ extension RemoteARViewController {
                 let float32Pointer = baseAddress.assumingMemoryBound(to: Float32.self)
                 let bufferSize = width * height
                 
-                // 创建一个临时的 Float 缓冲区
                 var floatBuffer = [Float](repeating: 0, count: bufferSize)
-                
+        
                 // 使用 vDSP 进行缩放
                 vDSP_vsmul(float32Pointer, 1, [Float(10000)], &floatBuffer, 1, vDSP_Length(bufferSize))
                 
-                // 创建 UInt16 缓冲区
                 var uint16Buffer = [UInt16](repeating: 0, count: bufferSize)
                 
-                // 使用 vDSP 函数进行裁剪和转换
                 var lower: Float = 0
                 var upper: Float = 65535
                 vDSP_vclip(floatBuffer, 1, &lower, &upper, &floatBuffer, 1, vDSP_Length(bufferSize))
                 
-                // 直接将 Float 转换为 UInt16
                 vDSP_vfixu16(floatBuffer, 1, &uint16Buffer, 1, vDSP_Length(bufferSize))
                 
                 depthData = Data(bytes: &uint16Buffer, count: bufferSize * MemoryLayout<UInt16>.size)

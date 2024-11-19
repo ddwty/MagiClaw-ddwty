@@ -20,6 +20,7 @@ struct MetaData: Codable {
     var angleDataSize: Int
     var ARDataSize: Int
     var position: String
+    // TODO: - Add frequency
     
     var deviceModel: String
     var systemName: String

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		3D5DBF592C95B33100CBFE5F /* Flashlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF582C95B33100CBFE5F /* Flashlight.swift */; };
 		3D5DBF5B2C95B78200CBFE5F /* StatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5A2C95B78200CBFE5F /* StatusCard.swift */; };
 		3D5DBF772C95E5FB00CBFE5F /* ToggleOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF762C95E5FB00CBFE5F /* ToggleOrientation.swift */; };
+		3D7A33712CEA027200C35E46 /* tableModel.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 3D7A33702CEA027200C35E46 /* tableModel.usdz */; };
 		3D94E7AE2C820C49002CD850 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3D94E7AD2C820C49002CD850 /* Zip */; };
 		3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D94E7C92C82D155002CD850 /* AppDelegate.swift */; };
 		3D94E7CE2C833E14002CD850 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */; };
@@ -101,6 +102,7 @@
 		3D5DBF5A2C95B78200CBFE5F /* StatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCard.swift; sourceTree = "<group>"; };
 		3D5DBF762C95E5FB00CBFE5F /* ToggleOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleOrientation.swift; sourceTree = "<group>"; };
 		3D625B682C5F560600180FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D7A33702CEA027200C35E46 /* tableModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = tableModel.usdz; sourceTree = "<group>"; };
 		3D94E7C92C82D155002CD850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3D9C2C192CAC24800097009F /* SKWorldTransform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKWorldTransform.h; sourceTree = "<group>"; };
@@ -178,6 +180,10 @@
 		609395532C554A7200E98950 /* ExportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		6093955C2C554A7200E98950 /* PreviewSampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3D7A336D2CE9FBAB00C35E46 /* Control */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Control; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6093951C2C55473700E98950 /* Frameworks */ = {
@@ -305,6 +311,7 @@
 		605F723C2C8DD4AA00D6F84F /* RemoteView */ = {
 			isa = PBXGroup;
 			children = (
+				605F72482C91754C00D6F84F /* Audio */,
 				605F723D2C8DD75A00D6F84F /* RemotePanel.swift */,
 				3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */,
 				605F72462C90808400D6F84F /* RemoteARView.swift */,
@@ -358,7 +365,6 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
-				605F72482C91754C00D6F84F /* Audio */,
 				605F72432C9079F100D6F84F /* Public */,
 				3DA4C5F72C88728200E542CA /* ArUco */,
 				609395222C55473700E98950 /* MagiClawApp.swift */,
@@ -370,6 +376,7 @@
 				6093955D2C554A7200E98950 /* support */,
 				609395282C55473A00E98950 /* Preview Content */,
 				3D94E7CD2C833E14002CD850 /* Launch Screen.storyboard */,
+				3D7A33702CEA027200C35E46 /* tableModel.usdz */,
 				609395262C55473A00E98950 /* Assets.xcassets */,
 			);
 			path = RoboticDataCollection;
@@ -395,6 +402,7 @@
 		6093955B2C554A7200E98950 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D7A336D2CE9FBAB00C35E46 /* Control */,
 				3DB07E972C9495940098D9C3 /* Settings */,
 				605F723C2C8DD4AA00D6F84F /* RemoteView */,
 				603E5EA52C770FE800ABF2FE /* RecordPanel */,
@@ -451,6 +459,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				3D7A336D2CE9FBAB00C35E46 /* Control */,
+			);
 			name = MagiClaw;
 			packageProductDependencies = (
 				3D29AE6C2C820A4000EE7A42 /* Starscream */,
@@ -503,6 +514,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7A33712CEA027200C35E46 /* tableModel.usdz in Resources */,
 				607B2DEC2C6D15340010D914 /* README.md in Resources */,
 				6093952A2C55473A00E98950 /* Preview Assets.xcassets in Resources */,
 				3D94E7CE2C833E14002CD850 /* Launch Screen.storyboard in Resources */,

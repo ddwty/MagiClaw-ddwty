@@ -57,14 +57,19 @@ struct PanelView: View {
                     .onEnded { _ in
                         if self.dragOffset.height > 100 {
                             dismiss()
+                        } else {
+                            // 当滑动不足时，恢复原始位置
+                            withAnimation(.spring()) {
+                                self.dragOffset = .zero
+                            }
                         }
-                        self.dragOffset = .zero
                     }
             )
             .animation(.easeInOut(duration: 0.3), value: dragOffset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("background"))
+
         .onDisappear {
             AppDelegate.orientationLock = .all
             resetOrientation()

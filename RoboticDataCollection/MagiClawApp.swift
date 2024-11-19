@@ -15,8 +15,7 @@ struct MagiClawApp: App {
     @State var webSocketManager = WebSocketManager.shared
 //    @StateObject var tcpServerManager = TCPServerManager(port: 8080)
     @StateObject var poseRGBWebsocketServer = WebSocketServerManager(port: 8080)
-    
-//    @StateObject var audioWebsocketServer = WebSocketServerManager(port: 8081)
+
     @Environment(\.scenePhase) private var scenePhase // 用于监控应用的生命周期阶段
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("firstLaunch") private var isFirstLaunch = true
@@ -30,7 +29,7 @@ struct MagiClawApp: App {
                 .environmentObject(ARRecorder.shared)
 //                .environmentObject(tcpServerManager)
                 .environmentObject(poseRGBWebsocketServer)
-//                .environmentObject(audioWebsocketServer)
+//                .environmentObject(audioWebsocServer)
                 .modelContainer(for: AllStorgeData.self)
             
                 .tint(Color("tintColor"))

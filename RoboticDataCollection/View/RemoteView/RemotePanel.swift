@@ -25,7 +25,7 @@ struct RemotePanel: View {
         ZStack {
             ZStack {
                 RemoteARView(clawAngle: self.clawAngle)
-//                    .ignoresSafeArea(edges: [.bottom])
+                    .ignoresSafeArea(edges: [.bottom])
                     .aspectRatio(verticalSizeClass == .regular ? 3/4 : 4/3, contentMode: .fit)
                 
                 //            #if DEBUG
@@ -155,8 +155,6 @@ struct RemotePanel: View {
             }
         }
         .persistentSystemOverlays(.hidden)
-        
-        
     }
     
     func exitButton() -> some View {

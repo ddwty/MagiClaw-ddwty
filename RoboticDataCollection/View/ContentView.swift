@@ -29,6 +29,10 @@ struct ContentView: View {
                         .tabItem {
                             Label("Settings",systemImage: "gear")
                         }
+                    StickControlView()
+                        .tabItem {
+                            Label("Control", systemImage: "gamecontroller")
+                        }
                 }
 //                .toolbarBackground(Material.ultraThin, for: .tabBar)
 //                .toolbarBackground(.visible, for: .tabBar)

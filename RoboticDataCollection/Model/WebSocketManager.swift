@@ -183,7 +183,7 @@ struct FingerAngle: Codable {
                 self.handleLeftFingerMessage(string: string)
                 print("Receive text from left finger message, is recording: \(self.isRecording)")
                 //                }
-//                print("\(string)")
+                print("\(string)")
             case .binary(let data):
                 print("Received data: \(data.count)")
             case .ping(_):

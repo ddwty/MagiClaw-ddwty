@@ -352,6 +352,8 @@ extension ARView {
         // 设置用户选择的帧率
         let desiredFrameRate = SettingModel.shared.frameRate
         print("desiredFrameRate: \(desiredFrameRate)")
+        let videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats
+        print(String(describing: videoFormat))
         if let videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats.first(where: { $0.framesPerSecond == desiredFrameRate }) {
             config.videoFormat = videoFormat
             print("Using video format with \(desiredFrameRate) FPS")
@@ -373,32 +375,28 @@ extension ARView {
         }
 
 //         配置相机的焦距等设置
-//            if let device = ARWorldTrackingConfiguration.configurableCaptureDeviceForPrimaryCamera {
-//                do {
-//                    try device.lockForConfiguration()
-//
-//                    // 配置焦点模式，例如：
-//                    device.focusMode = .locked
-//                    print("exposure duration: \(device.exposureDuration)")
-//                    device.exposureMode = .locked
-//                    let minDuration = CMTime(value: 1, timescale: 1000) // 1ms
-//                    let maxDuration = CMTime(value: 1, timescale: 3000)   // 1/30s
-//                    device.setExposureModeCustom(duration: maxDuration, iso: device.iso, completionHandler: nil)
-//
-////                    device.setExposureModeCustom(duration: device.activeFormat.minExposureDuration, iso: 100, completionHandler: nil)
-//                    device.setFocusModeLocked(lensPosition: 1.0, completionHandler: nil)
-//                    print("set focus!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-//                    
-//                    
-//
-//                    
-////                    config.isAutoFocusEnabled = true  // 或根据需要设置为 true
-//
+        if let device = ARWorldTrackingConfiguration.configurableCaptureDeviceForPrimaryCamera {
+                do {
+                    try device.lockForConfiguration()
+
+                    // 配置焦点模式，例如：
+                    device.focusMode = .autoFocus
+                    print("exposure duration: \(device.exposureDuration)")
+                    device.exposureMode = .custom
+                    let minDuration = CMTime(value: 1, timescale: 1) // 1ms
+                    let maxDuration = CMTime(value: 1, timescale: 3000)   // 1/30s
+                    device.setExposureModeCustom(duration: minDuration, iso: 100, completionHandler: nil)
+                    print("exposure duration2: \(device.exposureDuration)")
+//                    device.setExposureModeCustom(duration: device.activeFormat.minExposureDuration, iso: 100, completionHandler: nil)
+                    device.setFocusModeLocked(lensPosition: 0.1, completionHandler: nil)
+                    print("set focus!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+//                    config.isAutoFocusEnabled = true  
+
 //                    device.unlockForConfiguration()
-//                } catch {
-//                    print("Failed to configure camera device: \(error.localizedDescription)")
-//                }
-//            }
+                } catch {
+                    print("Failed to configure camera device: \(error.localizedDescription)")
+                }
+            }
         
         
         if SettingModel.shared.showWorldOrigin {
