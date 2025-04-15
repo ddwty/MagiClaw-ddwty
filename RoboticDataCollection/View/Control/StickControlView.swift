@@ -8,15 +8,38 @@
 import SwiftUI
 
 struct StickControlView: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @State var controlWebsocket = ControlWebsocket()
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 ScrollView {
-                    ConnectPanel(controlWebsocket: controlWebsocket)
-                        .padding()
-                    BinaryView(controlWebsocket: controlWebsocket)
-                    GameControllerView()
+                    if verticalSizeClass == .regular {
+                        ConnectPanel(controlWebsocket: controlWebsocket)
+                            .padding()
+                        BinaryView(controlWebsocket: controlWebsocket)
+                        HStack {
+                            Spacer()
+                            GripperControlView()
+                                .padding(.trailing, 35)
+                        }
+                        JoystickView()
+                    } else {
+                        ConnectPanel(controlWebsocket: controlWebsocket)
+                            .padding()
+                       
+                        HStack {
+                            Spacer()
+                            GripperControlView()
+                                .padding(.trailing, 35)
+                        }
+                        ZStack {
+                            BinaryView(controlWebsocket: controlWebsocket)
+                            JoystickView()
+                        }
+                            
+                    }
                 }
             }
             .onTapGesture {

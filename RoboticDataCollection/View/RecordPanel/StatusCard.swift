@@ -33,13 +33,16 @@ struct StatusCard: View {
                 }
                 Divider()
 //                AngleView()
-                if let angle = clawAngle.ClawAngleDataforShow {
-                    Text("Opening range: " + String(format: "%.3f", angle))
-                        .font(.headline)
-                } else {
-                    Text("No detected marker")
-                        .font(.headline)
-                }
+//                if let angle = clawAngle.ClawAngleDataforShow {
+//                    Text("Opening range: " + String(format: "%.3f", angle))
+//                        .font(.headline)
+//                } else {
+//                    Text("No detected marker")
+//                        .font(.headline)
+//                }
+                Text("Opening range: " + String(format: "%.3f", 0.32))
+                    .font(.headline)
+                    .frame(minWidth: 80)
                    
             }
             .cardBackground()
@@ -59,16 +62,19 @@ struct StatusCard: View {
                     //                                        .frame(width: screenHeight * 0.3)
                         .frame(minWidth: 200)
                     Spacer()
-                    if let angle = clawAngle.ClawAngleDataforShow {
-                        Text("Opening range: " + String(format: "%.3f", angle))
-                            .font(.headline)
-                            .frame(minWidth: 80)
-                        
-                    } else {
-                        Text("No detected marker")
-                            .font(.headline)
-                            .frame(minWidth: 80)
-                    }
+//                    if let angle = clawAngle.ClawAngleDataforShow {
+//                        Text("Opening range: " + String(format: "%.3f", angle))
+//                            .font(.headline)
+//                            .frame(minWidth: 80)
+//                        
+//                    } else {
+//                        Text("No detected marker")
+//                            .font(.headline)
+//                            .frame(minWidth: 80)
+//                    }
+                    Text("Opening range: " + String(format: "%.3f", 0.32))
+                        .font(.headline)
+                        .frame(minWidth: 80)
                     Spacer()
                     TotalForceView(leftOrRight: "R")
                     //                                        .frame(width: screenHeight * 0.3)

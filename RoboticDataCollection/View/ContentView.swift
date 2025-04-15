@@ -29,10 +29,10 @@ struct ContentView: View {
                         .tabItem {
                             Label("Settings",systemImage: "gear")
                         }
-                    StickControlView()
-                        .tabItem {
-                            Label("Control", systemImage: "gamecontroller")
-                        }
+//                    StickControlView()
+//                        .tabItem {
+//                            Label("Control", systemImage: "gamecontroller")
+//                        }
                 }
 //                .toolbarBackground(Material.ultraThin, for: .tabBar)
 //                .toolbarBackground(.visible, for: .tabBar)
@@ -61,6 +61,5 @@ struct ContentView: View {
             .environment(WebSocketManager.shared)
             .environmentObject(ARRecorder.shared)
             .modelContainer(previewContainer)
-            .environmentObject(WebSocketServerManager(port: 8080))
     
 }

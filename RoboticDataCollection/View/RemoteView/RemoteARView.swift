@@ -429,5 +429,3 @@ extension RemoteARViewController {
     }
     
 }
-
-

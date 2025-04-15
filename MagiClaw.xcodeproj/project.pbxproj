@@ -10,9 +10,13 @@
 		3D08CA992C9838CD006DB388 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D08CA982C9838CD006DB388 /* PermissionManager.swift */; };
 		3D1C1BB42C96EEDF00D7FCD0 /* MetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C1BB32C96EEDF00D7FCD0 /* MetaDataModel.swift */; };
 		3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 3D29AE6C2C820A4000EE7A42 /* Starscream */; };
+		3D51C1762D8D8D5E000FF0F7 /* RemotePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51C1752D8D8D5E000FF0F7 /* RemotePanel.swift */; };
+		3D51C1772D8D8D5E000FF0F7 /* RemoteARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51C1742D8D8D5E000FF0F7 /* RemoteARView.swift */; };
 		3D53C6C32C971692001A61DC /* RemoteControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C22C971692001A61DC /* RemoteControlManager.swift */; };
 		3D53C6C52C97195D001A61DC /* RemoteControlCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */; };
 		3D53C6C72C972B8D001A61DC /* ServerConnectionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C62C972B8D001A61DC /* ServerConnectionStatus.swift */; };
+		3D5A69A42D96898000473A2C /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = 3D5A69A32D96898000473A2C /* SwiftProtobuf */; };
+		3D5A69A62D96898000473A2C /* SwiftProtobufPluginLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 3D5A69A52D96898000473A2C /* SwiftProtobufPluginLibrary */; };
 		3D5DBF592C95B33100CBFE5F /* Flashlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF582C95B33100CBFE5F /* Flashlight.swift */; };
 		3D5DBF5B2C95B78200CBFE5F /* StatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5A2C95B78200CBFE5F /* StatusCard.swift */; };
 		3D5DBF772C95E5FB00CBFE5F /* ToggleOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF762C95E5FB00CBFE5F /* ToggleOrientation.swift */; };
@@ -69,10 +73,8 @@
 		605DA4FE2C79D52300034F67 /* SchemaLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FD2C79D52300034F67 /* SchemaLatest.swift */; };
 		605DA5002C7A150E00034F67 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA4FF2C7A150E00034F67 /* Email.swift */; };
 		605DA5022C7A20F800034F67 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605DA5012C7A20F800034F67 /* InfoView.swift */; };
-		605F723E2C8DD75A00D6F84F /* RemotePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F723D2C8DD75A00D6F84F /* RemotePanel.swift */; };
 		605F72402C8DD7DD00D6F84F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F723F2C8DD7DD00D6F84F /* HomeView.swift */; };
 		605F72452C907A1500D6F84F /* OrientationEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72442C907A1500D6F84F /* OrientationEnum.swift */; };
-		605F72472C90808400D6F84F /* RemoteARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72462C90808400D6F84F /* RemoteARView.swift */; };
 		605F724B2C91799000D6F84F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F72492C91799000D6F84F /* AudioRecorder.swift */; };
 		605F724C2C91799000D6F84F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F724A2C91799000D6F84F /* AudioPlayer.swift */; };
 		605F72522C91799B00D6F84F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605F724E2C91799B00D6F84F /* Extensions.swift */; };
@@ -95,6 +97,8 @@
 /* Begin PBXFileReference section */
 		3D08CA982C9838CD006DB388 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		3D1C1BB32C96EEDF00D7FCD0 /* MetaDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataModel.swift; sourceTree = "<group>"; };
+		3D51C1742D8D8D5E000FF0F7 /* RemoteARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteARView.swift; sourceTree = "<group>"; };
+		3D51C1752D8D8D5E000FF0F7 /* RemotePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePanel.swift; sourceTree = "<group>"; };
 		3D53C6C22C971692001A61DC /* RemoteControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlManager.swift; sourceTree = "<group>"; };
 		3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlCard.swift; sourceTree = "<group>"; };
 		3D53C6C62C972B8D001A61DC /* ServerConnectionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnectionStatus.swift; sourceTree = "<group>"; };
@@ -157,10 +161,8 @@
 		605DA4FD2C79D52300034F67 /* SchemaLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaLatest.swift; sourceTree = "<group>"; };
 		605DA4FF2C7A150E00034F67 /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		605DA5012C7A20F800034F67 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
-		605F723D2C8DD75A00D6F84F /* RemotePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePanel.swift; sourceTree = "<group>"; };
 		605F723F2C8DD7DD00D6F84F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		605F72442C907A1500D6F84F /* OrientationEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationEnum.swift; sourceTree = "<group>"; };
-		605F72462C90808400D6F84F /* RemoteARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteARView.swift; sourceTree = "<group>"; };
 		605F72492C91799000D6F84F /* AudioRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		605F724A2C91799000D6F84F /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		605F724E2C91799B00D6F84F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3D51C16D2D8D89DB000FF0F7 /* VisualizationView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = VisualizationView; sourceTree = "<group>"; };
 		3D7A336D2CE9FBAB00C35E46 /* Control */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Control; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -192,7 +195,9 @@
 			files = (
 				3DD21A4E2CAA410700BB0D10 /* opencv2.xcframework in Frameworks */,
 				3D94E7AE2C820C49002CD850 /* Zip in Frameworks */,
+				3D5A69A62D96898000473A2C /* SwiftProtobufPluginLibrary in Frameworks */,
 				3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */,
+				3D5A69A42D96898000473A2C /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,10 +316,10 @@
 		605F723C2C8DD4AA00D6F84F /* RemoteView */ = {
 			isa = PBXGroup;
 			children = (
-				605F72482C91754C00D6F84F /* Audio */,
-				605F723D2C8DD75A00D6F84F /* RemotePanel.swift */,
+				3D51C1742D8D8D5E000FF0F7 /* RemoteARView.swift */,
+				3D51C1752D8D8D5E000FF0F7 /* RemotePanel.swift */,
 				3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */,
-				605F72462C90808400D6F84F /* RemoteARView.swift */,
+				605F72482C91754C00D6F84F /* Audio */,
 			);
 			path = RemoteView;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 		6093955B2C554A7200E98950 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D51C16D2D8D89DB000FF0F7 /* VisualizationView */,
 				3D7A336D2CE9FBAB00C35E46 /* Control */,
 				3DB07E972C9495940098D9C3 /* Settings */,
 				605F723C2C8DD4AA00D6F84F /* RemoteView */,
@@ -460,12 +466,15 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3D51C16D2D8D89DB000FF0F7 /* VisualizationView */,
 				3D7A336D2CE9FBAB00C35E46 /* Control */,
 			);
 			name = MagiClaw;
 			packageProductDependencies = (
 				3D29AE6C2C820A4000EE7A42 /* Starscream */,
 				3D94E7AD2C820C49002CD850 /* Zip */,
+				3D5A69A32D96898000473A2C /* SwiftProtobuf */,
+				3D5A69A52D96898000473A2C /* SwiftProtobufPluginLibrary */,
 			);
 			productName = RoboticDataCollection;
 			productReference = 6093951F2C55473700E98950 /* MagiClaw.app */;
@@ -499,6 +508,7 @@
 			packageReferences = (
 				3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */,
 				3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */,
+				3D5A69A22D96898000473A2C /* XCRemoteSwiftPackageReference "swift-protobuf" */,
 			);
 			productRefGroup = 609395202C55473700E98950 /* Products */;
 			projectDirPath = "";
@@ -546,7 +556,6 @@
 				609395852C554A7200E98950 /* PreviewSampleData.swift in Sources */,
 				3D94E7CA2C82D155002CD850 /* AppDelegate.swift in Sources */,
 				3DA34C8A2C887AF2005D918C /* ArucoProperty.swift in Sources */,
-				605F72472C90808400D6F84F /* RemoteARView.swift in Sources */,
 				3DA34C8B2C887AF2005D918C /* CalculateAruco.mm in Sources */,
 				3DB07E992C957DA20098D9C3 /* UserDoc.swift in Sources */,
 				609395232C55473700E98950 /* MagiClawApp.swift in Sources */,
@@ -588,7 +597,6 @@
 				603E5E9B2C766B6B00ABF2FE /* ScenarioModel.swift in Sources */,
 				605F725E2C91E61600D6F84F /* SettingModel.swift in Sources */,
 				6093957A2C554A7200E98950 /* ChartView.swift in Sources */,
-				605F723E2C8DD75A00D6F84F /* RemotePanel.swift in Sources */,
 				605F724C2C91799000D6F84F /* AudioPlayer.swift in Sources */,
 				603E5E9A2C766B6B00ABF2FE /* DataModel.swift in Sources */,
 				603E5E9E2C766B6B00ABF2FE /* RecordAllDataModel.swift in Sources */,
@@ -603,6 +611,8 @@
 				3D53C6C32C971692001A61DC /* RemoteControlManager.swift in Sources */,
 				605F72522C91799B00D6F84F /* Extensions.swift in Sources */,
 				3D53C6C72C972B8D001A61DC /* ServerConnectionStatus.swift in Sources */,
+				3D51C1762D8D8D5E000FF0F7 /* RemotePanel.swift in Sources */,
+				3D51C1772D8D8D5E000FF0F7 /* RemoteARView.swift in Sources */,
 				603E5E982C766B6B00ABF2FE /* CameraManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -854,6 +864,14 @@
 				minimumVersion = 4.0.8;
 			};
 		};
+		3D5A69A22D96898000473A2C /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.29.0;
+			};
+		};
 		3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marmelroy/Zip.git";
@@ -869,6 +887,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */;
 			productName = Starscream;
+		};
+		3D5A69A32D96898000473A2C /* SwiftProtobuf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D5A69A22D96898000473A2C /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
+		};
+		3D5A69A52D96898000473A2C /* SwiftProtobufPluginLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D5A69A22D96898000473A2C /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobufPluginLibrary;
 		};
 		3D94E7AD2C820C49002CD850 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;

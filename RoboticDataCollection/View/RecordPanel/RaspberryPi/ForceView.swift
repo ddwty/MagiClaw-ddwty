@@ -28,7 +28,7 @@ import Combine
 struct TotalForceView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(WebSocketManager.self) private var webSocketManager
-    @State private var displayedForce: Double = 0.0
+    @State private var displayedForce: Double = 6
     @State private var timer: Timer?
     var leftOrRight: String
     var updateInterval: TimeInterval = 0.05

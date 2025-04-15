@@ -135,7 +135,7 @@ struct RightJoystickView: View {
                     position = state
                 }
                 .onEnded { _ in
-                    withAnimation(.easeOut(duration: 0.2)) {
+                    withAnimation(.easeOut(duration: 0.1)) {
                         position = .zero
                     }
                 }
@@ -146,34 +146,81 @@ struct RightJoystickView: View {
 
 // MARK: - ViewModel
 
+//用来onreceive发送数据的，这样如果数据没有更新，就不会发送
+//class GameControllerViewModel: ObservableObject {
+//    @Published var leftJoystickPosition: CGSize = .zero
+//    @Published var rightJoystickPosition: CGSize = .zero
+//    
+//    
+//    
+//    // Combine the joystick positions into a simd_float3
+//    var joystickData: AnyPublisher<simd_float3, Never> {
+//        Publishers.CombineLatest($leftJoystickPosition, $rightJoystickPosition)
+//            .map { left, right in
+//                let maxDistanceLeft = JoystickConstants.leftJoystickSize / 2 - (JoystickConstants.leftJoystickSize * JoystickConstants.handleSizeRatio / 2)
+//                let maxDistanceRight = JoystickConstants.rightJoystickSize / 2 - (JoystickConstants.rightJoystickSize * JoystickConstants.handleSizeRatio / 2)
+//                
+//                let x = Float(left.width / maxDistanceLeft) // 归一化到 -1.0 到 1.0
+//                let y = Float(left.height / maxDistanceLeft)
+//                let z = Float(right.height / maxDistanceRight)
+//                return simd_float3(x, y, z)
+//            }
+//            .eraseToAnyPublisher()
+//    }
+//}
+
 class GameControllerViewModel: ObservableObject {
     @Published var leftJoystickPosition: CGSize = .zero
     @Published var rightJoystickPosition: CGSize = .zero
-    
-    // Combine the joystick positions into a simd_float3
-    var joystickData: AnyPublisher<simd_float3, Never> {
-        Publishers.CombineLatest($leftJoystickPosition, $rightJoystickPosition)
-            .map { left, right in
-                let maxDistanceLeft = JoystickConstants.leftJoystickSize / 2 - (JoystickConstants.leftJoystickSize * JoystickConstants.handleSizeRatio / 2)
-                let maxDistanceRight = JoystickConstants.rightJoystickSize / 2 - (JoystickConstants.rightJoystickSize * JoystickConstants.handleSizeRatio / 2)
-                
-                let x = Float(left.width / maxDistanceLeft) // 归一化到 -1.0 到 1.0
-                let y = Float(left.height / maxDistanceLeft)
-                let z = Float(right.height / maxDistanceRight)
-                return simd_float3(x, y, z)
+    @Published var isGripperOpen: Bool = true
+
+    private var timer: Timer?
+    private let joystickUpdateInterval: TimeInterval = 1.0 / 200 // 200 Hz
+
+    func startSendingData(to joystickServer: WebSocketServerManager) {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: joystickUpdateInterval, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+
+            // 构造 4x4 齐次变换矩阵
+            let maxDistanceLeft = JoystickConstants.leftJoystickSize / 2 - (JoystickConstants.leftJoystickSize * JoystickConstants.handleSizeRatio / 2)
+            let maxDistanceRight = JoystickConstants.rightJoystickSize / 2 - (JoystickConstants.rightJoystickSize * JoystickConstants.handleSizeRatio / 2)
+
+            let x = Float(self.leftJoystickPosition.width / maxDistanceLeft)
+            let y = Float(self.leftJoystickPosition.height / maxDistanceLeft)
+            let z = Float(self.rightJoystickPosition.height / maxDistanceRight)
+
+            var transformMatrix: [Float] = [
+                1.0, 0.0, 0.0, -y,
+                0.0, 1.0, 0.0, x,
+                0.0, 0.0, 1.0, z,
+                0.0, 0.0, 0.0, 1.0
+            ]
+
+            // 将矩阵数据发送到 WebSocket 服务器
+            let joystickData = Data(bytes: &transformMatrix, count: transformMatrix.count * MemoryLayout<Float>.size)
+            joystickServer.connectionsByID.values.forEach { connection in
+                connection.send(data: joystickData)
             }
-            .eraseToAnyPublisher()
+
+            print("Sent transform matrix: \(transformMatrix)")
+        }
+    }
+
+    func stopSendingData() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
+
 // MARK: - GameControllerView
-struct GameControllerView: View {
+struct JoystickView: View {
     @StateObject private var viewModel = GameControllerViewModel()
     @State private var joystickVector: simd_float3 = .zero
-    
+    @StateObject var joystickServer = WebSocketServerManager(port: 8082)
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
             
             HStack {
                 // 左侧双轴摇杆
@@ -186,6 +233,7 @@ struct GameControllerView: View {
                 
                 Spacer()
                 
+                
                 // 右侧单轴摇杆
                 RightJoystickView(
                     position: $viewModel.rightJoystickPosition,
@@ -195,11 +243,46 @@ struct GameControllerView: View {
                 .padding()
             }
         }
-        .onReceive(viewModel.joystickData) { data in
-            self.joystickVector = data
-            // 在这里可以使用 joystickVector 来控制物体
-            print("Joystick Data: \(joystickVector)")
+//        .onReceive(viewModel.joystickData) { data in
+//            self.joystickVector = data
+//            // 在这里可以使用 joystickVector 来控制物体
+//            print("Joystick Data: \(joystickVector)")
+//            print("size: \(MemoryLayout.size(ofValue: joystickVector))")
+//            var xyz = [joystickVector.x, joystickVector.y, joystickVector.z]
+//            let joystickData = Data(bytes: &xyz, count: xyz.count * MemoryLayout<Float>.size)
+//            print("send data: \(joystickData)")
+//            joystickServer.connectionsByID.values.forEach { connection in
+//                connection.send(data: joystickData)
+//                print("send data: \(joystickData)")
+//            }
+//        }
+        .onAppear {
+            viewModel.startSendingData(to: joystickServer)
         }
+        .onDisappear {
+            viewModel.stopSendingData()
+        }
+    }
+}
+
+struct GripperControlView: View {
+    @StateObject private var viewModel = GameControllerViewModel()
+    @StateObject var gripperServer = WebSocketServerManager(port: 8083)
+    var body: some View {
+        Text(viewModel.isGripperOpen ? "Clamp" : "Release")
+            .font(.title)
+            .foregroundColor(.white)
+            .padding()
+            .background(viewModel.isGripperOpen ? Color.green : Color.red)
+            .cornerRadius(15)
+            .onTapGesture {
+                viewModel.isGripperOpen.toggle()
+                var gripperData = viewModel.isGripperOpen ? Float(0) : Float(1)
+                let data = Data(bytes: &gripperData, count: MemoryLayout<Float>.size)
+                gripperServer.connectionsByID.values.forEach { connection in
+                    connection.send(data: data)
+                }
+            }
     }
 }
 
@@ -207,6 +290,6 @@ struct GameControllerView: View {
 // MARK: - Preview
 struct GameControllerView_Previews: PreviewProvider {
     static var previews: some View {
-        GameControllerView()
+        JoystickView()
     }
 }

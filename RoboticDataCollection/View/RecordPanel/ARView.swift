@@ -35,7 +35,7 @@ struct MyARView: View {
 //#if DEBUG
 //                    .overlay{
 //
-//Image("fakeARView")
+//Image("fakeARView2")
 //    .resizable()
 //    .aspectRatio(contentMode: .fill)
 //
@@ -111,12 +111,11 @@ struct ARViewContainer: UIViewControllerRepresentable {
     @Binding var cameraTransform: simd_float4x4
     var recorder: ARRecorder
     @Binding var frameRate: Double
-    @EnvironmentObject var websocketServer: WebSocketServerManager
     var clawAngle: ClawAngleManager
   
     
     func makeUIViewController(context: Context) -> ARViewController {
-        let arViewController = ARViewController(frameSize: frameSize, websocketServer: websocketServer, clawAngle: clawAngle)
+        let arViewController = ARViewController(frameSize: frameSize, clawAngle: clawAngle)
                 arViewController.recorder = recorder
                 return arViewController
     }
@@ -149,7 +148,6 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var frameSize: CGSize
     var recorder: ARRecorder!
 //    var tcpServerManager: TCPServerManager
-    var websocketServer: WebSocketServerManager
     var settingModel = SettingModel.shared
     var clawAngle: ClawAngleManager
     var distance = 0.0
@@ -165,9 +163,8 @@ class ARViewController: UIViewController, ARSessionDelegate {
         private var displayLink: CADisplayLink?
         private var frameRateBinding: Binding<Double>?
     
-    init(frameSize: CGSize, websocketServer: WebSocketServerManager, clawAngle: ClawAngleManager) {
+    init(frameSize: CGSize, clawAngle: ClawAngleManager) {
         self.frameSize = frameSize
-        self.websocketServer = websocketServer
         self.clawAngle = clawAngle
         super.init(nibName: nil, bundle: nil)
     }

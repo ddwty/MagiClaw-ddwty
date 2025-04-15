@@ -13,4 +13,5 @@ class RemoteControlManager{
     
     var enableSendingData = false
     var enableStreamingAudio = false
+    var enableDetectAruco = true
 }

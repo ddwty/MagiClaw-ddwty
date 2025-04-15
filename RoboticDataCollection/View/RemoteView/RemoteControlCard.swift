@@ -15,6 +15,7 @@ struct RemoteControlCard: View {
     
     @State private var audioStreamManager: AudioStreamManager?
     @State private var isStreamingAudio = false
+    
     //    @State private var isLocked = false
     @Binding var showFullPanel: Bool
     var body: some View {
@@ -31,9 +32,9 @@ struct RemoteControlCard: View {
                                 .font(.title3)
                                 .fontWeight(.bold)
                             HStack {
-                                Text("IP address: ")
+                                Text("IP address: 192.168.3.1")
                                     .foregroundStyle(Color.secondary)
-                                IPView()
+//                                IPView()
                             }
                         }
                         Spacer()
@@ -51,15 +52,25 @@ struct RemoteControlCard: View {
                     }
                     
                     Divider()
+                    Toggle(isOn: $remoteControlManager.enableDetectAruco) {
+                        Text("Detect ArUco Marker")
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(remoteControlManager.enableSendingData ? Color.green : Color.gray, lineWidth: 1)
+                    )
+                    .tint(Color.green)
+                    Divider()
                     
                     // Toggle for Sending Data
                     Toggle(isOn: $remoteControlManager.enableSendingData) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(remoteControlManager.enableSendingData ? "Sending... (Pose, Opening range, RGB)" : "Send data (Pose, Opening range, RGB)")
+                            Text(remoteControlManager.enableSendingData ? "Sending... (Pose, Depth, Opening range, RGB)" : "Send data (Pose, Depth, Opening range, RGB)")
                             
                             HStack {
                                 Image(systemName: "circle.fill")
-                                    .foregroundColor(serverConnectionStatus.isSendingDataServerReady ? .green : .red)
+                                    .foregroundColor( .green )
                                     .imageScale(.small)
                                 Text("Port: 8080")
                                     .font(.caption)
@@ -93,7 +104,7 @@ struct RemoteControlCard: View {
                             Text(isStreamingAudio ? "Streaming..." : "Stream audio")
                             HStack {
                                 Image(systemName: "circle.fill")
-                                    .foregroundColor(serverConnectionStatus.isStreamingAudioServerReady ? .green : .red)
+                                    .foregroundColor( .green)
                                     .imageScale(.small)
                                 Text("Port: 8081")
                                     .font(.caption)

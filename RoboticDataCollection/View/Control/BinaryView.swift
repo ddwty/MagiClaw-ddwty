@@ -51,34 +51,33 @@ struct BinaryView: View {
 //            }
             
            
-           
-            if let image = controlWebsocket.receivedImage, controlWebsocket.isConnected {
-                VStack {
-                    Text("Received Image")
-                        .font(.headline)
-                    
-                    GeometryReader { geometry in
-                        HStack {
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: geometry.size.width * 0.9)
-                                .cornerRadius(15)
+            HStack {
+                if let image = controlWebsocket.receivedImage, controlWebsocket.isConnected {
+                    VStack {
+                        Text("Received Image")
+                            .font(.headline)
+                        
+                        GeometryReader { geometry in
+                            HStack {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(maxWidth: geometry.size.width * 0.9)
+                                    .cornerRadius(15)
+                            }
                         }
+                        .padding()
                     }
-                    
-                    .padding()
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding([.leading, .trailing], 20)
+                } else {
+                    Text("No image received")
+                        .foregroundColor(.gray)
                 }
-                .cornerRadius(15)
-                .shadow(radius: 5)
-                .padding([.leading, .trailing], 20)
-            } else {
-                Text("No image received")
-                    .foregroundColor(.gray)
             }
         }
         .frame(height: 200)
-        .border(.red)
     }
 }
 

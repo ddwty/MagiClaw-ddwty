@@ -40,8 +40,8 @@ struct FingerAngle: Codable {
     public var LforceDataforShow: [ForceData] = []
     public var RforceDataforShow: [ForceData] = []
     public var angleDataforShow: Int = 0
-    public var totalLeftForce: Double = 0
-    public var totalRightForce: Double = 0
+    public var totalLeftForce: Double = 6
+    public var totalRightForce: Double = 6
     public var time: TimeStamp?
     
     public var isConnected = false

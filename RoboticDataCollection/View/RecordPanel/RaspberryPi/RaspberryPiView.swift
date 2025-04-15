@@ -17,7 +17,7 @@ struct RaspberryPiView: View {
     @Binding var showPopover: Bool
     var body: some View {
         HStack {
-            if webSocketManager.isConnected {
+            if !webSocketManager.isConnected {
                 HStack {
                     Spacer()
                     Label("Connected", systemImage: "checkmark.circle")
@@ -137,5 +137,6 @@ struct ViaWifiView_Previews: PreviewProvider {
             .environment(WebSocketManager.shared)
     }
 }
+
 
 
