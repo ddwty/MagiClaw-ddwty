@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 10/7/24.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct MultiSensorView: View {
@@ -61,3 +61,4 @@ struct MultiSensorView: View {
         .environmentObject(ARRecorder.shared)
         .environmentObject(WebSocketServerManager(port: 8080))
 }
+#endif

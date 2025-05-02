@@ -5,7 +5,7 @@
 //  Created by Tianyu on 7/13/24.
 //
 
-
+#if os(iOS)
 import SwiftUI
 import SwiftData
 struct ContentView: View {
@@ -63,3 +63,25 @@ struct ContentView: View {
             .modelContainer(previewContainer)
     
 }
+#elseif os(macOS)
+import SwiftUI
+struct ContentViewMac: View {
+   
+    var body: some View {
+            TabView {
+                Group {
+                    Text("Hello")
+                        .tabItem {
+                            Label("Panel", systemImage: "camera" )
+                        }
+                    AirpodsView()
+                        .tabItem {
+                            Label("headphone", systemImage: "camera" )
+                        }
+                    
+                }
+            }
+    }
+}
+
+#endif

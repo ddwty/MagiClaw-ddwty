@@ -6,7 +6,7 @@
 //
 
 
-
+#if os(iOS)
 import SwiftUI
 import RealityKit
 import ARKit
@@ -429,3 +429,4 @@ extension RemoteARViewController {
     }
     
 }
+#endif

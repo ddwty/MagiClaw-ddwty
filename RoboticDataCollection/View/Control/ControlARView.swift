@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 11/17/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import RealityKit
 
@@ -84,3 +84,4 @@ struct SimulationView: UIViewRepresentable {
 #Preview {
     ControlView()
 }
+#endif

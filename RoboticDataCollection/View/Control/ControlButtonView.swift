@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 11/18/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import Combine
 import simd
@@ -293,3 +293,4 @@ struct GameControllerView_Previews: PreviewProvider {
         JoystickView()
     }
 }
+#endif

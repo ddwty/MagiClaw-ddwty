@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+#if os(iOS)
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     static var orientationLock: UIInterfaceOrientationMask = .all
@@ -38,3 +39,4 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             return true
         }
 }
+#endif

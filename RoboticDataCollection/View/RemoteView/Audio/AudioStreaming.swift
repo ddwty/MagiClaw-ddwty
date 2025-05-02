@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/11.
 //
-
+#if os(iOS)
 import AVFoundation
 
 class AudioStreamManager {
@@ -151,3 +151,4 @@ class AudioStreamManager {
 //    }
 //}
 //
+#endif

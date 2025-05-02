@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/22/24.
 // 这里控制所有数据的录制开始/结束/保存,在这里创建了文件夹，保存到文件app，并生成三份数据的csv
-
+#if os(iOS)
 import Foundation
 import SwiftUI
 import SwiftData
@@ -250,3 +250,4 @@ extension RecordAllDataModel {
 }
 
 
+#endif

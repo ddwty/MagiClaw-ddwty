@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/15/24.
 //
-
+#if os(iOS)
 import Foundation
 @Observable
 class RemoteControlManager{
@@ -15,3 +15,4 @@ class RemoteControlManager{
     var enableStreamingAudio = false
     var enableDetectAruco = true
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/23/24.
 //
-
+#if os(iOS)
 import Foundation
 import ARKit
 import simd
@@ -135,3 +135,4 @@ extension ClawAngleData: CSVConvertible {
 //        return "\(timeStamp),\(forceDataString)"
 //    }
 //}
+#endif

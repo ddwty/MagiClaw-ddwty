@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/22/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import UniformTypeIdentifiers
 import SwiftData
@@ -553,3 +553,4 @@ struct ShareSheet: UIViewControllerRepresentable {
 //        .navigationBarTitleDisplayMode(.inline)
 //    }
 //}
+#endif

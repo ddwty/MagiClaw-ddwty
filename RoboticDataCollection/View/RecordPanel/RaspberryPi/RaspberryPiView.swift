@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/15/24.
 // 使用访问GeS的树莓派
-
+#if os(iOS)
 import SwiftUI
 import Combine
 import Starscream
@@ -140,3 +140,4 @@ struct ViaWifiView_Previews: PreviewProvider {
 
 
 
+#endif

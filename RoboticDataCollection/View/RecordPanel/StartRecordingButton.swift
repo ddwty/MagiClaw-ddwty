@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/3/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import SwiftData
 
@@ -201,3 +201,4 @@ struct StartRecordingButton: View {
 //#Preview {
 //    StartRecordingButton(showPopover: .constant(false), showSaveAlert: .constant(false), description: .constant(""), newScenario: .constant(nil))
 //}
+#endif

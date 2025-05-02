@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/24/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import Charts
 import Combine
@@ -104,3 +104,4 @@ struct TotalForceView: View {
             }
     }
 }
+#endif

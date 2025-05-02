@@ -4,10 +4,9 @@
 //
 //  Created by Tianyu on 7/17/24.
 //
-
+#if os(iOS)
 import Foundation
 import Starscream
-import UIKit
 import SwiftUI
 
 struct TimeStamp: Codable {
@@ -465,3 +464,4 @@ extension WebSocketManager {
     
     
 }
+#endif

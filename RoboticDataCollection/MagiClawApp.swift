@@ -10,20 +10,25 @@ import SwiftData
 
 @main
 struct MagiClawApp: App {
+#if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     @State private var recordAllDataModel = RecordAllDataModel()
     @State var webSocketManager = WebSocketManager.shared
 //    @StateObject var tcpServerManager = TCPServerManager(port: 8080)
     @StateObject var poseRGBWebsocketServer = WebSocketServerManager(port: 8080)
-
+#endif
     @Environment(\.scenePhase) private var scenePhase // 用于监控应用的生命周期阶段
     @AppStorage("hostname") private var hostname = "raspberrypi.local"
     @AppStorage("firstLaunch") private var isFirstLaunch = true
     
    
     var body: some Scene {
+#if os(iOS)
         WindowGroup {
+
             ContentView()
+
                 .environment(recordAllDataModel)
                 .environment(webSocketManager)
                 .environmentObject(ARRecorder.shared)
@@ -31,13 +36,13 @@ struct MagiClawApp: App {
                 .environmentObject(poseRGBWebsocketServer)
 //                .environmentObject(audioWebsocServer)
                 .modelContainer(for: AllStorgeData.self)
-            
+
                 .tint(Color("tintColor"))
 //                .modelContainer(container)
                 
         }
 //        .accentColor(.red)
-       
+
         .onChange(of: scenePhase) { old, newPhase in
             switch newPhase {
             case .background, .inactive:
@@ -51,6 +56,13 @@ struct MagiClawApp: App {
                 break
             }
         }
+#endif
+#if os(macOS)
+        WindowGroup {
+            HomeViewMac()
+        }
+#endif
+
     }
 }
 

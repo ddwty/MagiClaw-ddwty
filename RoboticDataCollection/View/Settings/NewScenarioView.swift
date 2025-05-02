@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/22.
 //
-
+#if os(iOS)
 import SwiftUI
 import SwiftData
 
@@ -54,9 +54,10 @@ struct NewScenarioView: View {
                         Button("Create") {
                             withAnimation {
                                 // 触发震动
+#if os(iOS)
                                 let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
                                 impactFeedbackGenerator.impactOccurred()
-                                
+                                #endif
                                 let newScenario = Scenario(name: name, color: color.toHexString()!)
                                 context.insert(newScenario)
                                 self.name = ""
@@ -122,3 +123,4 @@ struct NewScenarioView: View {
     NewScenarioView()
         .modelContainer(previewContainer)
 }
+#endif

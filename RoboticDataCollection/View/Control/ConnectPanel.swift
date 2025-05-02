@@ -5,6 +5,7 @@
 //  Created by Tianyu on 9/21/24.
 //
 
+#if os(iOS)
 import SwiftUI
 
 
@@ -59,3 +60,4 @@ struct ConnectPanel: View {
 #Preview {
     ConnectPanel(controlWebsocket: ControlWebsocket())
 }
+#endif

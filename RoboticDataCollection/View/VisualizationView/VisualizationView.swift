@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/8.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct VisualizationView: View {
@@ -243,4 +243,4 @@ struct DepthInfoView: View {
     }
 }
 
-
+#endif

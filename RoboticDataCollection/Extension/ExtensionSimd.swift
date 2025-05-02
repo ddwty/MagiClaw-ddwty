@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/19.
 //
-
+#if os(iOS)
 import Foundation
 import Accelerate
 import ARKit
@@ -91,3 +91,4 @@ extension simd_float4 {
         return simd_float3(self.x, self.y, self.z)
     }
 }
+#endif

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Pinlun. All rights reserved.
 //
 
+#if os(iOS)
 import Foundation
 
 import SwiftUI
@@ -54,3 +55,4 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 }
+#endif

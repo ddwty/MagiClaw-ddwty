@@ -5,7 +5,7 @@
 //  Created by 吴天禹 on 2024/8/22.
 //
 
-
+#if os(iOS)
 import UIKit
 
 extension UIColor {
@@ -68,3 +68,4 @@ extension UIColor {
         return hexString
     }
 }
+#endif

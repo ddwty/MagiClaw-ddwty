@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 8/8/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import Combine
 
@@ -40,3 +40,4 @@ struct AngleView: View {
 //    AngleView()
 //        .environmentObject(WebSocketManager.shared)
 //}
+#endif

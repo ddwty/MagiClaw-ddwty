@@ -7,7 +7,7 @@
 //
 //  Formula: https://en.wikipedia.org/wiki/HSL_and_HSV#From_HSL
 //
-
+#if os(iOS)
 import UIKit
 
 public extension UIColor {
@@ -78,3 +78,4 @@ public extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: 1.0)
     }
 }
+#endif

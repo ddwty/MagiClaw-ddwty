@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/14/24.
 //
-
+#if os(iOS)
 import SwiftUI
 
 /// 此处有警告BUG IN CLIENT OF UIKIT: Setting UIDevice.orientation is not supported. Please use UIWindowScene.requestGeometryUpdate(_:)
@@ -65,3 +65,4 @@ func resetOrientation() {
 //            }
 //        }
 //    }
+#endif

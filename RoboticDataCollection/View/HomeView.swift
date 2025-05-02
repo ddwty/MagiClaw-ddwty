@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/8.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct HomeView: View {
@@ -163,3 +163,4 @@ enum NavigationType {
     case navigationLink
     case sheet
 }
+#endif

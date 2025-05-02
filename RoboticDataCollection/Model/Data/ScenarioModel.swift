@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 8/8/24.
 //
-
+#if os(iOS)
 import Foundation
 import SwiftData
 import SwiftUI
@@ -60,3 +60,4 @@ extension Scenario: Hashable {
 }
 
 let defaultScenario = Scenario(name: "Unspecified", color: "#808080")
+#endif

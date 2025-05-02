@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/15/24.
 //
-
+#if os(iOS)
 import Foundation
 import ARKit
 
@@ -29,3 +29,4 @@ class ARTrackingStatus {
     var reason: ARCamera.TrackingState.Reason?
     
 }
+#endif

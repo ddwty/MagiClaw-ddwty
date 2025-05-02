@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/10.
 //
-
+#if os(iOS)
 import SwiftUI
 import RealityKit
 import ARKit
@@ -385,3 +385,4 @@ func depthToRainbowOptimized(_ depth: Float) -> (UInt8, UInt8, UInt8) {
 }
 
 
+#endif

@@ -5,7 +5,7 @@
 //  Created by Tianyu on 9/20/24.
 //
 
-
+#if os(iOS)
 import SwiftUI
 import Starscream
 import CoreImage
@@ -152,3 +152,4 @@ class ControlWebsocket {
     }
 }
 
+#endif

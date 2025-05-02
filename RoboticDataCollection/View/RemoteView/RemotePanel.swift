@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/8.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct RemotePanel: View {
@@ -225,4 +225,4 @@ struct RemotePanel: View {
         .environmentObject(ARRecorder.shared)
         .environmentObject(WebSocketServerManager(port: 8080))
 }
-
+#endif

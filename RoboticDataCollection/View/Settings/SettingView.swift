@@ -4,9 +4,8 @@
 //
 //  Created by Tianyu on 7/22/24.
 //
-
+#if os(iOS)
 import SwiftUI
-import MessageUI
 
 struct SettingView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -225,3 +224,4 @@ struct SettingView: View {
     
 }
 
+#endif

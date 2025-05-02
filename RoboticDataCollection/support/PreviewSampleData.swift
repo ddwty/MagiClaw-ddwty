@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/27/24.
 //
-
+#if os(iOS)
 import SwiftData
 import Foundation
 import simd
@@ -54,3 +54,4 @@ func generateSampleData() -> [AllStorgeData] {
     sampleData[4].scenario = Scenario.sampleScenario[5]
     return sampleData
 }
+#endif

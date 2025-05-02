@@ -30,7 +30,7 @@ extension VerticalAlignment {
     static let historyAlignment = VerticalAlignment(historyAlignmentID.self)
 }
 
-
+#if os(iOS)
 struct KeyboardAwareModifier: ViewModifier {
     @State private var keyboardHeight: CGFloat = 0
 
@@ -52,6 +52,7 @@ struct KeyboardAwareModifier: ViewModifier {
             .onReceive(keyboardHeightPublisher) { self.keyboardHeight = $0 }
     }
 }
+
 
 extension View {
     func KeyboardAwarePadding() -> some View {
@@ -138,6 +139,7 @@ struct KeyboardHeightEnvironmentValue: ViewModifier {
     }
 }
 
+
 public extension View {
     /// Adds an environment value for software keyboard height when visible
     ///
@@ -194,6 +196,7 @@ extension View {
        
     }
 }
+#endif
 
 struct ExitButtonStyle: ButtonStyle {
     @Environment(\.colorScheme) var colorScheme
@@ -250,7 +253,7 @@ extension View {
 }
 
 
-
+#if os(iOS)
 struct DeviceRotationViewModifier: ViewModifier {
     let action: (UIDeviceOrientation) -> Void
 
@@ -275,5 +278,6 @@ extension UIApplication {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     }
 }
+#endif
 
 

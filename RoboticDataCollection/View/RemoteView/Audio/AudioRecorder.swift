@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/11/24.
 //
-
+#if os(iOS)
 import Foundation
 import SwiftUI
 import Combine
@@ -98,3 +98,4 @@ class AudioRecorder: NSObject, ObservableObject {
         fetchRecording()
     }
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 10/7/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import Charts
 import Combine
@@ -97,3 +97,4 @@ struct ForceChart: View {
     }
     
 }
+#endif

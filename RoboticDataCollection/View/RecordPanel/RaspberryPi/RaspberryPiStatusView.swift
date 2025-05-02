@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/21.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct RaspberryPiStatusView: View {
@@ -77,3 +77,4 @@ struct RaspberryPiStatusView: View {
     RaspberryPiStatusView()
         .environment(WebSocketManager.shared)
 }
+#endif

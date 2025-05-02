@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2022/3/18.
 //
-
+#if os(iOS)
 import SwiftUI
 import UIKit
 import MessageUI
@@ -69,3 +69,4 @@ struct MailView: UIViewControllerRepresentable {
 
     }
 }
+#endif

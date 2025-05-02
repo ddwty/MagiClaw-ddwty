@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/16/24.
 //
-
+#if os(iOS)
 import AVFoundation
 import UIKit
 import Network
@@ -186,3 +186,4 @@ extension View {
         self.modifier(PermissionsModifier(permissions: permissions))
     }
 }
+#endif

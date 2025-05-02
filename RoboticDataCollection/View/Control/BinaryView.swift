@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/21/24.
 //
-
+#if os(iOS)
 import SwiftUI
 
 
@@ -86,3 +86,4 @@ struct BinaryView: View {
 #Preview {
     BinaryView(controlWebsocket: ControlWebsocket())
 }
+#endif

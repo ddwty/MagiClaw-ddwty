@@ -5,7 +5,7 @@
 //  Created by Michael Neas on 11/30/19.
 //  Copyright © 2019 Neas Lease. All rights reserved.
 //
-
+#if os(iOS)
 import Foundation
 import Network
 
@@ -283,3 +283,4 @@ class ServerConnection {
         didReceive = nil
     }
 }
+#endif

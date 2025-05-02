@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/12.
 //
-
+#if os(iOS)
 import Foundation
 import SwiftData
 import SwiftUI
@@ -70,3 +70,4 @@ extension SchemaV2 {
         }
     }
 }
+#endif

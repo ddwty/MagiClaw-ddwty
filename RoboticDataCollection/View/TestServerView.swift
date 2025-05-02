@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/23.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct TestServerView: View {
@@ -48,3 +48,4 @@ struct TestServerView: View {
 #Preview {
     TestServerView()
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/26/24.
 //
-
+#if os(iOS)
 import Foundation
 import SwiftData
 
@@ -43,3 +43,4 @@ extension AllStorgeData {
         AllStorgeData(createTime: Date(), timeDuration: 0, notes: "")
         ]
 }
+#endif

@@ -4,6 +4,7 @@
 //
 //  Created by Tianyu on 11/17/24.
 //
+#if os(iOS)
 
 import SwiftUI
 
@@ -53,3 +54,4 @@ struct StickControlView: View {
 #Preview {
     StickControlView()
 }
+#endif

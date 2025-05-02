@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/20.
 //
-
+#if os(iOS)
 import SwiftUI
 import Foundation
 import Network
@@ -89,3 +89,4 @@ extension NWInterface.InterfaceType {
     var ipv4: String? { self.address(family: AF_INET) }
     var ipv6: String? { self.address(family: AF_INET6) }
 }
+#endif

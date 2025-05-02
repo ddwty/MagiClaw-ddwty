@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/25/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import RealityKit
 import ARKit
@@ -421,3 +421,4 @@ extension ARView: ARCoachingOverlayViewDelegate {
         self.addSubview(coachingOverlay)
     }
 }
+#endif

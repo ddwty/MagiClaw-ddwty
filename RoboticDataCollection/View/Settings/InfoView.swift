@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/8/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import MessageUI
 
@@ -109,3 +109,4 @@ struct InfoView: View {
 #Preview {
     InfoView(isShowingMailView: .constant(false))
 }
+#endif

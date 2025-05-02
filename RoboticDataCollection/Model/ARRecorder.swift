@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/25/24.
 //
-
+#if os(iOS)
 import Foundation
 import AVFoundation
 import Photos
@@ -341,3 +341,4 @@ class ARRecorder: NSObject, ObservableObject {
     
 }
 
+#endif

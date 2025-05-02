@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+#if os(iOS)
 
 
 struct HowtoUseView: View {
@@ -296,3 +296,4 @@ struct UserGuideCard: View {
 //        )
 //    }
 //}
+#endif

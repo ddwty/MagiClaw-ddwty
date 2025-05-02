@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/23/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import SwiftData
 import UIKit
@@ -251,3 +251,4 @@ class SavingProgress: ObservableObject {
     private init() { }
     @Published var progress = 0.0
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 7/22/24.
 //
-
+#if os(iOS)
 import SwiftUI
 import SwiftData
 import AVFoundation
@@ -224,3 +224,4 @@ struct Preview {
     }
 }
 
+#endif

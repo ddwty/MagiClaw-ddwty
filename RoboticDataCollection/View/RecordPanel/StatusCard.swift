@@ -4,7 +4,7 @@
 //
 //  Created by Tianyu on 9/14/24.
 //
-
+#if os(iOS)
 import SwiftUI
 
 
@@ -92,3 +92,4 @@ struct StatusCard: View {
         .environmentObject(ARRecorder.shared)
         .environmentObject(WebSocketServerManager(port: 8080))
 }
+#endif

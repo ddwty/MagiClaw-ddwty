@@ -4,7 +4,7 @@
 //
 //  Created by 吴天禹 on 2024/9/10.
 //
-
+#if os(iOS)
 import SwiftUI
 
 // 用于强制锁定Remote视图的方向, 没用到
@@ -39,3 +39,4 @@ enum Orientation: Int, CaseIterable {
         return .portrait
     }
 }
+#endif
