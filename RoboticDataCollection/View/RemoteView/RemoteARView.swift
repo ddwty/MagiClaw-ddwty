@@ -246,9 +246,14 @@ class RemoteARViewController: UIViewController, ARSessionDelegate {
                 let pixelBuffer = frame.capturedImage
                 let depthBuffer = SettingModel.shared.smoothDepth ? frame.smoothedSceneDepth?.depthMap : frame.sceneDepth?.depthMap
                 
-                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose, angle: angleData, depthBuffer: depthBuffer) {
-                    self.sendToClients(data: combinedData)
+                // 使用protobuf发送数据
+                if let data = self.prepareProtobufData(pixelBuffer: pixelBuffer, pose: pose, angle: angleData, depthBuffer: depthBuffer) {
+                    self.sendToClients(data: data)
                 }
+                
+//                if let combinedData = self.prepareSentData(pixelBuffer: pixelBuffer, pose: pose, angle: angleData, depthBuffer: depthBuffer) {
+//                    self.sendToClients(data: combinedData)
+//                }
             }
             
             DispatchQueue.main.async {
@@ -326,26 +331,77 @@ extension RemoteARViewController {
         }
     }
     
-    // 将 CVPixelBuffer 转换为 Data
-    //    private func pixelBufferToData(pixelBuffer: CVPixelBuffer) -> Data? {
-    //        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-    //        let context = CIContext()
-    //
-    //        let targetSize = CGSize(width: 640, height: 480)
-    //        let scaleTransform = CGAffineTransform(scaleX: targetSize.width / ciImage.extent.width, y: targetSize.height / ciImage.extent.height)
-    //        let scaledCIImage = ciImage.transformed(by: scaleTransform)
-    //
-    //        if let cgImage = context.createCGImage(scaledCIImage, from: CGRect(origin: .zero, size: targetSize)) {
-    //            let uiImage = UIImage(cgImage: cgImage)
-    //
-    //            // 编码为 JPEG Data
-    //            if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
-    //                return imageData
-    //            }
-    //        }
-    //        return nil
-    //    }
+    // 使用Protobuf发送数据的实现
+    private func prepareProtobufData(pixelBuffer: CVPixelBuffer, pose: [Float], angle: Float, depthBuffer: CVPixelBuffer?) -> Data? {
+        // 创建Phone消息
+        var phoneMessage = MagiClaw_Phone()
+        
+        // 设置Pose数据
+        phoneMessage.pose = pose
+        
+        // 处理彩色图像
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let context = CIContext()
+        
+        let targetSize = CGSize(width: 640, height: 480)
+        let scaleTransform = CGAffineTransform(scaleX: targetSize.width / ciImage.extent.width, y: targetSize.height / ciImage.extent.height)
+        let scaledCIImage = ciImage.transformed(by: scaleTransform)
+        
+        if let cgImage = context.createCGImage(scaledCIImage, from: CGRect(origin: .zero, size: targetSize)) {
+            let uiImage = UIImage(cgImage: cgImage)
+            if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
+                phoneMessage.colorImg = imageData
+            }
+        }
+        
+        // 处理深度图像
+        if let depthBuffer = depthBuffer {
+            CVPixelBufferLockBaseAddress(depthBuffer, .readOnly)
+            defer { CVPixelBufferUnlockBaseAddress(depthBuffer, .readOnly) }
+            
+            let width = CVPixelBufferGetWidth(depthBuffer)
+            let height = CVPixelBufferGetHeight(depthBuffer)
+            
+            // 设置深度图像的宽度和高度
+            phoneMessage.depthWidth = Int32(width)
+            phoneMessage.depthHeight = Int32(height)
+            
+            if let baseAddress = CVPixelBufferGetBaseAddress(depthBuffer) {
+                let float32Pointer = baseAddress.assumingMemoryBound(to: Float32.self)
+                let bufferSize = width * height
+                
+                var floatBuffer = [Float](repeating: 0, count: bufferSize)
+                
+                // 使用 vDSP 进行缩放
+                vDSP_vsmul(float32Pointer, 1, [Float(10000)], &floatBuffer, 1, vDSP_Length(bufferSize))
+                
+                // 裁剪值范围
+                var lower: Float = 0
+                var upper: Float = 65535
+                vDSP_vclip(floatBuffer, 1, &lower, &upper, &floatBuffer, 1, vDSP_Length(bufferSize))
+                
+                // 转换为Int32数组
+                var int32Buffer = [Int32](repeating: 0, count: bufferSize)
+                for i in 0..<bufferSize {
+                    int32Buffer[i] = Int32(floatBuffer[i])
+                }
+                
+                phoneMessage.depthImg = int32Buffer
+            }
+        }
+        
+        // 序列化为二进制数据
+        do {
+            let serializedData = try phoneMessage.serializedData()
+            return serializedData
+        } catch {
+            print("序列化Protobuf数据失败: \(error)")
+            return nil
+        }
+    }
     
+    // 原来的方法，已注释
+    /*
     private func prepareSentData(pixelBuffer: CVPixelBuffer, pose: [Float], angle: Float, depthBuffer: CVPixelBuffer?) -> Data? {
        
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -427,6 +483,6 @@ extension RemoteARViewController {
         
         return combinedData
     }
-    
+    */
 }
 #endif

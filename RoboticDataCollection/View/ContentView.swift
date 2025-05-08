@@ -29,6 +29,10 @@ struct ContentView: View {
                         .tabItem {
                             Label("Settings",systemImage: "gear")
                         }
+                    ZMQProtobufView()
+                        .tabItem {
+                            Label("ZMQ TEST", systemImage: "mail" )
+                        }
 //                    StickControlView()
 //                        .tabItem {
 //                            Label("Control", systemImage: "gamecontroller")

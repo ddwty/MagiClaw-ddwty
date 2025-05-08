@@ -32,9 +32,9 @@ struct RemoteControlCard: View {
                                 .font(.title3)
                                 .fontWeight(.bold)
                             HStack {
-                                Text("IP address: 192.168.3.1")
+                                Text("IP address: ")
                                     .foregroundStyle(Color.secondary)
-//                                IPView()
+                                IPView()
                             }
                         }
                         Spacer()

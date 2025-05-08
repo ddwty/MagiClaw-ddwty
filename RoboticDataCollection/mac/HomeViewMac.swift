@@ -19,6 +19,10 @@ struct HomeViewMac: View {
                     .tabItem {
                         Label("headphone", systemImage: "camera" )
                     }
+                ZMQProtobufView()
+                    .tabItem {
+                        Label("ZMQ TEST", systemImage: "mail" )
+                    }
                 
             }
         }

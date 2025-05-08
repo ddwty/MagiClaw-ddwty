@@ -17,6 +17,9 @@ class HeadphoneMotionManager: ObservableObject {
     @Published var errorMessage: String?
     @Published var calibrationQuaternion: CMQuaternion?
     
+    // 添加回调闭包属性
+    var onMotionDataUpdate: ((CMDeviceMotion) -> Void)?
+    
     init() {
         checkAvailability()
     }
@@ -43,6 +46,9 @@ class HeadphoneMotionManager: ObservableObject {
                 self.motionData = data
                 self.isConnected = true
                 self.errorMessage = nil
+                
+                // 调用回调函数通知数据更新
+                self.onMotionDataUpdate?(data)
             }
         }
     }

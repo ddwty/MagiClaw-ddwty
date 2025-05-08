@@ -12,6 +12,7 @@ struct HomeView: View {
     @State var showRecordView: Bool = false
     @State var showRemoteView: Bool = false
     @State var showVisualizationView: Bool = false
+    @State var showAirpodsView: Bool = false
     @State var visibility = Visibility.visible
     @StateObject var audioWebsocketServer = WebSocketServerManager(port: 8081)
    
@@ -46,6 +47,10 @@ struct HomeView: View {
                             .onTapGesture {
                                 self.showVisualizationView.toggle()
                             }
+                        HomeAirpodsButton()
+                            .onTapGesture {
+                                self.showAirpodsView.toggle()
+                            }
                     }
                     .padding()
                 } else  {
@@ -63,6 +68,11 @@ struct HomeView: View {
                             .onTapGesture {
                                 self.showVisualizationView.toggle()
                             }
+                        HomeAirpodsButton()
+                            .onTapGesture {
+                                self.showAirpodsView.toggle()
+                            }
+                        
                     }
                     .padding()
                 }
@@ -83,6 +93,9 @@ struct HomeView: View {
             })
             .fullScreenCover(isPresented: self.$showVisualizationView, content: {
                 VisualizationView()
+            })
+            .fullScreenCover(isPresented: self.$showAirpodsView, content: {
+                AirpodsView()
             })
 
             
@@ -152,6 +165,27 @@ struct HomeVisualizationButton: View {
         .background(
             LinearGradient(
                 colors: [Color("linearOrange1"), Color("linearOrange2")],
+                startPoint: .top, endPoint: .bottom)
+        )
+        .cornerRadius(20)
+        .shadow(color: .black.opacity(0.2), radius:10)
+    }
+}
+
+struct HomeAirpodsButton: View {
+    let device = UIDevice.current.userInterfaceIdiom
+    
+    var body: some View {
+        VStack {
+            Label("Airpods Streaming", systemImage: "airpods.pro")
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .frame(width: device == .phone ? 200 : 300, height: device == .phone ? 100 : 150)
+        .background(
+            LinearGradient(
+                colors: [Color.purple, Color.indigo],
                 startPoint: .top, endPoint: .bottom)
         )
         .cornerRadius(20)

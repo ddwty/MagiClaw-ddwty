@@ -18,6 +18,8 @@ class ServerConnectionStatus {
     
     var sendDataClientID: [Int] = []
     var audioStreamClientID: [Int] = []
+    
+    var sendAirpodsClientID: [Int] = []
 }
 
 @Observable

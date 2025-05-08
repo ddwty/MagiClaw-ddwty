@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 3D29AE6C2C820A4000EE7A42 /* Starscream */; };
+		3D3A17532DC797A000441736 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 3D3A17522DC797A000441736 /* Starscream */; };
+		3D3A17A02DCC925D00441736 /* libzmq.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D3A179F2DCC925D00441736 /* libzmq.xcframework */; };
 		3D51C1762D8D8D5E000FF0F7 /* RemotePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51C1752D8D8D5E000FF0F7 /* RemotePanel.swift */; };
 		3D51C1772D8D8D5E000FF0F7 /* RemoteARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51C1742D8D8D5E000FF0F7 /* RemoteARView.swift */; };
 		3D53C6C52C97195D001A61DC /* RemoteControlCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D3A179F2DCC925D00441736 /* libzmq.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libzmq.xcframework; path = ../libzmq.xcframework; sourceTree = "<group>"; };
 		3D51C1742D8D8D5E000FF0F7 /* RemoteARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteARView.swift; sourceTree = "<group>"; };
 		3D51C1752D8D8D5E000FF0F7 /* RemotePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePanel.swift; sourceTree = "<group>"; };
 		3D53C6C42C97195D001A61DC /* RemoteControlCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlCard.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3D3A178D2DCB573400441736 /* DataStreaming */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DataStreaming; sourceTree = "<group>"; };
 		3D51C16D2D8D89DB000FF0F7 /* VisualizationView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = VisualizationView; sourceTree = "<group>"; };
 		3D5A6ACC2DAE4E2A00473A2C /* Public */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Public; sourceTree = "<group>"; };
 		3D5A6AD52DAE503F00473A2C /* Extension */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extension; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		3D5A6B362DAE506500473A2C /* Audio */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Audio; sourceTree = "<group>"; };
 		3D5A6B3E2DAF8A6E00473A2C /* mac */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = mac; sourceTree = "<group>"; };
 		3D7A336D2CE9FBAB00C35E46 /* Control */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Control; sourceTree = "<group>"; };
+		3DEF5E142DC79203007D4CCE /* AirpodsiOS */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AirpodsiOS; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,12 +100,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D3A17A02DCC925D00441736 /* libzmq.xcframework in Frameworks */,
 				3D5644092DB4F31000E14488 /* OpenCL.framework in Frameworks */,
 				3D94E7AE2C820C49002CD850 /* Zip in Frameworks */,
 				3D5A69A62D96898000473A2C /* SwiftProtobufPluginLibrary in Frameworks */,
-				3D29AE6D2C820A4000EE7A42 /* Starscream in Frameworks */,
 				3D5A69A42D96898000473A2C /* SwiftProtobuf in Frameworks */,
 				3D5A6B5C2DB12AA800473A2C /* opencv2.xcframework in Frameworks */,
+				3D3A17532DC797A000441736 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +141,7 @@
 		3DD21A4C2CAA410700BB0D10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D3A179F2DCC925D00441736 /* libzmq.xcframework */,
 				3D5644082DB4F31000E14488 /* OpenCL.framework */,
 				3D5A6B5B2DB12AA800473A2C /* opencv2.xcframework */,
 			);
@@ -175,6 +181,7 @@
 		609395212C55473700E98950 /* RoboticDataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				3D3A178D2DCB573400441736 /* DataStreaming */,
 				3D5A6B3E2DAF8A6E00473A2C /* mac */,
 				3D5A6ACC2DAE4E2A00473A2C /* Public */,
 				3DA4C5F72C88728200E542CA /* ArUco */,
@@ -214,6 +221,7 @@
 		6093955B2C554A7200E98950 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3DEF5E142DC79203007D4CCE /* AirpodsiOS */,
 				3D51C16D2D8D89DB000FF0F7 /* VisualizationView */,
 				3D7A336D2CE9FBAB00C35E46 /* Control */,
 				3D5A6B282DAE506100473A2C /* Settings */,
@@ -253,6 +261,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3D3A178D2DCB573400441736 /* DataStreaming */,
 				3D51C16D2D8D89DB000FF0F7 /* VisualizationView */,
 				3D5A6ACC2DAE4E2A00473A2C /* Public */,
 				3D5A6AD52DAE503F00473A2C /* Extension */,
@@ -262,13 +271,14 @@
 				3D5A6B362DAE506500473A2C /* Audio */,
 				3D5A6B3E2DAF8A6E00473A2C /* mac */,
 				3D7A336D2CE9FBAB00C35E46 /* Control */,
+				3DEF5E142DC79203007D4CCE /* AirpodsiOS */,
 			);
 			name = MagiClaw;
 			packageProductDependencies = (
-				3D29AE6C2C820A4000EE7A42 /* Starscream */,
 				3D94E7AD2C820C49002CD850 /* Zip */,
 				3D5A69A32D96898000473A2C /* SwiftProtobuf */,
 				3D5A69A52D96898000473A2C /* SwiftProtobufPluginLibrary */,
+				3D3A17522DC797A000441736 /* Starscream */,
 			);
 			productName = RoboticDataCollection;
 			productReference = 6093951F2C55473700E98950 /* MagiClaw.app */;
@@ -300,9 +310,9 @@
 			);
 			mainGroup = 609395162C55473700E98950;
 			packageReferences = (
-				3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */,
 				3D94E7AC2C820C49002CD850 /* XCRemoteSwiftPackageReference "Zip" */,
 				3D5A69A22D96898000473A2C /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+				3D3A17512DC797A000441736 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = 609395202C55473700E98950 /* Products */;
 			projectDirPath = "";
@@ -497,11 +507,13 @@
 				);
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/RoboticDataCollection/libzmq";
 				INFOPLIST_FILE = RoboticDataCollection/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
+				INFOPLIST_KEY_NSLocationUsageDescription = Location;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to conduct recording sessions";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Used to acquire motion for AirPods.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
@@ -516,7 +528,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RoboticDataCollection/libzmq",
+				);
 				MARKETING_VERSION = 1.1;
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -529,6 +546,8 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/RoboticDataCollection/libzmq";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/RoboticDataCollection/libzmq";
 			};
 			name = Debug;
 		};
@@ -545,11 +564,13 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/RoboticDataCollection/libzmq";
 				INFOPLIST_FILE = RoboticDataCollection/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MagiClaw;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera so you can record videos as part of the data collection process.";
+				INFOPLIST_KEY_NSLocationUsageDescription = Location;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need access to your microphone to conduct recording sessions";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Used to acquire motion for AirPods.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to your photo library to save images you record";
@@ -564,7 +585,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RoboticDataCollection/libzmq",
+				);
 				MARKETING_VERSION = 1.1;
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ancorasir.MagiClaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -576,6 +602,8 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "RoboticDataCollection/ArUco/MagiClaw-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/RoboticDataCollection/libzmq";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/RoboticDataCollection/libzmq";
 			};
 			name = Release;
 		};
@@ -603,9 +631,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+		3D3A17512DC797A000441736 /* XCRemoteSwiftPackageReference "Starscream" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/daltoniam/Starscream";
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.0.8;
@@ -630,9 +658,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3D29AE6C2C820A4000EE7A42 /* Starscream */ = {
+		3D3A17522DC797A000441736 /* Starscream */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3D29AE6B2C82054300EE7A42 /* XCRemoteSwiftPackageReference "Starscream" */;
+			package = 3D3A17512DC797A000441736 /* XCRemoteSwiftPackageReference "Starscream" */;
 			productName = Starscream;
 		};
 		3D5A69A32D96898000473A2C /* SwiftProtobuf */ = {

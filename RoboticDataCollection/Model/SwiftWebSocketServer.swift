@@ -142,6 +142,10 @@ class WebSocketServerManager: ObservableObject {
                 if !ServerConnectionStatus.shared.audioStreamClientID.contains(connection.id) {
                     ServerConnectionStatus.shared.audioStreamClientID.append(connection.id)
                 }
+        case 8082:
+            if !ServerConnectionStatus.shared.sendAirpodsClientID.contains(connection.id) {
+                ServerConnectionStatus.shared.sendAirpodsClientID.append(connection.id)
+            }
             default:
                 break
         }
@@ -155,6 +159,8 @@ class WebSocketServerManager: ObservableObject {
                 ServerConnectionStatus.shared.sendDataClientID.removeAll(where: { $0 == connection.id })
             case 8081:
                 ServerConnectionStatus.shared.audioStreamClientID.removeAll(where: { $0 == connection.id })
+        case 8082:
+            ServerConnectionStatus.shared.sendAirpodsClientID.removeAll(where: { $0 == connection.id })
             default:
                 break
         }
